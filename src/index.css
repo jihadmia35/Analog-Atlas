@@ -1,0 +1,417 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==================================================================
+   Theme tokens
+   Day  = printed-atlas paper, hairline rules, oxide accent
+   Dark = deep-space basalt, the original brand direction
+   ================================================================== */
+:root {
+  color-scheme: light;
+
+  --canvas: 238 240 242;
+  --surface: 247 248 249;
+  --raised: 255 255 255;
+  --hover: 231 235 239;
+  --line: 218 223 228;
+  --line-strong: 191 200 209;
+
+  --ink: 16 21 27;
+  --ink-2: 71 82 92;
+  --ink-3: 108 119 130;
+
+  --accent: 176 84 58;
+  --accent-ink: 255 255 255;
+
+  --mars: 168 71 44;
+  --moon: 84 96 108;
+  --emerald: 24 112 54;
+  --amber: 138 97 0;
+  --azure: 25 92 186;
+
+  --map-filter: none;
+  --shadow: 0 18px 44px rgba(16, 21, 27, 0.12);
+}
+
+html[data-theme='dark'] {
+  color-scheme: dark;
+
+  --canvas: 8 11 16;
+  --surface: 13 17 23;
+  --raised: 22 27 34;
+  --hover: 26 31 40;
+  --line: 33 38 45;
+  --line-strong: 48 54 61;
+
+  --ink: 230 237 243;
+  --ink-2: 139 148 158;
+  --ink-3: 110 118 129;
+
+  --accent: 200 109 81;
+  --accent-ink: 255 255 255;
+
+  --mars: 226 134 112;
+  --moon: 201 209 217;
+  --emerald: 63 185 80;
+  --amber: 210 153 34;
+  --azure: 56 139 253;
+
+  --map-filter: none;
+  --shadow: 0 18px 44px rgba(0, 0, 0, 0.55);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-canvas text-ink font-sans antialiased;
+  }
+
+  ::selection {
+    @apply bg-accent/30 text-ink;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent) / 0.65);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: rgb(var(--canvas));
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--line-strong));
+  border: 2px solid rgb(var(--canvas));
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--ink-3));
+}
+
+/* ---------- Cartographic texture (used sparingly, one surface) ---------- */
+.grid-paper {
+  background-image:
+    linear-gradient(rgb(var(--ink) / 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--ink) / 0.035) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* ---------- Motion (one orchestrated entrance, on demand only) ---------- */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-rise {
+  animation: rise 0.35s ease-out both;
+}
+
+@keyframes pin-pulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* ---------- Range slider (cross-browser, theme-aware) ---------- */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 16px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 999px;
+  background: rgb(var(--line-strong));
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  margin-top: -5px;
+  border-radius: 50%;
+  background: rgb(var(--accent));
+  border: 2px solid rgb(var(--surface));
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+  transition: transform 0.12s ease;
+}
+
+.slider:hover::-webkit-slider-thumb {
+  transform: scale(1.12);
+}
+
+.slider::-moz-range-track {
+  height: 3px;
+  border-radius: 999px;
+  background: rgb(var(--line-strong));
+}
+
+.slider::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: rgb(var(--accent));
+  border: 2px solid rgb(var(--surface));
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+/* ---------- Native select dropdown options (follow the theme) ---------- */
+select option {
+  background-color: rgb(var(--surface));
+  color: rgb(var(--ink));
+}
+
+/* ==================================================================
+   Leaflet theming
+   ================================================================== */
+.leaflet-container {
+  background: rgb(var(--canvas));
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Basemap palette: softened for day, inverted to a night reference map */
+html[data-theme='day'] .leaflet-tile-pane {
+  filter: saturate(0.68) brightness(1.02);
+}
+
+html[data-theme='dark'] .leaflet-tile-pane {
+  filter: invert(0.92) hue-rotate(180deg) brightness(0.88) saturate(0.5);
+}
+
+.analog-pin {
+  background: transparent;
+  border: none;
+}
+
+.pin-shell {
+  position: relative;
+  width: 18px;
+  height: 18px;
+}
+
+.pin-dot {
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background: rgb(var(--surface));
+  border: 1.5px solid var(--pin-color, rgb(var(--mars)));
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
+}
+
+.pin-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pin-color, rgb(var(--mars)));
+}
+
+.pin-ring {
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  border: 1.5px solid var(--pin-color, rgb(var(--mars)));
+  opacity: 0.55;
+  animation: pin-pulse 2.2s ease-out infinite;
+}
+
+.pin-label {
+  position: absolute;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgb(var(--surface) / 0.94);
+  border: 1px solid rgb(var(--line-strong));
+  border-radius: 5px;
+  padding: 2px 7px;
+  white-space: nowrap;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: rgb(var(--ink));
+  pointer-events: none;
+  box-shadow: var(--shadow);
+}
+
+.pin-label-above {
+  left: 20px;
+  top: -6px;
+  transform: none;
+}
+
+.analog-pin:hover .pin-label {
+  border-color: var(--pin-color, rgb(var(--mars)));
+  z-index: 5;
+}
+
+.pin-label .pin-body {
+  color: var(--pin-color, rgb(var(--mars)));
+}
+
+.leaflet-popup-content-wrapper {
+  background: rgb(var(--surface)) !important;
+  color: rgb(var(--ink)) !important;
+  border: 1px solid rgb(var(--line-strong));
+  border-radius: 10px !important;
+  box-shadow: var(--shadow) !important;
+  padding: 0 !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  width: 260px !important;
+}
+
+.leaflet-popup-tip {
+  background: rgb(var(--surface)) !important;
+  border: 1px solid rgb(var(--line-strong));
+}
+
+.leaflet-popup-close-button {
+  color: rgb(var(--ink-3)) !important;
+}
+
+.leaflet-control-attribution {
+  background: rgb(var(--surface) / 0.85) !important;
+  color: rgb(var(--ink-3)) !important;
+  font-size: 10px !important;
+  padding: 2px 6px !important;
+  border-radius: 5px 0 0 0 !important;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.leaflet-control-attribution a {
+  color: rgb(var(--ink-2)) !important;
+}
+
+.leaflet-bar a {
+  background: rgb(var(--surface)) !important;
+  color: rgb(var(--ink)) !important;
+  border-color: rgb(var(--line)) !important;
+}
+
+.leaflet-bar a:hover {
+  background: rgb(var(--raised)) !important;
+}
+
+.analog-province-tooltip {
+  background: rgb(var(--surface) / 0.96) !important;
+  border: 1px solid rgb(var(--line-strong)) !important;
+  color: rgb(var(--ink)) !important;
+  border-radius: 6px !important;
+  padding: 7px 11px !important;
+  font-size: 11.5px !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.analog-province-tooltip::before {
+  display: none !important;
+}
+
+/* ---------- Popup card ---------- */
+.atlas-popup {
+  padding: 14px 16px 12px;
+}
+
+.atlas-popup .popup-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+  color: rgb(var(--ink-3));
+  margin-bottom: 5px;
+}
+
+.atlas-popup .popup-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: rgb(var(--ink));
+  line-height: 1.35;
+  margin-bottom: 6px;
+}
+
+.atlas-popup .popup-target {
+  font-size: 11.5px;
+  color: rgb(var(--ink-2));
+  line-height: 1.45;
+  margin-bottom: 10px;
+}
+
+.atlas-popup .popup-scores {
+  display: flex;
+  gap: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  margin-bottom: 12px;
+  color: rgb(var(--ink-2));
+}
+
+.atlas-popup .popup-scores strong {
+  color: rgb(var(--ink));
+}
+
+.atlas-popup .popup-open {
+  width: 100%;
+  background: rgb(var(--accent));
+  color: rgb(var(--accent-ink));
+  border: none;
+  border-radius: 6px;
+  padding: 7px 0;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.atlas-popup .popup-open:hover {
+  filter: brightness(1.08);
+}
+
+/* ---------- KaTeX display sizing ---------- */
+.katex-display {
+  margin: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 4px 0;
+}
+
+.katex {
+  font-size: 1.02em;
+}
