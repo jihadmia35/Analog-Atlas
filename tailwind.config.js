@@ -17,6 +17,7 @@ export default {
         'ink-2': 'rgb(var(--ink-2) / <alpha-value>)',
         'ink-3': 'rgb(var(--ink-3) / <alpha-value>)',
         accent: 'rgb(var(--accent) / <alpha-value>)',
+        'accent-soft': 'rgb(var(--accent-soft) / <alpha-value>)',
         'accent-ink': 'rgb(var(--accent-ink) / <alpha-value>)',
         mars: 'rgb(var(--mars) / <alpha-value>)',
         moon: 'rgb(var(--moon) / <alpha-value>)',
@@ -25,12 +26,15 @@ export default {
         azure: 'rgb(var(--azure) / <alpha-value>)',
       },
       fontFamily: {
-        sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+        sans: ['Instrument Sans', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        mono: ['IBM Plex Mono', 'JetBrains Mono', 'Fira Code', 'monospace'],
       },
       boxShadow: {
-        'subtle-border': 'inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
-        'atlas-glow': '0 0 24px -6px rgba(200, 109, 81, 0.25)',
+        panel: 'var(--panel-shadow)',
+        'panel-lg': 'var(--panel-shadow-lg)',
+      },
+      borderRadius: {
+        panel: '14px',
       },
     },
   },

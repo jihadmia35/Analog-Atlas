@@ -25,8 +25,7 @@ export const PurposeGroupView: React.FC<PurposeGroupViewProps> = ({
 }) => {
   const [tab, setTab] = useState<TabId>('metrics');
 
-  const selectedSite =
-    selectedSiteProp ?? analogs.find((a) => a.id === selectedAnalogId);
+  const selectedSite = selectedSiteProp ?? analogs.find((a) => a.id === selectedAnalogId);
 
   // Dossier replaces the tabbed view entirely
   if (selectedSite) {
@@ -34,7 +33,7 @@ export const PurposeGroupView: React.FC<PurposeGroupViewProps> = ({
       <div className="animate-rise">
         <button
           onClick={() => onSelectAnalog(undefined)}
-          className="inline-flex items-center gap-1.5 text-[13px] text-ink-2 hover:text-ink transition-colors mb-5"
+          className="inline-flex items-center gap-1.5 text-[13px] text-ink-2 hover:text-ink transition-colors mb-6"
         >
           <ChevronLeft className="w-4 h-4" />
           Back to {groupData.id === 'rover-mobility' ? 'rover mobility' : 'surface science'} analogs
@@ -47,44 +46,46 @@ export const PurposeGroupView: React.FC<PurposeGroupViewProps> = ({
   return (
     <div className="animate-rise">
       {/* Group header */}
-      <header className="pb-6 mb-2 border-b border-line">
-        <div className="flex items-baseline justify-between gap-6 flex-wrap">
-          <h1 className="text-[28px] sm:text-[34px] font-extrabold tracking-tight text-ink leading-tight">
-            {groupData.title}
-          </h1>
-          <span className="font-mono text-[12px] text-ink-3">
-            {analogs.length} verified analogs
-          </span>
+      <header className="panel overflow-hidden mb-8">
+        <div className="px-6 sm:px-9 pt-8 pb-7">
+          <div className="flex items-baseline justify-between gap-6 flex-wrap">
+            <h1 className="text-[clamp(24px,3.4vw,34px)] font-bold tracking-[-0.03em] text-ink leading-tight">
+              {groupData.title}
+            </h1>
+            <span className="font-mono text-[11px] text-ink-3 tnum">
+              {analogs.length} verified analogs
+            </span>
+          </div>
+          <p className="mt-3 text-[14.5px] text-ink-2 max-w-[72ch] leading-relaxed">
+            {groupData.tagline}
+          </p>
         </div>
-        <p className="mt-2 text-[14.5px] text-ink-2 max-w-[72ch] leading-relaxed">
-          {groupData.tagline}
-        </p>
-      </header>
 
-      {/* Tabs */}
-      <div className="flex gap-1 border-b border-line mb-8">
-        {(
-          [
-            ['metrics', 'Metrics & scoring'],
-            ['analogs', `Analogs (${analogs.length})`],
-          ] as Array<[TabId, string]>
-        ).map(([id, label]) => (
-          <button
-            key={id}
-            onClick={() => setTab(id)}
-            aria-selected={tab === id}
-            role="tab"
-            className={`relative px-4 py-2.5 text-[13.5px] font-semibold transition-colors ${
-              tab === id ? 'text-ink' : 'text-ink-3 hover:text-ink-2'
-            }`}
-          >
-            {label}
-            {tab === id && (
-              <span className="absolute left-4 right-4 -bottom-px h-[2px] bg-accent rounded-full" />
-            )}
-          </button>
-        ))}
-      </div>
+        {/* Tabs */}
+        <div className="flex gap-1 border-t border-line px-4 sm:px-7">
+          {(
+            [
+              ['metrics', 'Metrics & scoring'],
+              ['analogs', `Analogs (${analogs.length})`],
+            ] as Array<[TabId, string]>
+          ).map(([id, label]) => (
+            <button
+              key={id}
+              onClick={() => setTab(id)}
+              aria-selected={tab === id}
+              role="tab"
+              className={`relative px-4 py-3.5 text-[13.5px] font-medium transition-colors ${
+                tab === id ? 'text-ink' : 'text-ink-3 hover:text-ink-2'
+              }`}
+            >
+              {label}
+              {tab === id && (
+                <span className="absolute left-3 right-3 -bottom-px h-[2px] bg-accent rounded-full" />
+              )}
+            </button>
+          ))}
+        </div>
+      </header>
 
       {tab === 'metrics' ? (
         <MetricsScoringTab group={groupData} />

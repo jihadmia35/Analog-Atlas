@@ -304,12 +304,15 @@ export const LeafletWorldMap: React.FC<LeafletWorldMapProps> = ({
   }, [analogs, selectedAnalogId]);
 
   return (
-    <div className="relative w-full h-[440px] sm:h-[540px] rounded-xl overflow-hidden border border-line">
+    <div className="relative w-full h-[440px] sm:h-[540px] rounded-panel overflow-hidden border border-line shadow-panel">
       <div ref={containerRef} className="absolute inset-0" />
 
+      {/* Instrument framing: graticule + vignette over the basemap */}
+      <div className="map-veil" />
+
       {/* Legend */}
-      <div className="absolute bottom-3 left-3 z-[500] bg-surface/95 backdrop-blur-sm border border-line rounded-lg px-3.5 py-3 hidden sm:block">
-        <div className="font-mono text-[10px] tracking-wide text-ink-3 mb-2">MAP KEY</div>
+      <div className="absolute bottom-3 left-3 z-[500] bg-surface/90 backdrop-blur-md border border-line rounded-[10px] px-3.5 py-3 hidden sm:block shadow-panel">
+        <div className="font-mono text-[10px] tracking-[0.08em] uppercase text-ink-3 mb-2">Map key</div>
         <div className="space-y-1.5 text-[11.5px] text-ink-2">
           <div className="flex items-center gap-2.5">
             <span className="w-2.5 h-2.5 rounded-full border border-mars bg-mars" />
@@ -319,7 +322,7 @@ export const LeafletWorldMap: React.FC<LeafletWorldMapProps> = ({
             <span className="w-2.5 h-2.5 rounded-full border border-moon bg-moon" />
             Moon-target sites
           </div>
-          <div className="pt-1.5 mt-1 border-t border-line text-[10.5px] text-ink-3 font-mono">
+          <div className="pt-1.5 mt-1 border-t border-line font-mono text-[10px] text-ink-3">
             dashed outlines · source provinces
           </div>
         </div>

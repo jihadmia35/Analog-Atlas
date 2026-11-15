@@ -20,7 +20,7 @@ const Select: React.FC<{
       value={value}
       onChange={(e) => onChange(e.target.value)}
       aria-label={label}
-      className="appearance-none bg-surface border border-line rounded-md pl-3 pr-8 py-1.5 text-[12.5px] text-ink hover:border-line-strong focus:border-accent/60 transition-colors cursor-pointer"
+      className="appearance-none bg-surface border border-line rounded-lg pl-3 pr-8 py-[7px] text-[12.5px] text-ink hover:border-line-strong focus:border-accent/60 transition-colors cursor-pointer shadow-panel"
     >
       {options.map((o) => (
         <option key={o.value} value={o.value}>
@@ -49,7 +49,7 @@ export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
     filterState.minSiScore === 50;
 
   return (
-    <div className="flex flex-wrap items-center gap-2.5">
+    <div className="flex flex-wrap items-center gap-2">
       {/* Search */}
       <label className="relative flex-1 min-w-[220px]">
         <span className="sr-only">Search analog sites</span>
@@ -59,7 +59,7 @@ export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
           value={filterState.searchQuery}
           onChange={(e) => onFilterChange({ ...filterState, searchQuery: e.target.value })}
           placeholder="Search sites, target regions, terrain…"
-          className="w-full bg-surface border border-line rounded-md pl-9 pr-3 py-1.5 text-[13px] text-ink placeholder:text-ink-3/70 hover:border-line-strong focus:border-accent/60 transition-colors"
+          className="w-full bg-surface border border-line rounded-lg pl-9 pr-3 py-[7px] text-[13px] text-ink placeholder:text-ink-3/70 hover:border-line-strong focus:border-accent/60 transition-colors shadow-panel"
         />
       </label>
 
@@ -100,8 +100,8 @@ export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
         ]}
       />
 
-      <label className="flex items-center gap-2.5 bg-surface border border-line rounded-md pl-3 pr-3 py-1.5 hover:border-line-strong transition-colors">
-        <span className="text-[12.5px] text-ink-3 whitespace-nowrap">SI ≥</span>
+      <label className="flex items-center gap-2.5 bg-surface border border-line rounded-lg pl-3 pr-3 py-[5px] hover:border-line-strong transition-colors shadow-panel">
+        <span className="font-mono text-[10px] tracking-[0.08em] uppercase text-ink-3">SI min</span>
         <input
           type="range"
           min={50}
@@ -112,7 +112,9 @@ export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
           className="slider w-24"
           aria-label="Minimum similarity index"
         />
-        <span className="font-mono text-[12px] text-ink w-6 text-right">{filterState.minSiScore}</span>
+        <span className="font-mono text-[12px] text-ink w-9 text-right tnum">
+          {filterState.minSiScore.toFixed(1)}
+        </span>
       </label>
 
       {!isDefault && (
@@ -126,14 +128,14 @@ export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
               minSiScore: 50,
             })
           }
-          className="flex items-center gap-1.5 text-[12px] text-ink-2 hover:text-ink px-2 py-1.5 rounded-md transition-colors"
+          className="flex items-center gap-1.5 text-[12px] text-ink-2 hover:text-ink px-2 py-1.5 rounded-lg transition-colors hover:bg-hover"
         >
           <RotateCcw className="w-3.5 h-3.5" />
           Reset
         </button>
       )}
 
-      <span className="font-mono text-[11.5px] text-ink-3 ml-auto">
+      <span className="font-mono text-[11.5px] text-ink-3 ml-auto tnum">
         {totalResults}/{totalCount} sites
       </span>
     </div>

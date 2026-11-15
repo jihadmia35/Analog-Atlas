@@ -54,12 +54,11 @@ export const ImageComparisonSlider: React.FC<ImageComparisonSliderProps> = ({
   };
 
   const targetLabel = targetBody === 'Mars' ? 'Mars target' : 'Lunar target';
-
   return (
     <figure className={className}>
       <div
         ref={containerRef}
-        className="relative w-full h-[300px] sm:h-[420px] rounded-xl overflow-hidden border border-line bg-surface select-none touch-none cursor-ew-resize"
+        className="relative w-full h-[300px] sm:h-[430px] rounded-panel overflow-hidden border border-line bg-surface select-none touch-none cursor-ew-resize shadow-panel"
         onPointerDown={startDrag}
         onPointerUp={endDrag}
         onPointerLeave={endDrag}
@@ -95,34 +94,34 @@ export const ImageComparisonSlider: React.FC<ImageComparisonSliderProps> = ({
           className="absolute top-0 bottom-0 z-10 pointer-events-none"
           style={{ left: `${position}%` }}
         >
-          <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-px bg-ink/80" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-surface border border-ink/40 flex items-center justify-center shadow-lg">
-            <svg viewBox="0 0 24 24" className="w-4 h-4 text-ink" fill="none" stroke="currentColor" strokeWidth="2">
+          <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-px bg-ink/70" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-surface/95 backdrop-blur-sm border border-line-strong flex items-center justify-center shadow-panel-lg">
+            <svg viewBox="0 0 24 24" className="w-4 h-4 text-ink" fill="none" stroke="currentColor" strokeWidth="1.75">
               <path d="M8 7l-4 5 4 5M16 7l4 5-4 5" />
             </svg>
           </div>
         </div>
 
         {/* Corner tags */}
-        <span className="absolute top-3 left-3 z-10 font-mono text-[10px] tracking-wide px-2 py-1 rounded bg-canvas/85 border border-emerald/40 text-emerald">
-          EARTH · {position.toFixed(0)}%
+        <span className="absolute top-3 left-3 z-10 font-mono text-[10px] tracking-[0.06em] px-2 py-1 rounded-[7px] bg-canvas/80 backdrop-blur-sm border border-emerald/40 text-emerald">
+          Earth · {position.toFixed(0)}%
         </span>
-        <span className="absolute top-3 right-3 z-10 font-mono text-[10px] tracking-wide px-2 py-1 rounded bg-canvas/85 border border-accent/40 text-mars">
-          {targetBody.toUpperCase()} · {(100 - position).toFixed(0)}%
+        <span className="absolute top-3 right-3 z-10 font-mono text-[10px] tracking-[0.06em] px-2 py-1 rounded-[7px] bg-canvas/80 backdrop-blur-sm border border-accent/40 text-mars">
+          {targetBody} · {(100 - position).toFixed(0)}%
         </span>
       </div>
 
       {/* Captions */}
-      <figcaption className="grid sm:grid-cols-2 gap-x-8 gap-y-2 mt-3 text-[12px] leading-relaxed">
+      <figcaption className="grid sm:grid-cols-2 gap-x-8 gap-y-3 mt-4 text-[12px] leading-relaxed">
         <p className="text-ink-2">
-          <span className="text-emerald font-mono text-[10.5px] tracking-wide block mb-0.5">
-            EARTH ANALOG
+          <span className="text-emerald font-mono text-[10px] tracking-[0.08em] uppercase block mb-1">
+            Earth analog
           </span>
           {earthCaption}
         </p>
         <p className="text-ink-2">
-          <span className="text-mars font-mono text-[10.5px] tracking-wide block mb-0.5">
-            {targetLabel.toUpperCase()}
+          <span className="text-mars font-mono text-[10px] tracking-[0.08em] uppercase block mb-1">
+            {targetLabel}
           </span>
           {targetCaption}
         </p>

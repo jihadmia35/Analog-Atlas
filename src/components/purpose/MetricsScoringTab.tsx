@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { PurposeGroupData } from '../../types';
 import { Equation } from '../Equation';
+import { Scale } from '../Readout';
 
 interface MetricsScoringTabProps {
   group: PurposeGroupData;
@@ -52,7 +53,7 @@ const SimSlider: React.FC<{
       onChange={(e) => onChange(Number(e.target.value))}
       className="slider flex-1 min-w-0"
     />
-    <span className={`font-mono text-[12px] w-20 text-right ${accent ?? 'text-ink'}`}>
+    <span className={`font-mono text-[12px] w-20 text-right tnum ${accent ?? 'text-ink'}`}>
       {display}
     </span>
   </label>
@@ -79,9 +80,9 @@ const SI_SIMULATOR: React.FC<{ group: PurposeGroupData }> = ({ group }) => {
   const totalSi = contributions.reduce((sum, c) => sum + c.score, 0);
 
   return (
-    <section className="mt-12">
-      <h2 className="text-[17px] font-bold text-ink mb-1">Similarity Index simulator</h2>
-      <p className="text-[13px] text-ink-2 max-w-[70ch] mb-5">
+    <section className="mt-14">
+      <h2 className="text-[17px] font-semibold text-ink mb-1.5">Similarity Index simulator</h2>
+      <p className="text-[13px] text-ink-2 max-w-[70ch] mb-6">
         Drag a metric's deviation to see how fidelity decays: the Earth reading sits
         <span className="text-ink"> d·σ </span>
         away from the planetary baseline. A reading inside the baseline scores 1.00, a reading
@@ -89,19 +90,19 @@ const SI_SIMULATOR: React.FC<{ group: PurposeGroupData }> = ({ group }) => {
         stays neutral at 0.50. Weights are renormalized live.
       </p>
 
-      <div className="border border-line rounded-xl bg-surface overflow-hidden">
-        <div className="grid lg:grid-cols-[1fr_260px]">
-          <div className="p-5 space-y-1 divide-y divide-line">
+      <div className="panel overflow-hidden">
+        <div className="grid lg:grid-cols-[1fr_280px]">
+          <div className="p-6 space-y-1 divide-y divide-line">
             {contributions.map(({ metric, deviation, weight, s, score }) => (
-              <div key={metric.id} className="pt-2 first:pt-0 pb-2">
-                <div className="flex items-baseline justify-between mb-1">
+              <div key={metric.id} className="pt-3 first:pt-0 pb-3">
+                <div className="flex items-baseline justify-between mb-1.5">
                   <span className="text-[13px] text-ink font-medium">
                     {metric.name}
                     <span className="ml-2">
                       <Equation tex={metric.symbol} block={false} className="text-[11px] text-ink-3" />
                     </span>
                   </span>
-                  <span className="font-mono text-[11.5px] text-ink-2">
+                  <span className="font-mono text-[11.5px] text-ink-2 tnum">
                     w {weight.toFixed(2)} · s {s.toFixed(2)} · {score.toFixed(1)} pts
                   </span>
                 </div>
@@ -115,30 +116,30 @@ const SI_SIMULATOR: React.FC<{ group: PurposeGroupData }> = ({ group }) => {
                   onChange={(v) => setDeviations((prev) => ({ ...prev, [metric.id]: v }))}
                   accent={deviation > 1.5 ? 'text-accent' : undefined}
                 />
-                <div className="h-[3px] rounded-full bg-raised mt-1 overflow-hidden">
-                  <div
-                    className="h-full rounded-full bg-accent/80 transition-all duration-150"
-                    style={{ width: `${s * 100}%` }}
-                  />
+                <div className="mt-1.5">
+                  <Scale value={s * 100} size="sm" />
                 </div>
               </div>
             ))}
           </div>
 
           {/* Readout */}
-          <div className="border-t lg:border-t-0 lg:border-l border-line bg-canvas p-5 flex flex-col">
-            <div className="font-mono text-[10.5px] tracking-wide text-ink-3 mb-2">
-              COMPUTED SI
+          <div className="border-t lg:border-t-0 lg:border-l border-line bg-hover/40 p-6 flex flex-col">
+            <div className="font-mono text-[10px] tracking-[0.08em] uppercase text-ink-3 mb-3">
+              Computed similarity index
             </div>
             <div
-              className={`font-mono text-[42px] font-semibold leading-none ${
+              className={`font-mono text-[40px] font-medium leading-none tnum ${
                 totalSi >= 70 ? 'text-emerald' : totalSi >= 45 ? 'text-amber' : 'text-accent'
               }`}
             >
               {totalSi.toFixed(1)}
-              <span className="text-[20px] text-ink-3">%</span>
+              <span className="text-[19px] text-ink-3">%</span>
             </div>
-            <p className="mt-3 text-[12px] text-ink-3 leading-relaxed">
+            <div className="mt-4">
+              <Scale value={totalSi} size="md" />
+            </div>
+            <p className="mt-4 text-[12px] text-ink-3 leading-relaxed">
               {totalSi >= 70
                 ? 'Strong fidelity — deviations remain inside the tolerance windows.'
                 : totalSi >= 45
@@ -171,26 +172,26 @@ export const MetricsScoringTab: React.FC<MetricsScoringTabProps> = ({ group }) =
   const weightSum = metrics.reduce((s, m) => s + m.weight, 0);
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-14">
       {/* Methodology overview */}
       <section className="max-w-[74ch]">
-        <h2 className="text-[17px] font-bold text-ink mb-3">Methodology</h2>
+        <h2 className="text-[17px] font-semibold text-ink mb-3">Methodology</h2>
         <p className="text-[14.5px] text-ink-2 leading-[1.75]">{scoringModel.methodologyOverview}</p>
-        <p className="mt-3 text-[12px] font-mono text-ink-3">{scoringModel.name}</p>
+        <p className="mt-4 font-mono text-[11px] text-ink-3">{scoringModel.name}</p>
       </section>
 
       {/* Equations */}
       <section>
-        <h2 className="text-[17px] font-bold text-ink mb-4">Scoring equations</h2>
+        <h2 className="text-[17px] font-semibold text-ink mb-4">Scoring equations</h2>
         <div className="space-y-3">
-          <div className="border border-line rounded-xl bg-surface px-6 py-6 overflow-x-auto">
+          <div className="panel px-6 py-6 overflow-x-auto">
             <Equation tex={scoringModel.primaryEquation} />
           </div>
-          <div className="border border-line rounded-xl bg-surface px-6 py-6 overflow-x-auto">
+          <div className="panel px-6 py-6 overflow-x-auto">
             <Equation tex={scoringModel.environmentalCorrespondenceEquation} />
           </div>
           {scoringModel.scoringRule && (
-            <div className="border border-line rounded-xl bg-surface px-6 py-6 overflow-x-auto">
+            <div className="panel px-6 py-6 overflow-x-auto">
               <Equation tex={scoringModel.scoringRule} />
             </div>
           )}
@@ -199,15 +200,15 @@ export const MetricsScoringTab: React.FC<MetricsScoringTabProps> = ({ group }) =
 
       {/* Metric matrix */}
       <section>
-        <h2 className="text-[17px] font-bold text-ink mb-1">Characteristic metric matrix</h2>
+        <h2 className="text-[17px] font-semibold text-ink mb-1">Characteristic metric matrix</h2>
         <p className="text-[13px] text-ink-2 mb-5">
           Weights sum to {weightSum.toFixed(2)} across {metrics.length} characteristics.
         </p>
-        <div className="border border-line rounded-xl overflow-x-auto">
+        <div className="panel overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[820px]">
             <thead>
-              <tr className="bg-surface font-mono text-[10.5px] tracking-wide text-ink-3">
-                <th className="px-4 py-3 font-medium">Metric</th>
+              <tr className="bg-hover/60 font-mono text-[10px] tracking-[0.06em] uppercase text-ink-3">
+                <th className="px-5 py-3 font-medium">Metric</th>
                 <th className="px-3 py-3 font-medium w-20">Weight</th>
                 <th className="px-3 py-3 font-medium">Planetary baseline</th>
                 <th className="px-3 py-3 font-medium w-40">Tolerance</th>
@@ -216,24 +217,24 @@ export const MetricsScoringTab: React.FC<MetricsScoringTabProps> = ({ group }) =
             </thead>
             <tbody className="divide-y divide-line">
               {metrics.map((m) => (
-                <tr key={m.id} className="hover:bg-hover transition-colors">
-                  <td className="px-4 py-3.5 align-top">
-                    <div className="text-[13.5px] text-ink font-semibold leading-snug">{m.name}</div>
-                    <div className="text-accent mt-1">
+                <tr key={m.id} className="hover:bg-hover/50 transition-colors">
+                  <td className="px-5 py-4 align-top">
+                    <div className="text-[13.5px] text-ink font-medium leading-snug">{m.name}</div>
+                    <div className="text-accent mt-1.5">
                       <Equation tex={m.symbol} block={false} className="text-[12px]" />
                     </div>
                   </td>
-                  <td className="px-3 py-3.5 align-top font-mono text-[13px] text-ink">
+                  <td className="px-3 py-4 align-top font-mono text-[13px] text-ink tnum">
                     {m.weight.toFixed(2)}
                   </td>
-                  <td className="px-3 py-3.5 align-top">
+                  <td className="px-3 py-4 align-top">
                     <div className="text-[12.5px] text-ink-2 leading-relaxed">{m.planetaryBaseline}</div>
-                    <div className="font-mono text-[10.5px] text-ink-3 mt-0.5">{m.unit}</div>
+                    <div className="font-mono text-[10.5px] text-ink-3 mt-1">{m.unit}</div>
                   </td>
-                  <td className="px-3 py-3.5 align-top text-[12px] text-ink-2">
+                  <td className="px-3 py-4 align-top text-[12px] text-ink-2">
                     <Equation tex={m.toleranceVariance} block={false} />
                   </td>
-                  <td className="px-3 py-3.5 align-top text-[12px] text-ink-2 leading-relaxed">
+                  <td className="px-3 py-4 align-top text-[12px] text-ink-2 leading-relaxed">
                     {m.measurementMethod}
                   </td>
                 </tr>
@@ -246,12 +247,12 @@ export const MetricsScoringTab: React.FC<MetricsScoringTabProps> = ({ group }) =
       {/* Calculation summary */}
       {calculationSummary && (
         <section>
-          <h2 className="text-[17px] font-bold text-ink mb-1">Calculation summary</h2>
+          <h2 className="text-[17px] font-semibold text-ink mb-1">Calculation summary</h2>
           <p className="text-[13px] text-ink-2 mb-5 max-w-[74ch]">{calculationSummary.note}</p>
-          <div className="border border-line rounded-xl overflow-x-auto">
+          <div className="panel overflow-x-auto">
             <table className="w-full text-left border-collapse min-w-[860px]">
               <thead>
-                <tr className="bg-surface font-mono text-[10.5px] tracking-wide text-ink-3">
+                <tr className="bg-hover/60 font-mono text-[10px] tracking-[0.06em] uppercase text-ink-3">
                   {calculationSummary.columns.map((c) => (
                     <th key={c} className="px-3 py-3 font-medium">
                       {c}
@@ -261,17 +262,17 @@ export const MetricsScoringTab: React.FC<MetricsScoringTabProps> = ({ group }) =
               </thead>
               <tbody className="divide-y divide-line">
                 {calculationSummary.rows.map((row) => (
-                  <tr key={row.site} className="hover:bg-hover transition-colors">
-                    <td className="px-3 py-3 text-[12.5px] text-ink font-medium">{row.site}</td>
+                  <tr key={row.site} className="hover:bg-hover/50 transition-colors">
+                    <td className="px-3 py-3.5 text-[12.5px] text-ink font-medium">{row.site}</td>
                     {row.characteristicScores.map((s, i) => (
-                      <td key={i} className="px-3 py-3 font-mono text-[12px] text-ink-2">
+                      <td key={i} className="px-3 py-3.5 font-mono text-[12px] text-ink-2 tnum">
                         {s}
                       </td>
                     ))}
-                    <td className="px-3 py-3 font-mono text-[12px] text-ink">{row.si}</td>
-                    <td className="px-3 py-3 font-mono text-[12px] text-ink">{row.ec}</td>
-                    <td className="px-3 py-3 font-mono text-[12px] text-ink-2">{row.sourceSi}</td>
-                    <td className="px-3 py-3 font-mono text-[12px] text-ink-2">{row.sourceEc}</td>
+                    <td className="px-3 py-3.5 font-mono text-[12px] text-ink tnum">{row.si}</td>
+                    <td className="px-3 py-3.5 font-mono text-[12px] text-ink tnum">{row.ec}</td>
+                    <td className="px-3 py-3.5 font-mono text-[12px] text-ink-2 tnum">{row.sourceSi}</td>
+                    <td className="px-3 py-3.5 font-mono text-[12px] text-ink-2 tnum">{row.sourceEc}</td>
                   </tr>
                 ))}
               </tbody>
@@ -282,17 +283,17 @@ export const MetricsScoringTab: React.FC<MetricsScoringTabProps> = ({ group }) =
 
       {/* Variables */}
       <section>
-        <h2 className="text-[17px] font-bold text-ink mb-4">Variable definitions</h2>
-        <dl className="grid md:grid-cols-2 gap-x-10 gap-y-5">
+        <h2 className="text-[17px] font-semibold text-ink mb-5">Variable definitions</h2>
+        <dl className="grid md:grid-cols-2 gap-x-10 gap-y-6">
           {scoringModel.variables.map((v) => (
             <div key={v.symbol} className="flex gap-4">
               <span className="text-accent shrink-0 pt-1 min-w-[72px]">
                 <Equation tex={v.symbol} block={false} className="text-[13px]" />
               </span>
               <div>
-                <dt className="text-[13.5px] font-semibold text-ink">{v.name}</dt>
+                <dt className="text-[13.5px] font-medium text-ink">{v.name}</dt>
                 <dd className="text-[12.5px] text-ink-2 leading-relaxed mt-0.5">{v.definition}</dd>
-                <dd className="font-mono text-[10.5px] text-ink-3 mt-1">typ. {v.typicalRange}</dd>
+                <dd className="font-mono text-[10.5px] text-ink-3 mt-1.5">typ. {v.typicalRange}</dd>
               </div>
             </div>
           ))}

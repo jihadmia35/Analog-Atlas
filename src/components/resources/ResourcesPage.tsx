@@ -74,28 +74,30 @@ const SCALING_NOTES = [
 export const ResourcesPage: React.FC = () => {
   return (
     <div className="max-w-[1100px] animate-rise">
-      <header className="pb-6 border-b border-line">
-        <h1 className="text-[28px] sm:text-[34px] font-extrabold tracking-tight text-ink">
-          References &amp; methodology notes
-        </h1>
-        <p className="mt-2 text-[14.5px] text-ink-2 max-w-[72ch] leading-relaxed">
-          Every score in the atlas traces back to peer-reviewed work and open planetary datasets.
-          Start with the limitations below, then the bibliography.
-        </p>
+      <header className="panel overflow-hidden mb-10">
+        <div className="px-6 sm:px-9 pt-8 pb-7">
+          <h1 className="text-[clamp(24px,3.4vw,34px)] font-bold tracking-[-0.03em] text-ink">
+            References &amp; methodology notes
+          </h1>
+          <p className="mt-3 text-[14.5px] text-ink-2 max-w-[72ch] leading-relaxed">
+            Every score in the atlas traces back to peer-reviewed work and open planetary datasets.
+            Start with the limitations below, then the bibliography.
+          </p>
+        </div>
       </header>
 
       {/* Terrestrial mismatch matrix */}
-      <section className="py-8">
-        <h2 className="text-[17px] font-bold text-ink mb-1">Terrestrial analog limitations matrix</h2>
+      <section className="mb-12">
+        <h2 className="text-[17px] font-semibold text-ink mb-1">Terrestrial analog limitations matrix</h2>
         <p className="text-[13px] text-ink-2 mb-5 max-w-[70ch]">
           Four environmental axes can never be closed on Earth. The matrix states each one
           quantitatively for both target bodies.
         </p>
-        <div className="border border-line rounded-xl overflow-x-auto">
+        <div className="panel overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[720px]">
             <thead>
-              <tr className="bg-surface font-mono text-[10.5px] tracking-wide text-ink-3">
-                <th className="px-4 py-3 font-medium">Environmental axis</th>
+              <tr className="bg-hover/60 font-mono text-[10px] tracking-[0.06em] uppercase text-ink-3">
+                <th className="px-5 py-3 font-medium">Environmental axis</th>
                 <th className="px-3 py-3 font-medium">Earth analog</th>
                 <th className="px-3 py-3 font-medium">Mars reference</th>
                 <th className="px-3 py-3 font-medium">Lunar reference</th>
@@ -103,11 +105,11 @@ export const ResourcesPage: React.FC = () => {
             </thead>
             <tbody className="divide-y divide-line">
               {LIMITATIONS_MATRIX.map((row) => (
-                <tr key={row.axis} className="hover:bg-hover transition-colors">
-                  <td className="px-4 py-3 text-[13px] text-ink font-medium">{row.axis}</td>
-                  <td className="px-3 py-3 font-mono text-[12px] text-ink-2">{row.earth}</td>
-                  <td className="px-3 py-3 font-mono text-[12px] text-mars">{row.mars}</td>
-                  <td className="px-3 py-3 font-mono text-[12px] text-moon">{row.moon}</td>
+                <tr key={row.axis} className="hover:bg-hover/50 transition-colors">
+                  <td className="px-5 py-3.5 text-[13px] text-ink font-medium">{row.axis}</td>
+                  <td className="px-3 py-3.5 font-mono text-[12px] text-ink-2 tnum">{row.earth}</td>
+                  <td className="px-3 py-3.5 font-mono text-[12px] text-mars tnum">{row.mars}</td>
+                  <td className="px-3 py-3.5 font-mono text-[12px] text-moon tnum">{row.moon}</td>
                 </tr>
               ))}
             </tbody>
@@ -116,20 +118,20 @@ export const ResourcesPage: React.FC = () => {
       </section>
 
       {/* Scaling notes */}
-      <section className="pb-8">
-        <div className="grid md:grid-cols-2 gap-x-10 gap-y-5">
+      <section className="mb-12">
+        <div className="grid md:grid-cols-2 gap-x-10 gap-y-6">
           {SCALING_NOTES.map((n) => (
-            <div key={n.title}>
-              <h3 className="text-[13.5px] font-semibold text-ink">{n.title}</h3>
-              <p className="mt-1 text-[12.5px] text-ink-2 leading-relaxed">{n.text}</p>
+            <div key={n.title} className="border-l-2 border-accent/40 pl-4">
+              <h3 className="text-[13.5px] font-medium text-ink">{n.title}</h3>
+              <p className="mt-1.5 text-[12.5px] text-ink-2 leading-relaxed">{n.text}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* Imagery attribution */}
-      <section className="py-8 border-t border-[#161B22]">
-        <h2 className="text-[17px] font-bold text-ink mb-3">Imagery &amp; attribution</h2>
+      <section className="mb-12">
+        <h2 className="text-[17px] font-semibold text-ink mb-3">Imagery &amp; attribution</h2>
         <p className="text-[13px] text-ink-2 max-w-[74ch] leading-relaxed">
           Every comparison pair is reproduced from the supplied project dossiers: the rover-mobility
           figures come from the <em className="not-italic text-ink">Characteristic metric matrix</em>{' '}
@@ -142,20 +144,20 @@ export const ResourcesPage: React.FC = () => {
       </section>
 
       {/* Bibliography */}
-      <section className="py-8 border-t border-line">
-        <h2 className="text-[17px] font-bold text-ink mb-1">Academic bibliography</h2>
+      <section className="mb-12">
+        <h2 className="text-[17px] font-semibold text-ink mb-1">Academic bibliography</h2>
         <p className="text-[13px] text-ink-2 mb-6">
           {REFERENCE_LIBRARY.length} sources underpin the scoring models and site dossiers.
         </p>
-        <ol className="space-y-5">
+        <ol className="panel divide-y divide-line">
           {REFERENCE_LIBRARY.map((ref) => (
-            <li key={ref.id} className="flex gap-5">
-              <span className="font-mono text-[12px] text-ink-3 shrink-0 w-8 pt-1 text-right">
+            <li key={ref.id} className="flex gap-5 px-6 py-5">
+              <span className="font-mono text-[12px] text-ink-3 shrink-0 w-8 pt-1 text-right tnum">
                 {ref.year}
               </span>
-              <div className="min-w-0 border-b border-line pb-5 flex-1">
-                <p className="text-[14px] text-ink font-semibold leading-snug">{ref.citation}</p>
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1.5">
+              <div className="min-w-0 flex-1">
+                <p className="text-[14px] text-ink font-medium leading-snug">{ref.citation}</p>
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2">
                   {ref.doi ? (
                     <a
                       href={`https://doi.org/${ref.doi}`}
@@ -169,12 +171,12 @@ export const ResourcesPage: React.FC = () => {
                   ) : (
                     <span className="font-mono text-[11.5px] text-ink-3">no DOI listed</span>
                   )}
-                  <span className="font-mono text-[10.5px] text-ink-3 uppercase tracking-wide">
+                  <span className="font-mono text-[10.5px] text-ink-3 uppercase tracking-[0.06em]">
                     {ref.category}
                   </span>
                   <span className="font-mono text-[10.5px] text-ink-3">{ref.planetaryTarget}</span>
                 </div>
-                <p className="text-[12px] text-ink-2 mt-1.5 leading-relaxed max-w-[70ch]">
+                <p className="text-[12px] text-ink-2 mt-2 leading-relaxed max-w-[70ch]">
                   {ref.relevance}
                 </p>
               </div>

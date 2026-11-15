@@ -236,17 +236,19 @@ Every terrestrial field campaign must systematically account for four environmen
 The application is built in React 19 with TypeScript and Tailwind CSS, following the principles of `.agents/skills/frontend-design`:
 
 ### Visual Identity Tokens
-* **Canvas Backdrop:** `#080B10` & `#0D1117` (Deep Space Basalt)
-* **Surface Paneling:** `#161B22` & `#21262D` (Hairline tactical sub-borders)
-* **Focal Accent:** `#C86D51` (Martian Regolith Oxide)
-* **Typography:** `Plus Jakarta Sans` (Body & Titles) + `JetBrains Mono` (Data, Coordinates & Mathematics)
-* **Map Engine:** Leaflet + Esri World Topo tiles with highlighted tactical polygons for East Asia (Azure), South Asia (Amber), South America (Emerald) and Antarctica (Grey).
+* **Canvas Backdrop:** `#0A0D12` ink (dark) / `#EC EFF2` neutral plate (day)
+* **Surface Paneling:** layered panels — hairline rule, lit top edge, soft ambient lift (`--panel-shadow`)
+* **Focal Accent:** `#CB7052` Martian regolith oxide
+* **Typography:** `Instrument Sans` (body & display, tight tracking) + `IBM Plex Mono` (data, coordinates, tabular figures)
+* **Instrument Scale:** every score is rendered as a segmented rule — a muted fill with a bright leading segment marking the value inside its range
+* **Map Engine:** Leaflet + Esri World Topo tiles, inverted to a night reference map, overlaid with a graticule and vignette; highlighted tactical polygons for East Asia (Azure), South Asia (Amber), South America (Emerald) and Antarctica (Grey).
 
 ### Navigation & Screen Structure
-* **Global Navigation:** Fixed Sidebar with Quick Overview, Purpose Group 1, Purpose Group 2, and References.
+* **Global Navigation:** Fixed Sidebar with Atlas overview, Purpose Group 1, Purpose Group 2 and References, followed by a grouped site index (mobility / surface science) carrying each analog's SI.
+* **Home:** editorial masthead on a gridded plate with a hairline stat strip (analogs listed, source provinces, target bodies, SI range), the world map, the two purpose groups as panels with mean-SI read-outs, and the candidate index.
 * **Purpose Group Layout:** 
-  * Automatically defaults to **Metrics & Scoring** tab (Methodology, Table, KaTeX Equations, Variables, Simulator).
-  * Second tab: **Analogs** (Scrollable list with picture on the left, name & summary on the right; clicking an analog opens the detailed dossier with the dual split-slider, scores, evidence, limitations, and resources).
+  * Automatically defaults to **Metrics & Scoring** tab (Methodology, Equations, Characteristic metric matrix, Calculation summary, Variables, Simulator).
+  * Second tab: **Analogs** (cards with the site photograph, name & summary; clicking an analog opens the detailed dossier with the dual split-slider, score read-outs, evidence, mismatch disclosures and resources).
 * **Universal Search Filter:** Real-time filtering by keyword, planetary body (Mars / Moon), purpose group, region, and minimum SI score.
 
 ---

@@ -8,6 +8,7 @@ import { useHashRoute } from './lib/useHashRoute';
 import { PurposeGroupView } from './components/purpose/PurposeGroupView';
 import { ResourcesPage } from './components/resources/ResourcesPage';
 import { SearchFilterBar } from './components/filter/SearchFilterBar';
+import { Readout, ScoreChip } from './components/Readout';
 import { Compass, FlaskConical, Menu } from 'lucide-react';
 
 const THEME_KEY = 'analog-atlas-theme';
@@ -52,7 +53,7 @@ export const App: React.FC = () => {
     window.localStorage.setItem(THEME_KEY, theme);
   }, [theme]);
 
-  const toggleTheme = () => setTheme((t) => (t === 'day' ? 'dark' : 'day'));
+  const toggleTheme = () => setTheme((t) => (t === 'dark' ? 'day' : 'dark'));
 
   const filteredAnalogs = useMemo(
     () =>
@@ -127,11 +128,13 @@ export const App: React.FC = () => {
         siteCount={ANALOG_SITES.length}
         theme={theme}
         onToggleTheme={toggleTheme}
+        activeSiteId={selectedAnalogId}
         sites={ANALOG_SITES.map((s) => ({
           id: s.id,
           shortName: s.shortName,
           targetBody: s.targetBody,
           siScore: s.siScore,
+          purposeGroup: s.purposeGroup,
         }))}
       />
 
@@ -139,7 +142,7 @@ export const App: React.FC = () => {
       <button
         onClick={() => setIsSidebarOpen(true)}
         aria-label="Open navigation"
-        className="lg:hidden fixed bottom-5 left-5 z-40 w-11 h-11 rounded-full bg-raised border border-line-strong text-ink flex items-center justify-center shadow-lg"
+        className="lg:hidden fixed bottom-5 left-5 z-40 w-11 h-11 rounded-full bg-raised border border-line-strong text-ink flex items-center justify-center shadow-panel-lg"
       >
         <Menu className="w-5 h-5" />
       </button>
@@ -176,11 +179,15 @@ export const App: React.FC = () => {
           {activeView === 'resources' && <ResourcesPage />}
         </main>
 
-        <footer className="border-t border-line px-8 py-6">
-          <p className="font-mono text-[10.5px] text-ink-3 max-w-[1140px] mx-auto">
-            Analog Atlas — catalog v1.0 · scoring per SI / EC methodology · imagery is indicative
-            field and orbital reference photography
-          </p>
+        <footer className="border-t border-line px-8 py-7">
+          <div className="max-w-[1140px] mx-auto flex flex-wrap items-baseline gap-x-8 gap-y-2">
+            <p className="font-mono text-[10.5px] text-ink-3">
+              Analog Atlas · catalog v1.0 · scores follow the published SI / EC methodology
+            </p>
+            <p className="font-mono text-[10.5px] text-ink-3/80">
+              Imagery is field and orbital reference photography
+            </p>
+          </div>
         </footer>
       </div>
     </div>
@@ -212,24 +219,58 @@ const HomeView: React.FC<HomeViewProps> = ({
   meanEc,
   theme,
 }) => {
+  const siRange = filteredAnalogs.length
+    ? {
+        min: Math.min(...filteredAnalogs.map((a) => a.siScore)),
+        max: Math.max(...filteredAnalogs.map((a) => a.siScore)),
+      }
+    : { min: 0, max: 0 };
+
+  const stats: Array<{ value: string; label: string }> = [
+    { value: String(filteredAnalogs.length), label: 'analogs listed' },
+    { value: '4', label: 'source provinces' },
+    { value: '2', label: 'target bodies' },
+    { value: `${siRange.min.toFixed(1)}–${siRange.max.toFixed(1)}`, label: 'similarity index' },
+  ];
+
   return (
     <div className="animate-rise">
       {/* Masthead */}
-      <header className="pb-8">
-        <h1 className="text-[34px] sm:text-[44px] font-extrabold tracking-tight text-ink leading-[1.08]">
-          Where Mars and the Moon
-          <br />
-          get rehearsed on Earth.
-        </h1>
-        <p className="mt-4 text-[15px] text-ink-2 leading-relaxed max-w-[62ch]">
-          Analog Atlas catalogs eight field-proven terrestrial analogs across Antarctica, South
-          Asia, East Asia and South America — each scored against its planetary target with a
-          published mathematical methodology, and each honest about what Earth can&apos;t fake.
-        </p>
+      <header className="grid-paper panel overflow-hidden mb-8">
+        <div className="px-6 sm:px-9 pt-9 sm:pt-12 pb-8">
+          <h1 className="text-[clamp(30px,5.4vw,52px)] font-bold tracking-[-0.035em] text-ink leading-[1.03] max-w-[21ch]">
+            Where Mars and the Moon get rehearsed on Earth.
+          </h1>
+          <p className="mt-5 text-[15px] text-ink-2 leading-relaxed max-w-[64ch]">
+            Eight field-proven terrestrial analogs across Antarctica, South Asia, East Asia and
+            South America. Every reading is taken from the published site dossiers, scored against
+            its planetary target with the characteristic metric matrix, and published with the
+            disclosures of what Earth cannot fake.
+          </p>
+        </div>
+
+        {/* Stat strip */}
+        <dl className="grid grid-cols-2 sm:grid-cols-4 border-t border-line">
+          {stats.map((s, i) => (
+            <div
+              key={s.label}
+              className={`px-6 sm:px-9 py-5 ${
+                i > 0 ? 'sm:border-l sm:border-line' : ''
+              } ${i === 2 ? 'border-t sm:border-t-0 border-line' : ''} ${
+                i === 3 ? 'border-t sm:border-t-0 border-line' : ''
+              }`}
+            >
+              <dt className="font-mono text-[10px] tracking-[0.08em] uppercase text-ink-3">
+                {s.label}
+              </dt>
+              <dd className="mt-1.5 font-mono text-[20px] font-medium text-ink tnum">{s.value}</dd>
+            </div>
+          ))}
+        </dl>
       </header>
 
       {/* Filter bar */}
-      <div className="mb-5">
+      <div className="mb-6">
         <SearchFilterBar
           filterState={filterState}
           onFilterChange={onFilterChange}
@@ -247,61 +288,66 @@ const HomeView: React.FC<HomeViewProps> = ({
       />
 
       {/* Purpose groups — asymmetric split */}
-      <section className="mt-12">
-        <h2 className="text-[17px] font-bold text-ink mb-5">Two ways to qualify a site</h2>
+      <section className="mt-14">
+        <div className="flex items-baseline justify-between gap-6 mb-5">
+          <h2 className="text-[17px] font-semibold text-ink">Two ways to qualify a site</h2>
+          <p className="font-mono text-[10.5px] text-ink-3 hidden sm:block">mean SI computed across each group</p>
+        </div>
         <div className="grid md:grid-cols-2 gap-4">
           {PURPOSE_GROUPS.map((group, i) => {
             const isMobility = group.id === 'rover-mobility';
             const sites = ANALOG_SITES.filter((s) => s.purposeGroup === group.id);
-            const avgSi = (sites.reduce((s, a) => s + a.siScore, 0) / sites.length).toFixed(1);
+            const avgSi = sites.reduce((s, a) => s + a.siScore, 0) / sites.length;
             return (
               <button
                 key={group.id}
                 onClick={() => onNavigateGroup('purpose-group', group.id)}
-                className={`text-left border border-line rounded-xl bg-surface p-6 hover:border-line-strong hover:bg-hover transition-colors group flex flex-col ${
+                className={`text-left panel panel-lift overflow-hidden flex flex-col ${
                   i === 0 ? 'md:mr-2' : 'md:ml-2'
                 }`}
               >
-                <div className="flex items-center gap-3 mb-3">
-                  <span
-                    className={`p-2 rounded-lg ${
-                      isMobility
-                        ? 'bg-accent/12 text-mars'
-                        : 'bg-azure/12 text-azure'
-                    }`}
-                  >
-                    {isMobility ? (
-                      <Compass className="w-5 h-5" />
-                    ) : (
-                      <FlaskConical className="w-5 h-5" />
-                    )}
-                  </span>
-                  <span className="font-mono text-[10.5px] tracking-wide text-ink-3">
-                    GROUP {isMobility ? '1' : '2'}
-                  </span>
+                <div className="px-6 pt-6 pb-5">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span
+                      className={`p-2 rounded-[10px] ${
+                        isMobility ? 'bg-accent/12 text-mars' : 'bg-azure/12 text-azure'
+                      }`}
+                    >
+                      {isMobility ? (
+                        <Compass className="w-[18px] h-[18px]" />
+                      ) : (
+                        <FlaskConical className="w-[18px] h-[18px]" />
+                      )}
+                    </span>
+                    <span className="font-mono text-[10px] tracking-[0.08em] uppercase text-ink-3">
+                      Group {isMobility ? '1' : '2'}
+                    </span>
+                  </div>
+                  <h3 className="text-[19px] font-semibold text-ink leading-snug tracking-[-0.01em]">
+                    {group.title}
+                  </h3>
+                  <p className="mt-2 text-[13px] text-ink-2 leading-relaxed">{group.tagline}</p>
                 </div>
-                <h3 className="text-[18px] font-bold text-ink leading-snug">{group.title}</h3>
-                <p className="mt-2 text-[13px] text-ink-2 leading-relaxed">{group.tagline}</p>
 
-                <dl className="mt-5">
+                <dl className="px-6">
                   {group.metrics.map((m) => (
                     <div
                       key={m.id}
-                      className="flex items-baseline justify-between gap-4 py-1.5 border-t border-line"
+                      className="flex items-baseline justify-between gap-4 py-2 border-t border-line"
                     >
                       <dt className="text-[12.5px] text-ink-2 leading-snug">{m.name}</dt>
-                      <dd className="font-mono text-[11px] text-ink-3 whitespace-nowrap">
+                      <dd className="font-mono text-[11px] text-ink-3 tnum whitespace-nowrap">
                         {m.weight.toFixed(2)}
                       </dd>
                     </div>
                   ))}
                 </dl>
 
-                <div className="mt-4 flex flex-wrap gap-x-2.5 gap-y-1">
+                <div className="px-6 pt-4 flex flex-wrap gap-x-3 gap-y-1.5">
                   {sites.map((s) => (
-                    <span key={s.id} className="text-[11.5px] text-ink-3">
+                    <span key={s.id} className="text-[11.5px] text-ink-3 inline-flex items-center gap-1.5">
                       <span
-                        className="inline-block w-1.5 h-1.5 rounded-full mr-1.5 align-middle"
+                        className="inline-block w-1.5 h-1.5 rounded-full"
                         style={{ backgroundColor: PROVINCE_TICK[s.continent] ?? 'rgb(var(--ink-3))' }}
                       />
                       {s.shortName}
@@ -309,9 +355,13 @@ const HomeView: React.FC<HomeViewProps> = ({
                   ))}
                 </div>
 
-                <div className="mt-5 pt-4 border-t border-line flex items-baseline justify-between font-mono text-[12px]">
-                  <span className="text-ink-3">mean SI</span>
-                  <span className="text-[16px] text-ink font-semibold">{avgSi}%</span>
+                <div className="px-6 pt-5 pb-6 mt-5 border-t border-line">
+                  <Readout
+                    label="Mean similarity index"
+                    value={avgSi}
+                    size="md"
+                    note={`${sites.length} analogs · ${group.scoringModel.name}`}
+                  />
                 </div>
               </button>
             );
@@ -320,34 +370,32 @@ const HomeView: React.FC<HomeViewProps> = ({
       </section>
 
       {/* Candidate index */}
-      <section className="mt-12">
-        <div className="flex items-baseline justify-between mb-5">
-          <h2 className="text-[17px] font-bold text-ink">Candidate index</h2>
-          <span className="font-mono text-[11.5px] text-ink-3">
+      <section className="mt-14">
+        <div className="flex items-baseline justify-between gap-6 mb-5">
+          <h2 className="text-[17px] font-semibold text-ink">Candidate index</h2>
+          <span className="font-mono text-[11.5px] text-ink-3 tnum">
             mean EC {meanEc}% across filtered sites
           </span>
         </div>
 
         {filteredAnalogs.length === 0 ? (
-          <div className="border border-line rounded-xl bg-surface px-6 py-10 text-center">
-            <p className="text-[14px] text-ink font-semibold">No sites match these filters.</p>
+          <div className="panel px-6 py-12 text-center">
+            <p className="text-[14px] text-ink font-medium">No sites match these filters.</p>
             <p className="text-[12.5px] text-ink-3 mt-1">
-              Loosen the minimum SI or clear the search to see the full catalog again.
+              Lower the minimum similarity index or clear the search to see the full catalog.
             </p>
           </div>
         ) : (
-          <ul className="divide-y divide-line border-y border-line">
+          <ul className="panel divide-y divide-line overflow-hidden">
             {filteredAnalogs.map((site) => (
               <li key={site.id}>
                 <button
                   onClick={() => onSelectAnalog(site.id)}
-                  className="w-full grid grid-cols-[1fr_auto] sm:grid-cols-[minmax(0,2.2fr)_minmax(0,2fr)_auto] gap-x-6 gap-y-1 items-center py-3.5 text-left hover:bg-surface transition-colors px-2 -mx-2 rounded-lg"
+                  className="w-full grid grid-cols-[1fr_auto] sm:grid-cols-[minmax(0,2.2fr)_minmax(0,2fr)_auto] gap-x-6 gap-y-1 items-center py-4 px-5 text-left hover:bg-hover transition-colors"
                 >
                   <div className="min-w-0">
-                    <span className="text-[14px] font-semibold text-ink leading-snug">
-                      {site.name}
-                    </span>
-                    <span className="block font-mono text-[10.5px] text-ink-3 mt-0.5">
+                    <span className="text-[14px] font-medium text-ink leading-snug">{site.name}</span>
+                    <span className="block font-mono text-[10.5px] text-ink-3 mt-1 tnum">
                       {site.country} · {site.coordinates.display}
                     </span>
                   </div>
@@ -363,9 +411,11 @@ const HomeView: React.FC<HomeViewProps> = ({
                     </span>
                     {site.targetPlanetarySite}
                   </div>
-                  <div className="font-mono text-[12px] text-right whitespace-nowrap">
-                    <span className="text-ink font-semibold">SI {site.siScore.toFixed(1)}</span>
-                    <span className="text-ink-3"> · EC {site.ecScore.toFixed(1)}</span>
+                  <div className="flex items-center gap-5 justify-self-end">
+                    <ScoreChip label="SI" value={site.siScore} />
+                    <span className="font-mono text-[11.5px] text-ink-3 tnum w-16 text-right whitespace-nowrap">
+                      EC {site.ecScore.toFixed(1)}
+                    </span>
                   </div>
                 </button>
               </li>
