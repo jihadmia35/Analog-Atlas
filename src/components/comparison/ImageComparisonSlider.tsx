@@ -69,8 +69,9 @@ export const ImageComparisonSlider: React.FC<ImageComparisonSliderProps> = ({
           src={targetSrc}
           alt={targetCaption}
           loading="eager"
+          onLoad={(e) => e.currentTarget.classList.add('is-loaded')}
           onError={() => setTargetSrc(FALLBACK_TARGET_SVG)}
-          className="absolute inset-0 w-full h-full object-cover"
+          className="img-fade absolute inset-0 w-full h-full object-cover"
           draggable={false}
         />
 
@@ -83,8 +84,9 @@ export const ImageComparisonSlider: React.FC<ImageComparisonSliderProps> = ({
             src={earthSrc}
             alt={earthCaption}
             loading="eager"
+            onLoad={(e) => e.currentTarget.classList.add('is-loaded')}
             onError={() => setEarthSrc(FALLBACK_EARTH_SVG)}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="img-fade absolute inset-0 w-full h-full object-cover"
             draggable={false}
           />
         </div>
@@ -95,7 +97,7 @@ export const ImageComparisonSlider: React.FC<ImageComparisonSliderProps> = ({
           style={{ left: `${position}%` }}
         >
           <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-px bg-ink/70" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-surface/95 backdrop-blur-sm border border-line-strong flex items-center justify-center shadow-panel-lg">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-surface/95 backdrop-blur-sm border border-line-strong flex items-center justify-center shadow-panel-lg transition-transform duration-200 hover:scale-110">
             <svg viewBox="0 0 24 24" className="w-4 h-4 text-ink" fill="none" stroke="currentColor" strokeWidth="1.75">
               <path d="M8 7l-4 5 4 5M16 7l4 5-4 5" />
             </svg>

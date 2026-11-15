@@ -20,7 +20,7 @@ export const AnalogDossier: React.FC<AnalogDossierProps> = ({ site, group }) => 
   const metricNameById = Object.fromEntries(group.metrics.map((m) => [m.id, m]));
 
   return (
-    <article className="max-w-[1100px]">
+    <article className="max-w-[1100px] stagger">
       {/* Title block */}
       <header className="panel overflow-hidden mb-8">
         <div className="px-6 sm:px-9 pt-8 pb-7">
@@ -219,7 +219,7 @@ export const AnalogDossier: React.FC<AnalogDossierProps> = ({ site, group }) => 
                     href={`https://doi.org/${p.doi}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="font-mono text-[11.5px] text-accent hover:text-mars transition-colors mt-1 inline-block"
+                    className="font-mono text-[11.5px] text-accent hover:text-mars transition-colors mt-1 inline-block link-underline"
                   >
                     doi:{p.doi}
                   </a>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { AnalogSite, PurposeGroupData } from '../../types';
 import { Scale } from '../Readout';
+import { ChevronRight } from 'lucide-react';
 
 interface AnalogsTabProps {
   analogs: AnalogSite[];
@@ -25,9 +26,10 @@ export const AnalogsTab: React.FC<AnalogsTabProps> = ({ analogs, group, onSelect
                 src={site.heroImage}
                 alt={site.heroCaption}
                 loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                onLoad={(e) => e.currentTarget.classList.add('is-loaded')}
+                className="img-fade absolute inset-0 w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-700 ease-out"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-canvas/70 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-canvas/70 via-transparent to-transparent opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
               <span
                 className={`absolute top-3 left-3 font-mono text-[9.5px] tracking-[0.06em] px-1.5 py-0.5 rounded backdrop-blur-sm ${
                   isMars
@@ -42,7 +44,7 @@ export const AnalogsTab: React.FC<AnalogsTabProps> = ({ analogs, group, onSelect
             {/* Name & summary */}
             <div className="flex-1 min-w-0 flex flex-col px-5 pb-5 sm:py-5 sm:pr-6">
               <div className="flex items-baseline justify-between gap-4">
-                <h3 className="text-[16px] font-semibold text-ink leading-snug tracking-[-0.01em] group-hover:text-mars transition-colors">
+                <h3 className="text-[16px] font-semibold text-ink leading-snug tracking-[-0.01em] group-hover:text-mars transition-colors duration-200">
                   {site.name}
                 </h3>
                 <div className="font-mono text-[12px] text-ink-2 shrink-0 text-right leading-tight hidden sm:block">
@@ -64,6 +66,10 @@ export const AnalogsTab: React.FC<AnalogsTabProps> = ({ analogs, group, onSelect
                 </span>
                 <span className="hidden md:inline text-line-strong">→</span>
                 <span className="hidden md:inline text-[11.5px] text-ink-2">{site.targetPlanetarySite}</span>
+                <span className="ml-auto hidden md:inline-flex items-center gap-1 text-[11.5px] text-ink-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                  Open dossier
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </span>
               </div>
             </div>
           </button>

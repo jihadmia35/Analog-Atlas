@@ -73,7 +73,7 @@ const SCALING_NOTES = [
 
 export const ResourcesPage: React.FC = () => {
   return (
-    <div className="max-w-[1100px] animate-rise">
+    <div className="max-w-[1100px] stagger">
       <header className="panel overflow-hidden mb-10">
         <div className="px-6 sm:px-9 pt-8 pb-7">
           <h1 className="text-[clamp(24px,3.4vw,34px)] font-bold tracking-[-0.03em] text-ink">

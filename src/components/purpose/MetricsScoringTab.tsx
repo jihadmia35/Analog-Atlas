@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { PurposeGroupData } from '../../types';
 import { Equation } from '../Equation';
 import { Scale } from '../Readout';
+import { useCountUp } from '../../lib/useCountUp';
 
 interface MetricsScoringTabProps {
   group: PurposeGroupData;
@@ -78,6 +79,7 @@ const SI_SIMULATOR: React.FC<{ group: PurposeGroupData }> = ({ group }) => {
   });
 
   const totalSi = contributions.reduce((sum, c) => sum + c.score, 0);
+  const animatedSi = useCountUp(totalSi, 420);
 
   return (
     <section className="mt-14">
@@ -92,17 +94,17 @@ const SI_SIMULATOR: React.FC<{ group: PurposeGroupData }> = ({ group }) => {
 
       <div className="panel overflow-hidden">
         <div className="grid lg:grid-cols-[1fr_280px]">
-          <div className="p-6 space-y-1 divide-y divide-line">
+          <div className="p-6 space-y-1 divide-y divide-line min-w-0">
             {contributions.map(({ metric, deviation, weight, s, score }) => (
-              <div key={metric.id} className="pt-3 first:pt-0 pb-3">
-                <div className="flex items-baseline justify-between mb-1.5">
-                  <span className="text-[13px] text-ink font-medium">
+              <div key={metric.id} className="pt-3 first:pt-0 pb-3 min-w-0">
+                <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-3 mb-1.5">
+                  <span className="text-[13px] text-ink font-medium min-w-0">
                     {metric.name}
                     <span className="ml-2">
                       <Equation tex={metric.symbol} block={false} className="text-[11px] text-ink-3" />
                     </span>
                   </span>
-                  <span className="font-mono text-[11.5px] text-ink-2 tnum">
+                  <span className="font-mono text-[11.5px] text-ink-2 tnum shrink-0">
                     w {weight.toFixed(2)} · s {s.toFixed(2)} · {score.toFixed(1)} pts
                   </span>
                 </div>
@@ -124,7 +126,7 @@ const SI_SIMULATOR: React.FC<{ group: PurposeGroupData }> = ({ group }) => {
           </div>
 
           {/* Readout */}
-          <div className="border-t lg:border-t-0 lg:border-l border-line bg-hover/40 p-6 flex flex-col">
+          <div className="border-t lg:border-t-0 lg:border-l border-line bg-hover/40 p-6 flex flex-col min-w-0">
             <div className="font-mono text-[10px] tracking-[0.08em] uppercase text-ink-3 mb-3">
               Computed similarity index
             </div>
@@ -133,11 +135,11 @@ const SI_SIMULATOR: React.FC<{ group: PurposeGroupData }> = ({ group }) => {
                 totalSi >= 70 ? 'text-emerald' : totalSi >= 45 ? 'text-amber' : 'text-accent'
               }`}
             >
-              {totalSi.toFixed(1)}
+              {animatedSi.toFixed(1)}
               <span className="text-[19px] text-ink-3">%</span>
             </div>
             <div className="mt-4">
-              <Scale value={totalSi} size="md" />
+              <Scale value={animatedSi} size="md" />
             </div>
             <p className="mt-4 text-[12px] text-ink-3 leading-relaxed">
               {totalSi >= 70

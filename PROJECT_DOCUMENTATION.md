@@ -249,6 +249,20 @@ The application is built in React 19 with TypeScript and Tailwind CSS, following
 * **Purpose Group Layout:** 
   * Automatically defaults to **Metrics & Scoring** tab (Methodology, Equations, Characteristic metric matrix, Calculation summary, Variables, Simulator).
   * Second tab: **Analogs** (cards with the site photograph, name & summary; clicking an analog opens the detailed dossier with the dual split-slider, score read-outs, evidence, mismatch disclosures and resources).
+
+### Responsive Behaviour
+* **Sidebar → slide-over drawer** below the `lg` breakpoint, opened from a floating menu button and closed by backdrop tap; the accent rail is measured independently per instance so it positions correctly in both the desktop rail and the drawer.
+* **Home** reflows: the stat strip collapses to a 2×2 hairline grid, filter controls stack vertically, the candidate index rows wrap (name + coordinates on top, SI/EC scores beneath), and purpose-group cards go single-column.
+* **Map** caps its initial auto-frame at zoom 2 on narrow screens so every catalog pin starts on screen; the zoom control relocates away from the pins and the fly-to target zoom is reduced.
+* **Data tables** (metric matrix, calculation summary, dossier tables, references) scroll horizontally inside their panels via `overflow-x-auto` instead of stretching the page; the simulator's metric rows wrap their `w · s · pts` meta beneath the metric name.
+* **Verified:** no horizontal overflow on any route at 390 px (`scrollWidth ≤ viewport` across home, both group tabs, dossiers and references); all animations hold up under `prefers-reduced-motion`.
+
+### Motion System
+* **One orchestrated entrance per screen** — the home masthead rises, the stat strip staggers, then the map and sections fade in on a fixed delay sequence; dossiers stagger their blocks in order.
+* **Sliding indicators** — the sidebar accent rail and the purpose-group tab underline are measured from the DOM and animate to the active item instead of blinking on and off.
+* **Read-outs count to their value** — scores animate to a new position (SI / EC read-outs, index chips, simulator output) so a change is visible rather than instantaneous.
+* **Action feedback** — cards lift, icons scale, the theme toggle swaps sun/moon with a rotation, map pins pop in and scale on hover, images fade up as they decode, and buttons give a subtle press.
+* **Accessibility:** every animation is suppressed under `prefers-reduced-motion: reduce`, and the numeric count-up honours the same preference.
 * **Universal Search Filter:** Real-time filtering by keyword, planetary body (Mars / Moon), purpose group, region, and minimum SI score.
 
 ---

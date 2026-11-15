@@ -205,6 +205,8 @@ html[data-theme='dark'] {
   gap: 2px;
   align-items: flex-end;
   height: 10px;
+  min-width: 0;
+  width: 100%;
 }
 
 .readout-tick {
@@ -263,7 +265,9 @@ html[data-theme='dark'] {
 }
 
 /* ==================================================================
-   Motion (one orchestrated entrance, on demand only)
+   Motion
+   One orchestrated entrance per screen; everything else answers a
+   user action (hover, press, switch, selection).
    ================================================================== */
 @keyframes rise {
   from {
@@ -280,6 +284,39 @@ html[data-theme='dark'] {
   animation: rise 0.42s cubic-bezier(0.22, 0.8, 0.3, 1) both;
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
 @keyframes pin-pulse {
   0% {
     transform: scale(0.6);
@@ -288,6 +325,76 @@ html[data-theme='dark'] {
   100% {
     transform: scale(1.6);
     opacity: 0;
+  }
+}
+
+/* Staggered entrance — children rise in sequence */
+.stagger > * {
+  animation: rise 0.5s cubic-bezier(0.22, 0.8, 0.3, 1) both;
+}
+.stagger > *:nth-child(1) { animation-delay: 0.04s; }
+.stagger > *:nth-child(2) { animation-delay: 0.09s; }
+.stagger > *:nth-child(3) { animation-delay: 0.14s; }
+.stagger > *:nth-child(4) { animation-delay: 0.19s; }
+.stagger > *:nth-child(5) { animation-delay: 0.24s; }
+.stagger > *:nth-child(6) { animation-delay: 0.29s; }
+.stagger > *:nth-child(7) { animation-delay: 0.34s; }
+.stagger > *:nth-child(8) { animation-delay: 0.39s; }
+.stagger > *:nth-child(n + 9) { animation-delay: 0.44s; }
+
+/* Images fade up as they decode */
+.img-fade {
+  opacity: 0;
+  transform: scale(1.02);
+  transition:
+    opacity 0.55s ease,
+    transform 0.7s cubic-bezier(0.22, 0.8, 0.3, 1);
+}
+.img-fade.is-loaded {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Fade without movement — safe for live map canvases */
+.fade-in {
+  animation: fade-in 0.6s ease both;
+}
+
+/* Press feedback */
+.press {
+  transition:
+    transform 0.14s cubic-bezier(0.22, 0.8, 0.3, 1),
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+.press:active {
+  transform: scale(0.985);
+}
+
+/* Animated link underline */
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: left 100%;
+  transition: background-size 0.28s cubic-bezier(0.22, 0.8, 0.3, 1);
+}
+.link-underline:hover {
+  background-size: 100% 1px;
+}
+
+/* Hairline that draws itself in */
+.draw-in {
+  transform-origin: left center;
+  animation: draw 0.6s cubic-bezier(0.22, 0.8, 0.3, 1) both;
+}
+@keyframes draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
   }
 }
 
@@ -395,6 +502,10 @@ html[data-theme='dark'] .map-veil {
   position: relative;
   width: 18px;
   height: 18px;
+  /* The entrance animation lives on the inner shell: Leaflet positions the
+     outer marker element with an inline translate3d, which a transform
+     animation would override. */
+  animation: pop-in 0.4s cubic-bezier(0.34, 1.4, 0.64, 1) both;
 }
 
 .pin-dot {
@@ -404,6 +515,11 @@ html[data-theme='dark'] .map-veil {
   background: rgb(var(--surface));
   border: 1.5px solid var(--pin-color, rgb(var(--mars)));
   box-shadow: 0 0 0 1px rgb(var(--canvas) / 0.7), 0 2px 8px rgba(0, 0, 0, 0.45);
+  transition: transform 0.18s cubic-bezier(0.22, 0.8, 0.3, 1);
+}
+
+.analog-pin:hover .pin-dot {
+  transform: scale(1.18);
 }
 
 .pin-core {

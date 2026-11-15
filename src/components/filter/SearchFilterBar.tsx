@@ -51,7 +51,7 @@ export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
   return (
     <div className="flex flex-wrap items-center gap-2">
       {/* Search */}
-      <label className="relative flex-1 min-w-[220px]">
+      <label className="relative w-full sm:flex-1 sm:min-w-[220px] sm:w-auto">
         <span className="sr-only">Search analog sites</span>
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-3 pointer-events-none" />
         <input

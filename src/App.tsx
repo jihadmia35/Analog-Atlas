@@ -35,10 +35,10 @@ const DEFAULT_FILTER: FilterState = {
 };
 
 const PROVINCE_TICK: Record<string, string> = {
-  'East Asia': 'var(--azure)',
-  'South Asia': 'var(--amber)',
-  'South America': 'var(--emerald)',
-  Antarctica: 'var(--moon)',
+  'East Asia': 'rgb(var(--azure))',
+  'South Asia': 'rgb(var(--amber))',
+  'South America': 'rgb(var(--emerald))',
+  Antarctica: 'rgb(var(--moon))',
 };
 
 export const App: React.FC = () => {
@@ -148,7 +148,7 @@ export const App: React.FC = () => {
       </button>
 
       <div className="lg:pl-[264px]">
-        <main className="max-w-[1140px] mx-auto px-5 sm:px-8 py-8 sm:py-10">
+        <main className="max-w-[1140px] mx-auto px-5 sm:px-8 py-8 sm:py-10 pb-24 lg:pb-10">
           {activeView === 'home' && (
             <HomeView
               filteredAnalogs={filteredAnalogs}
@@ -234,9 +234,9 @@ const HomeView: React.FC<HomeViewProps> = ({
   ];
 
   return (
-    <div className="animate-rise">
+    <div>
       {/* Masthead */}
-      <header className="grid-paper panel overflow-hidden mb-8">
+      <header className="grid-paper panel overflow-hidden mb-8 animate-rise">
         <div className="px-6 sm:px-9 pt-9 sm:pt-12 pb-8">
           <h1 className="text-[clamp(30px,5.4vw,52px)] font-bold tracking-[-0.035em] text-ink leading-[1.03] max-w-[21ch]">
             Where Mars and the Moon get rehearsed on Earth.
@@ -250,14 +250,14 @@ const HomeView: React.FC<HomeViewProps> = ({
         </div>
 
         {/* Stat strip */}
-        <dl className="grid grid-cols-2 sm:grid-cols-4 border-t border-line">
+        <dl className="grid grid-cols-2 sm:grid-cols-4 border-t border-line stagger">
           {stats.map((s, i) => (
             <div
               key={s.label}
               className={`px-6 sm:px-9 py-5 ${
                 i > 0 ? 'sm:border-l sm:border-line' : ''
-              } ${i === 2 ? 'border-t sm:border-t-0 border-line' : ''} ${
-                i === 3 ? 'border-t sm:border-t-0 border-line' : ''
+              } ${i % 2 === 1 ? 'border-l border-line' : ''} ${
+                i >= 2 ? 'border-t border-line sm:border-t-0' : ''
               }`}
             >
               <dt className="font-mono text-[10px] tracking-[0.08em] uppercase text-ink-3">
@@ -270,7 +270,7 @@ const HomeView: React.FC<HomeViewProps> = ({
       </header>
 
       {/* Filter bar */}
-      <div className="mb-6">
+      <div className="mb-6 fade-in" style={{ animationDelay: '0.12s' }}>
         <SearchFilterBar
           filterState={filterState}
           onFilterChange={onFilterChange}
@@ -280,15 +280,17 @@ const HomeView: React.FC<HomeViewProps> = ({
       </div>
 
       {/* Map */}
-      <EarthAtlasMap
-        analogs={filteredAnalogs}
-        selectedAnalogId={selectedAnalogId}
-        onSelectAnalog={onSelectAnalog}
-        theme={theme}
-      />
+      <div className="fade-in" style={{ animationDelay: '0.2s' }}>
+        <EarthAtlasMap
+          analogs={filteredAnalogs}
+          selectedAnalogId={selectedAnalogId}
+          onSelectAnalog={onSelectAnalog}
+          theme={theme}
+        />
+      </div>
 
       {/* Purpose groups — asymmetric split */}
-      <section className="mt-14">
+      <section className="mt-14 fade-in" style={{ animationDelay: '0.28s' }}>
         <div className="flex items-baseline justify-between gap-6 mb-5">
           <h2 className="text-[17px] font-semibold text-ink">Two ways to qualify a site</h2>
           <p className="font-mono text-[10.5px] text-ink-3 hidden sm:block">mean SI computed across each group</p>
@@ -302,16 +304,16 @@ const HomeView: React.FC<HomeViewProps> = ({
               <button
                 key={group.id}
                 onClick={() => onNavigateGroup('purpose-group', group.id)}
-                className={`text-left panel panel-lift overflow-hidden flex flex-col ${
+                className={`text-left panel panel-lift press overflow-hidden flex flex-col group ${
                   i === 0 ? 'md:mr-2' : 'md:ml-2'
                 }`}
               >
                 <div className="px-6 pt-6 pb-5">
                   <div className="flex items-center gap-3 mb-4">
                     <span
-                      className={`p-2 rounded-[10px] ${
+                      className={`p-2 rounded-[10px] transition-transform duration-300 ${
                         isMobility ? 'bg-accent/12 text-mars' : 'bg-azure/12 text-azure'
-                      }`}
+                      } group-hover:scale-110`}
                     >
                       {isMobility ? (
                         <Compass className="w-[18px] h-[18px]" />
@@ -370,7 +372,7 @@ const HomeView: React.FC<HomeViewProps> = ({
       </section>
 
       {/* Candidate index */}
-      <section className="mt-14">
+      <section className="mt-14 fade-in" style={{ animationDelay: '0.34s' }}>
         <div className="flex items-baseline justify-between gap-6 mb-5">
           <h2 className="text-[17px] font-semibold text-ink">Candidate index</h2>
           <span className="font-mono text-[11.5px] text-ink-3 tnum">
@@ -391,10 +393,12 @@ const HomeView: React.FC<HomeViewProps> = ({
               <li key={site.id}>
                 <button
                   onClick={() => onSelectAnalog(site.id)}
-                  className="w-full grid grid-cols-[1fr_auto] sm:grid-cols-[minmax(0,2.2fr)_minmax(0,2fr)_auto] gap-x-6 gap-y-1 items-center py-4 px-5 text-left hover:bg-hover transition-colors"
+                  className="w-full grid grid-cols-1 sm:grid-cols-[minmax(0,2.2fr)_minmax(0,2fr)_auto] gap-x-6 gap-y-2 items-center py-4 px-5 text-left hover:bg-hover transition-colors duration-150 press"
                 >
                   <div className="min-w-0">
-                    <span className="text-[14px] font-medium text-ink leading-snug">{site.name}</span>
+                    <span className="text-[14px] font-medium text-ink leading-snug transition-colors duration-150">
+                      {site.name}
+                    </span>
                     <span className="block font-mono text-[10.5px] text-ink-3 mt-1 tnum">
                       {site.country} · {site.coordinates.display}
                     </span>
@@ -411,7 +415,7 @@ const HomeView: React.FC<HomeViewProps> = ({
                     </span>
                     {site.targetPlanetarySite}
                   </div>
-                  <div className="flex items-center gap-5 justify-self-end">
+                  <div className="flex items-center gap-5 justify-between sm:justify-end sm:justify-self-end">
                     <ScoreChip label="SI" value={site.siScore} />
                     <span className="font-mono text-[11.5px] text-ink-3 tnum w-16 text-right whitespace-nowrap">
                       EC {site.ecScore.toFixed(1)}

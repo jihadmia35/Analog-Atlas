@@ -1,4 +1,5 @@
 import React from 'react';
+import { useCountUp } from '../lib/useCountUp';
 
 type Size = 'sm' | 'md' | 'lg';
 
@@ -61,20 +62,23 @@ export const Readout: React.FC<ReadoutProps> = ({
   tone = 'accent',
   precision = 1,
 }) => {
+  const animated = useCountUp(value);
   const valueSize =
     size === 'lg' ? 'text-[34px] leading-none' : size === 'sm' ? 'text-[15px]' : 'text-[22px]';
 
   return (
-    <div>
+    <div className="min-w-0">
       <div className="flex items-baseline justify-between gap-4">
-        <span className="font-mono text-[10px] tracking-[0.08em] uppercase text-ink-3">{label}</span>
-        <span className={`font-mono font-medium text-ink tnum ${valueSize}`}>
-          {value.toFixed(precision)}
+        <span className="font-mono text-[10px] tracking-[0.08em] uppercase text-ink-3 min-w-0">
+          {label}
+        </span>
+        <span className={`font-mono font-medium text-ink tnum shrink-0 ${valueSize}`}>
+          {animated.toFixed(precision)}
           <span className="text-ink-3 text-[0.62em] ml-0.5">%</span>
         </span>
       </div>
       <div className="mt-2.5">
-        <Scale value={value} max={max} size={size} tone={tone} />
+        <Scale value={animated} max={max} size={size} tone={tone} />
       </div>
       {note && <p className="text-[11px] text-ink-3 mt-2 leading-snug">{note}</p>}
     </div>
@@ -90,12 +94,22 @@ interface ChipProps {
 }
 
 /** Compact score chip for dense rows and indexes. */
-export const ScoreChip: React.FC<ChipProps> = ({ label, value, max = 100, size = 'sm', tone = 'quiet' }) => (
-  <span className="inline-flex items-center gap-2 font-mono text-[11px] text-ink-2 tnum">
-    <span className="text-ink-3">{label}</span>
-    <span className="text-ink">{value.toFixed(1)}</span>
-    <span className="inline-block w-10 align-middle">
-      <Scale value={value} max={max} size={size} tone={tone} />
+export const ScoreChip: React.FC<ChipProps> = ({
+  label,
+  value,
+  max = 100,
+  size = 'sm',
+  tone = 'quiet',
+}) => {
+  const animated = useCountUp(value, 500);
+
+  return (
+    <span className="inline-flex items-center gap-2 font-mono text-[11px] text-ink-2 tnum">
+      <span className="text-ink-3">{label}</span>
+      <span className="text-ink">{animated.toFixed(1)}</span>
+      <span className="inline-block w-10 align-middle">
+        <Scale value={animated} max={max} size={size} tone={tone} />
+      </span>
     </span>
-  </span>
-);
+  );
+};

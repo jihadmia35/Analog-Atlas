@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AnalogsViewId, PurposeGroupId } from '../../types';
 import { Compass, FlaskConical, BookOpen, Map, X, Sun, Moon } from 'lucide-react';
 import { Theme } from '../map/LeafletWorldMap';
@@ -29,14 +29,12 @@ const NAV_ITEMS: Array<{
   label: string;
   hint: string;
   icon: React.ReactNode;
-  tickColor: string;
 }> = [
   {
     view: 'home',
     label: 'Atlas overview',
     hint: 'All sites on one map',
     icon: <Map className="w-4 h-4" />,
-    tickColor: 'transparent',
   },
   {
     view: 'purpose-group',
@@ -44,7 +42,6 @@ const NAV_ITEMS: Array<{
     label: 'Rover mobility',
     hint: 'Group 1 · terramechanics',
     icon: <Compass className="w-4 h-4" />,
-    tickColor: 'var(--accent)',
   },
   {
     view: 'purpose-group',
@@ -52,14 +49,12 @@ const NAV_ITEMS: Array<{
     label: 'Surface science',
     hint: 'Group 2 · geochemistry',
     icon: <FlaskConical className="w-4 h-4" />,
-    tickColor: 'var(--azure)',
   },
   {
     view: 'resources',
     label: 'References',
     hint: 'Bibliography & datasets',
     icon: <BookOpen className="w-4 h-4" />,
-    tickColor: 'transparent',
   },
 ];
 
@@ -67,6 +62,169 @@ const GROUP_LABELS: Record<PurposeGroupId, string> = {
   'rover-mobility': 'Rover mobility',
   'surface-science': 'Surface science',
 };
+
+/* ------------------------------------------------------------------ */
+/* Navigation + site index                                            */
+/* ------------------------------------------------------------------ */
+
+interface SidebarNavProps {
+  activeView: AnalogsViewId;
+  activePurposeGroupId: string | null;
+  onNavigate: (view: AnalogsViewId, groupId?: string) => void;
+  onSelectSite: (siteId: string) => void;
+  isOpen: boolean;
+  onClose: () => void;
+  sites: SidebarProps['sites'];
+  activeSiteId?: string;
+}
+
+const SidebarNav: React.FC<SidebarNavProps> = ({
+  activeView,
+  activePurposeGroupId,
+  onNavigate,
+  onSelectSite,
+  isOpen,
+  onClose,
+  sites,
+  activeSiteId,
+}) => {
+  const navRef = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const [indicator, setIndicator] = useState<{ top: number; height: number } | null>(null);
+
+  const activeKey =
+    activeView === 'home'
+      ? 'home'
+      : activeView === 'resources'
+        ? 'resources'
+        : `group:${activePurposeGroupId}`;
+
+  // The accent rail slides to the active section once the rail is actually
+  // laid out (the desktop and mobile rails are rendered separately).
+  useEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+
+    const measure = () => {
+      const el = itemRefs.current[activeKey];
+      if (!el) return;
+      setIndicator({ top: el.offsetTop, height: el.offsetHeight });
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(nav);
+    return () => observer.disconnect();
+  }, [activeKey]);
+
+  return (
+    <div
+      ref={navRef}
+      className="flex-1 px-3 pt-5 space-y-0.5 overflow-y-auto relative"
+    >
+      {/* Sliding accent rail */}
+      {indicator && indicator.height > 0 && (
+        <span
+          className="absolute left-[6px] w-[2px] rounded-full transition-all duration-300 ease-out"
+          style={{
+            top: indicator.top,
+            height: indicator.height,
+            backgroundColor:
+              activeKey === 'group:surface-science' ? 'rgb(var(--azure))' : 'rgb(var(--accent))',
+          }}
+        />
+      )}
+
+      {NAV_ITEMS.map((item) => {
+        const isActive =
+          item.view === activeView &&
+          (item.view !== 'purpose-group' || item.groupId === activePurposeGroupId);
+        const key = item.groupId ? `group:${item.groupId}` : item.view;
+
+        return (
+          <button
+            key={item.label}
+            ref={(el) => {
+              itemRefs.current[key] = el;
+            }}
+            onClick={() => {
+              onNavigate(item.view, item.groupId);
+              if (isOpen) onClose();
+            }}
+            className={`w-full flex items-center gap-3 pl-4 pr-3 py-2.5 rounded-lg text-left transition-colors duration-200 ${
+              isActive ? 'bg-raised text-ink shadow-panel' : 'text-ink-2 hover:text-ink hover:bg-hover'
+            }`}
+            aria-current={isActive ? 'page' : undefined}
+          >
+            <span className={isActive ? 'text-ink' : 'text-ink-3 transition-colors duration-200'}>
+              {item.icon}
+            </span>
+            <span className="flex flex-col">
+              <span className="text-[13px] font-medium leading-tight">{item.label}</span>
+              <span className="text-[10.5px] text-ink-3 leading-tight mt-0.5">{item.hint}</span>
+            </span>
+          </button>
+        );
+      })}
+
+      {/* Site index */}
+      <div className="px-3 pt-7">
+        <div className="px-3 pb-2 font-mono text-[10px] tracking-[0.12em] text-ink-3 uppercase">
+          Catalog sites
+        </div>
+
+        {(['rover-mobility', 'surface-science'] as PurposeGroupId[]).map((groupId) => {
+          const groupSites = sites.filter((s) => s.purposeGroup === groupId);
+          if (groupSites.length === 0) return null;
+
+          return (
+            <div key={groupId} className="mb-4">
+              <div className="px-3 pb-1.5 text-[10px] tracking-wide text-ink-3/80">
+                {GROUP_LABELS[groupId]}
+              </div>
+              <ul className="space-y-px stagger">
+                {groupSites.map((site) => {
+                  const isCurrent = site.id === activeSiteId;
+                  return (
+                    <li key={site.id}>
+                      <button
+                        onClick={() => {
+                          onSelectSite(site.id);
+                          if (isOpen) onClose();
+                        }}
+                        className={`w-full flex items-center gap-2.5 px-3 py-[7px] rounded-md text-left transition-colors duration-150 group ${
+                          isCurrent ? 'bg-raised shadow-panel' : 'hover:bg-hover'
+                        }`}
+                      >
+                        <span
+                          className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                            site.targetBody === 'Mars' ? 'bg-mars' : 'bg-moon'
+                          }`}
+                        />
+                        <span
+                          className={`text-[12px] truncate transition-colors duration-150 ${
+                            isCurrent ? 'text-ink font-medium' : 'text-ink-2 group-hover:text-ink'
+                          }`}
+                        >
+                          {site.shortName}
+                        </span>
+                        <span className="ml-auto font-mono text-[10.5px] text-ink-3 tnum">
+                          {site.siScore.toFixed(1)}
+                        </span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+/* ------------------------------------------------------------------ */
 
 export const Sidebar: React.FC<SidebarProps> = ({
   activeView,
@@ -89,7 +247,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         className="text-left px-6 pt-7 pb-6 border-b border-line w-full hover:bg-hover transition-colors group"
       >
         <span className="flex items-center gap-2.5">
-          <span className="w-6 h-6 rounded-[7px] border border-accent/40 bg-accent/12 flex items-center justify-center shrink-0">
+          <span className="w-6 h-6 rounded-[7px] border border-accent/40 bg-accent/12 flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110">
             <span className="w-2 h-2 rounded-full bg-accent" />
           </span>
           <span className="text-[19px] font-bold tracking-tight text-ink leading-none">
@@ -101,109 +259,43 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </span>
       </button>
 
-      <nav className="flex-1 px-3 pt-5 space-y-0.5 overflow-y-auto" aria-label="Primary">
-        {NAV_ITEMS.map((item) => {
-          const isActive =
-            item.view === activeView &&
-            (item.view !== 'purpose-group' || item.groupId === activePurposeGroupId);
-
-          return (
-            <button
-              key={item.label}
-              onClick={() => {
-                onNavigate(item.view, item.groupId);
-                if (isOpen) onClose();
-              }}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
-                isActive ? 'bg-raised text-ink shadow-panel' : 'text-ink-2 hover:text-ink hover:bg-hover'
-              }`}
-              aria-current={isActive ? 'page' : undefined}
-            >
-              <span
-                className="w-[2px] self-stretch rounded-full transition-colors"
-                style={{
-                  backgroundColor: isActive
-                    ? item.tickColor === 'transparent'
-                      ? 'var(--accent)'
-                      : item.tickColor
-                    : 'transparent',
-                }}
-              />
-              <span className={isActive ? 'text-ink' : 'text-ink-3'}>
-                {item.icon}
-              </span>
-              <span className="flex flex-col">
-                <span className="text-[13px] font-medium leading-tight">{item.label}</span>
-                <span className="text-[10.5px] text-ink-3 leading-tight mt-0.5">{item.hint}</span>
-              </span>
-            </button>
-          );
-        })}
-
-        {/* Site index */}
-        <div className="px-3 pt-7">
-          <div className="px-3 pb-2 font-mono text-[10px] tracking-[0.12em] text-ink-3 uppercase">
-            Catalog sites
-          </div>
-
-          {(['rover-mobility', 'surface-science'] as PurposeGroupId[]).map((groupId) => {
-            const groupSites = sites.filter((s) => s.purposeGroup === groupId);
-            if (groupSites.length === 0) return null;
-
-            return (
-              <div key={groupId} className="mb-4">
-                <div className="px-3 pb-1.5 text-[10px] tracking-wide text-ink-3/80">{GROUP_LABELS[groupId]}</div>
-                <ul className="space-y-px">
-                  {groupSites.map((site) => {
-                    const isOpen = site.id === activeSiteId;
-                    return (
-                      <li key={site.id}>
-                        <button
-                          onClick={() => {
-                            onSelectSite(site.id);
-                            if (isOpen) onClose();
-                          }}
-                          className={`w-full flex items-center gap-2.5 px-3 py-[7px] rounded-md text-left transition-colors group ${
-                            isOpen ? 'bg-raised shadow-panel' : 'hover:bg-hover'
-                          }`}
-                        >
-                          <span
-                            className={`w-1.5 h-1.5 rounded-full shrink-0 ${
-                              site.targetBody === 'Mars' ? 'bg-mars' : 'bg-moon'
-                            }`}
-                          />
-                          <span
-                            className={`text-[12px] truncate transition-colors ${
-                              isOpen
-                                ? 'text-ink font-medium'
-                                : 'text-ink-2 group-hover:text-ink'
-                            }`}
-                          >
-                            {site.shortName}
-                          </span>
-                          <span className="ml-auto flex items-center gap-2 shrink-0">
-                            <span className="font-mono text-[10.5px] text-ink-3 tnum">
-                              {site.siScore.toFixed(1)}
-                            </span>
-                          </span>
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            );
-          })}
-        </div>
-      </nav>
+      <SidebarNav
+        activeView={activeView}
+        activePurposeGroupId={activePurposeGroupId}
+        onNavigate={onNavigate}
+        onSelectSite={onSelectSite}
+        isOpen={isOpen}
+        onClose={onClose}
+        sites={sites}
+        activeSiteId={activeSiteId}
+      />
 
       {/* Theme switch */}
       <button
         onClick={onToggleTheme}
-        className="mx-4 mb-3 flex items-center gap-2.5 rounded-lg border border-line bg-canvas px-3 py-2 text-[12.5px] text-ink-2 hover:text-ink hover:border-line-strong transition-colors"
+        className="mx-4 mb-3 flex items-center gap-2.5 rounded-lg border border-line bg-canvas px-3 py-2 text-[12.5px] text-ink-2 hover:text-ink hover:border-line-strong transition-colors duration-200"
         aria-label={`Switch to ${theme === 'day' ? 'night' : 'day'} view`}
       >
-        {theme === 'day' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+        <span className="relative w-4 h-4 flex items-center justify-center">
+          <span
+            className={`absolute inset-0 flex items-center justify-center transition-all duration-300 ${
+              theme === 'day'
+                ? 'rotate-0 opacity-100'
+                : 'rotate-90 opacity-0'
+            }`}
+          >
+            <Moon className="w-4 h-4" />
+          </span>
+          <span
+            className={`absolute inset-0 flex items-center justify-center transition-all duration-300 ${
+              theme === 'day'
+                ? '-rotate-90 opacity-0'
+                : 'rotate-0 opacity-100'
+            }`}
+          >
+            <Sun className="w-4 h-4" />
+          </span>
+        </span>
         <span className="font-medium">{theme === 'day' ? 'Night view' : 'Day view'}</span>
       </button>
 
@@ -234,20 +326,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Mobile slide-over */}
       <div
-        className={`fixed inset-0 z-50 lg:hidden transition-opacity ${
+        className={`fixed inset-0 z-50 lg:hidden transition-opacity duration-200 ${
           isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
       >
         <div className="absolute inset-0 bg-black/70" onClick={onClose} />
         <aside
-          className={`absolute inset-y-0 left-0 w-[280px] bg-surface border-r border-line transition-transform ${
+          className={`absolute inset-y-0 left-0 w-[280px] bg-surface border-r border-line transition-transform duration-300 ease-out ${
             isOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
           <button
             onClick={onClose}
             aria-label="Close navigation"
-            className="absolute top-4 right-4 p-2 text-ink-3 hover:text-ink"
+            className="absolute top-4 right-4 p-2 text-ink-3 hover:text-ink transition-colors"
           >
             <X className="w-5 h-5" />
           </button>

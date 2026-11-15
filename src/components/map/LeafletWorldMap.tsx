@@ -90,6 +90,7 @@ export const LeafletWorldMap: React.FC<LeafletWorldMapProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const markersRef = useRef<L.LayerGroup | null>(null);
+  const zoomControlRef = useRef<L.Control.Zoom | null>(null);
   const baseLayerRef = useRef<L.TileLayer | null>(null);
   const polygonsRef = useRef<L.Polygon[]>([]);
   const hasFramedRef = useRef(false);
@@ -113,7 +114,15 @@ export const LeafletWorldMap: React.FC<LeafletWorldMapProps> = ({
       fadeAnimation: false,
     });
 
-    L.control.zoom({ position: 'topright' }).addTo(map);
+    const zoomControl = L.control.zoom({ position: 'topright' }).addTo(map);
+    zoomControlRef.current = zoomControl;
+
+    // On narrow screens the zoom control moves out of the way of the pins
+    const placeZoomControl = () => {
+      zoomControl.setPosition(window.innerWidth < 640 ? 'bottomleft' : 'topright');
+    };
+    placeZoomControl();
+    window.addEventListener('resize', placeZoomControl);
 
     const attribution = L.control.attribution({ position: 'bottomright', prefix: false }).addTo(map);
     attribution.addAttribution(ATTRIBUTION);
@@ -124,6 +133,7 @@ export const LeafletWorldMap: React.FC<LeafletWorldMapProps> = ({
     mapRef.current = map;
 
     return () => {
+      window.removeEventListener('resize', placeZoomControl);
       map.remove();
       mapRef.current = null;
     };
@@ -183,7 +193,14 @@ export const LeafletWorldMap: React.FC<LeafletWorldMapProps> = ({
     // Frame the whole catalog on first load (once), then respect the user's view
     if (!hasFramedRef.current && analogs.length > 0) {
       const bounds = L.latLngBounds(analogs.map((s) => [s.coordinates.lat, s.coordinates.lng]));
-      map.fitBounds(bounds, { padding: [70, 70], maxZoom: 3, animate: false });
+      const narrow = window.innerWidth < 640;
+      map.fitBounds(bounds, {
+        padding: narrow ? [18, 28] : [70, 70],
+        // A narrow viewport can't fit the full catalog span at zoom 3 —
+        // cap the frame so every pin starts on screen.
+        maxZoom: narrow ? 2 : 3,
+        animate: false,
+      });
       hasFramedRef.current = true;
     }
 
@@ -298,7 +315,11 @@ export const LeafletWorldMap: React.FC<LeafletWorldMapProps> = ({
     if (selectedAnalogId) {
       const site = analogs.find((s) => s.id === selectedAnalogId);
       if (site) {
-        map.flyTo([site.coordinates.lat, site.coordinates.lng], 5, { duration: 1.1 });
+        map.flyTo(
+          [site.coordinates.lat, site.coordinates.lng],
+          window.innerWidth < 640 ? 4 : 5,
+          { duration: 1.1 }
+        );
       }
     }
   }, [analogs, selectedAnalogId]);
