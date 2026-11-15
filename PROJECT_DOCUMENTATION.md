@@ -4,7 +4,7 @@
 > **Mission Scope:** Geospatial, Geomechanical, and Geochemical Intelligence for Terrestrial Planetary Analogs  
 > **Target Bodies:** Mars (*Nili Fossae, Utopia & Chryse Planitiae, mid-latitude ice*) & Moon (*highlands crust & regolith*)  
 > **Core Provinces:** Antarctica, South Asia (India & Pakistan), East Asia (China & Japan), South America (Argentina)  
-> **Data Sources:** *Final Analog Data for Surface Science* (site dossiers, figures, scores) · *Characteristic metric matrix* (mobility matrix, scoring rule, site profiles)
+> **Data Sources:** *Final Analog Data for Surface Science* (surface-science dossiers, Figures 1–8, scores) · *Characteristic metric matrix* — `Nasa Proj.docx` (mobility matrix, scoring rule, site profiles, mobility figures) and its PDF export (piecewise score rule, slope derivations, calculation summary)
 
 ---
 
@@ -54,7 +54,7 @@ However, most public catalogs rely almost exclusively on standard, heavily-used 
 Analog Atlas organizes all terrestrial candidates into two primary purpose groups, with 4 verified candidates per group:
 
 ### Group 1: Robotic Rover Mobility & Terrain Operations
-Focuses on terramechanics, wheel-soil interaction, steep-slope stability, obstacle avoidance, chassis ground clearance, and slip detection algorithms. Source: *Characteristic metric matrix*.
+Focuses on terramechanics, wheel-soil interaction, steep-slope stability, obstacle avoidance, chassis ground clearance, and slip detection algorithms. Source: *Characteristic metric matrix* (`Nasa Proj.docx` and its PDF export).
 * **Qaidam Basin, China:** Yardangs and ridge complexes for ridge navigation and obstacle mapping against Nili Fossae; the only site with supplied geometry (SI 62.5, EC 12.5).
 * **Puna, Argentina:** Gravel megaripples and yardangs standing in for transverse aeolian ridges of Utopia and Oxia Planum (SI 50.0, EC 0).
 * **Chandragup I, Pakistan:** Mud-volcano cones for cone mapping and terrain navigation against Utopia Planitia (SI 50.0, EC 0).

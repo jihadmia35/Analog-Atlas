@@ -131,13 +131,13 @@ export const ResourcesPage: React.FC = () => {
       <section className="py-8 border-t border-[#161B22]">
         <h2 className="text-[17px] font-bold text-ink mb-3">Imagery &amp; attribution</h2>
         <p className="text-[13px] text-ink-2 max-w-[74ch] leading-relaxed">
-          Terrestrial site photographs are drawn from Wikimedia Commons under their respective
-          Creative Commons or public-domain terms, credited in each dossier caption. Planetary
-          reference imagery comes from the NASA image library (public domain), including the
-          Nili Fossae, aeolian draa, Utopia Planitia mud-volcano and Chryse pitted-cone
-          observations, the Apollo 17 lunar highlands traverse map and LRO highlands imagery.
-          Figures for the surface-science profiles are reproduced from the Final Analog Data for
-          Surface Science dossier. Basemap tiles are served by Esri.
+          Every comparison pair is reproduced from the supplied project dossiers: the rover-mobility
+          figures come from the <em className="not-italic text-ink">Characteristic metric matrix</em>{' '}
+          (Nasa Proj.docx), and the surface-science figures from{' '}
+          <em className="not-italic text-ink">Final Analog Data for Surface Science</em>. Planetary
+          reference frames in those dossiers are NASA and LRO products in the public domain, and
+          terrestrial site photography carries the credits printed in the source material. Basemap
+          tiles are served by Esri.
         </p>
       </section>
 

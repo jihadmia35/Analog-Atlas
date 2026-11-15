@@ -277,14 +277,13 @@ export const ANALOG_SITES: AnalogSite[] = [
     shortSummary:
       'Ridge navigation and obstacle-mapping analog: the yardangs and ridge complexes of the Qaidam Basin stand in for the Nili Fossae ridge systems.',
     heroImage: '/images/qaidam-basin-earth.jpg',
-    targetImage: '/images/nili-fossae.jpg',
-    heroCaption:
-      'Qaidam Basin landscape, Qinghai, China — David Rubin, U.S. Geological Survey / Wikimedia Commons (public domain)',
-    targetCaption: 'Nili Fossae, Mars — NASA/JPL/USGS / Wikimedia Commons (public domain)',
+    targetImage: '/images/nili-fossae-ridges.jpg',
+    heroCaption: 'Qaidam Basin, China (Earth) — Figure, Characteristic metric matrix',
+    targetCaption: 'Nili Fossae ridges and dunes (Mars) — Figure, Characteristic metric matrix',
     ecScore: 12.5,
     siScore: 62.5,
     scoreNote:
-      'SI = 100 × (0.25×1.00 + 0.25×0.50 + 0.25×0.50 + 0.25×0.50) = 62.5.  EC = 100 × (0.25×0.5) = 12.5%.',
+      'SI = 100 × (0.25×1.00 + 0.25×0.50 + 0.25×0.50 + 0.25×0.50) = 62.5.  EC = 100 × (0.25×0.5 + 0 + 0 + 0) = 12.5%.',
     terrainType: 'Eolian Ridge Complex & Yardangs',
     metricValues: [
       {
@@ -396,11 +395,11 @@ export const ANALOG_SITES: AnalogSite[] = [
       'Mars target · gravel-bedform mobility · Earth: Puna · Mars: Utopia Planitia / Oxia Planum · SI 50.0 · EC 0',
     shortSummary:
       'Gravel-bedform mobility analog: gravel megaripples and yardangs of the Puna stand in for the transverse aeolian ridges of Utopia and Oxia Planum.',
-    heroImage: '/images/puna-earth.jpg',
-    targetImage: '/images/mars-draa.jpg',
-    heroCaption:
-      'Campo de Piedra Pómez, Catamarca, Argentina — Rodolfo Pace / Wikimedia Commons (CC BY 2.0)',
-    targetCaption: 'The Draa of Mars, aeolian ridge field — NASA/JPL-Caltech (public domain)',
+    heroImage: '/images/puna-megaripples.jpg',
+    targetImage: '/images/utopia-crater-ridge.jpg',
+    heroCaption: 'Puna, Argentina, gravel megaripples (Earth) — Figure, Characteristic metric matrix',
+    targetCaption:
+      'Utopia Planitia crater and ridge (Mars) — Figure, Characteristic metric matrix',
     ecScore: 0,
     siScore: 50.0,
     scoreNote: 'SI = 100 × (0.25×0.50 × 4) = 50.0.  EC = 100 × (0.25×0 × 4) = 0%.',
@@ -502,12 +501,12 @@ export const ANALOG_SITES: AnalogSite[] = [
       'Mars target · cone mapping and terrain navigation · Earth: Chandragup I · Mars: Utopia Planitia · SI 50.0 · EC 0',
     shortSummary:
       'Cone mapping and terrain-navigation analog: the mud-volcano cones of Chandragup I stand in for the conical mounds of Utopia Planitia.',
-    heroImage: '/images/chandragup-earth.jpg',
+    heroImage: '/images/chandragup-mud-volcano.jpg',
     targetImage: '/images/utopia-mud-volcanoes.jpg',
     heroCaption:
-      'Chandragup I mud volcano, Sindh, Pakistan — Ahsan Mansoor Khan / Wikimedia Commons (CC BY-SA 4.0)',
+      'Chandragup I mud volcano, Pakistan (Earth) — Figure, Characteristic metric matrix',
     targetCaption:
-      'Candidate mud volcanoes in Utopia Planitia, Mars — NASA/JPL-Caltech/MSSS (public domain)',
+      'Utopia Planitia possible mud-volcano terrain (Mars) — Figure, Characteristic metric matrix',
     ecScore: 0,
     siScore: 50.0,
     scoreNote: 'SI = 100 × (0.25×0.50 × 4) = 50.0.  EC = 100 × (0.25×0 × 4) = 0%.',
@@ -520,7 +519,7 @@ export const ANALOG_SITES: AnalogSite[] = [
           'Cones 10–100 m high on 200–1,100 m bases give 5.7° (10 m on 200 m) to 10.3° (100 m on 1,100 m). Baseline 12°–31°, σ = 4.5°',
         individualScore: 0.5,
         notes:
-          'No Earth angle can be derived without a base width, so the site stays neutral. The Mars values sit at or below the baseline’s low edge. s = 0.50, q = 0.'
+          'No Earth angle can be derived without a base width, so the site stays neutral. Mars values sit at or below the baseline’s low edge. s = 0.50, q = 0.'
       },
       {
         metricId: 'rock-cfa',
@@ -615,11 +614,11 @@ export const ANALOG_SITES: AnalogSite[] = [
       'Mars target · irregular terrain mapping · Earth: Baratang · Mars: Chryse and Acidalia Planitiae · SI 50.0 · EC 0',
     shortSummary:
       'Irregular terrain-mapping analog: the mud-volcano field of Baratang stands in for the pitted cones of Chryse and Acidalia Planitiae.',
-    heroImage: '/images/baratang-earth.jpg',
+    heroImage: '/images/baratang-mud-volcano.jpg',
     targetImage: '/images/chryse-pitted-cones.jpg',
-    heroCaption:
-      'Mud volcano, Baratang Island, Andaman Island, India — Harvinder Chandigarh / Wikimedia Commons (CC BY-SA 4.0)',
-    targetCaption: 'Pitted cones, Chryse Planitia, Mars — NASA/JPL-Caltech/MSSS (public domain)',
+    heroCaption: 'Baratang mud volcano, India (Earth) — Figure, Characteristic metric matrix',
+    targetCaption:
+      'Pitted cones, Chryse and Acidalia Planitiae (Mars) — Figure, Characteristic metric matrix',
     ecScore: 0,
     siScore: 50.0,
     scoreNote: 'SI = 100 × (0.25×0.50 × 4) = 50.0.  EC = 100 × (0.25×0 × 4) = 0%.',
