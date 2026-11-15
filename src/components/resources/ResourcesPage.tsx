@@ -133,10 +133,11 @@ export const ResourcesPage: React.FC = () => {
         <p className="text-[13px] text-ink-2 max-w-[74ch] leading-relaxed">
           Terrestrial site photographs are drawn from Wikimedia Commons under their respective
           Creative Commons or public-domain terms, credited in each dossier caption. Planetary
-          reference imagery comes from the NASA image library (public domain), including Curiosity
-          Navcam and Mastcam frames from Gale Crater, Perseverance views of Jezero Crater, the
-          Clementine south-polar mosaic, and LRO imagery of the Marius Hills region. Basemap tiles
-          are served by Esri.
+          reference imagery comes from the NASA image library (public domain), including the
+          Nili Fossae, aeolian draa, Utopia Planitia mud-volcano and Chryse pitted-cone
+          observations, the Apollo 17 lunar highlands traverse map and LRO highlands imagery.
+          Figures for the surface-science profiles are reproduced from the Final Analog Data for
+          Surface Science dossier. Basemap tiles are served by Esri.
         </p>
       </section>
 
@@ -153,27 +154,21 @@ export const ResourcesPage: React.FC = () => {
                 {ref.year}
               </span>
               <div className="min-w-0 border-b border-line pb-5 flex-1">
-                <a
-                  href={`https://doi.org/${ref.doi}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-[14px] text-ink font-semibold leading-snug hover:text-mars transition-colors"
-                >
-                  {ref.title}
-                </a>
-                <div className="text-[12.5px] text-ink-3 mt-1">
-                  {ref.authors} · <em className="not-italic text-ink-2">{ref.journal}</em>
-                </div>
+                <p className="text-[14px] text-ink font-semibold leading-snug">{ref.citation}</p>
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1.5">
-                  <a
-                    href={`https://doi.org/${ref.doi}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-1 font-mono text-[11.5px] text-accent hover:text-mars transition-colors"
-                  >
-                    doi:{ref.doi}
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
+                  {ref.doi ? (
+                    <a
+                      href={`https://doi.org/${ref.doi}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1 font-mono text-[11.5px] text-accent hover:text-mars transition-colors"
+                    >
+                      doi:{ref.doi}
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  ) : (
+                    <span className="font-mono text-[11.5px] text-ink-3">no DOI listed</span>
+                  )}
                   <span className="font-mono text-[10.5px] text-ink-3 uppercase tracking-wide">
                     {ref.category}
                   </span>

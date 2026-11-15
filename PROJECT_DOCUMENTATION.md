@@ -2,8 +2,9 @@
 
 > **Platform Name:** Analog Atlas  
 > **Mission Scope:** Geospatial, Geomechanical, and Geochemical Intelligence for Terrestrial Planetary Analogs  
-> **Target Bodies:** Mars (*Noachian/Hesperian Basaltic Plains, Paleolakes & Calderas*) & Moon (*South Pole Highlands & Subsurface Volcanic Pits*)  
-> **Core Provinces:** South Asia (India), Iceland, and North America (USA)  
+> **Target Bodies:** Mars (*Nili Fossae, Utopia & Chryse Planitiae, mid-latitude ice*) & Moon (*highlands crust & regolith*)  
+> **Core Provinces:** Antarctica, South Asia (India & Pakistan), East Asia (China & Japan), South America (Argentina)  
+> **Data Sources:** *Final Analog Data for Surface Science* (site dossiers, figures, scores) · *Characteristic metric matrix* (mobility matrix, scoring rule, site profiles)
 
 ---
 
@@ -18,14 +19,14 @@
    - [Characteristic Metric Matrices & Weight Allocation](#characteristic-metric-matrices--weight-allocation)
    - [Variable Definitions & Planetary Tolerances](#variable-definitions--planetary-tolerances)
 4. [Detailed Catalog of Curated Earth Analogs](#4-detailed-catalog-of-curated-earth-analogs)
-   - [Site 1: Askja Caldera & Dyngjusandur Ash Desert (Iceland)](#site-1-askja-caldera--dyngjusandur-ash-desert-iceland)
-   - [Site 2: Kilbourne Hole Maar Volcanic Crater (USA)](#site-2-kilbourne-hole-maar-volcanic-crater-usa)
-   - [Site 3: Lonar Basaltic Impact Crater (India)](#site-3-lonar-basaltic-impact-crater-india)
-   - [Site 4: Alvord Desert Hardened Playa & Silt Flats (USA)](#site-4-alvord-desert-hardened-playa--silt-flats-usa)
-   - [Site 5: Ladakh High-Altitude Permafrost & Puga Valley (India)](#site-5-ladakh-high-altitude-permafrost--puga-valley-india)
-   - [Site 6: Krafla Volcanic Center & Hverfjall Silica Sinters (Iceland)](#site-6-krafla-volcanic-center--hverfjall-silica-sinters-iceland)
-   - [Site 7: Great Rann of Kutch Halite & Sulfate Evaporite Flats (India)](#site-7-great-rann-of-kutch-halite--sulfate-evaporite-flats-india)
-   - [Site 8: Craters of the Moon Basalt Rift & Lava Tubes (USA)](#site-8-craters-of-the-moon-basalt-rift--lava-tubes-usa)
+   - [Site 1: Qaidam Basin, China (Mars — Nili Fossae ridges)](#site-1-qaidam-basin-china-mars--nili-fossae-ridges)
+   - [Site 2: Puna, Argentina (Mars — transverse aeolian ridges)](#site-2-puna-argentina-mars--transverse-aeolian-ridges)
+   - [Site 3: Chandragup I, Pakistan (Mars — Utopia Planitia cones)](#site-3-chandragup-i-pakistan-mars--utopia-planitia-cones)
+   - [Site 4: Baratang Mud Volcano Field, India (Mars — pitted cones)](#site-4-baratang-mud-volcano-field-india-mars--pitted-cones)
+   - [Site 5: Beacon Valley, Antarctica (Mars — mid-latitude ice)](#site-5-beacon-valley-antarctica-mars--mid-latitude-ice)
+   - [Site 6: Miyake-jima, Japan (Moon — highlands crust)](#site-6-miyake-jima-japan-moon--highlands-crust)
+   - [Site 7: Sittampundi Anorthosite Complex, India (Moon — highlands regolith)](#site-7-sittampundi-anorthosite-complex-india-moon--highlands-regolith)
+   - [Site 8: Lonar Crater, India (Mars — basaltic craters)](#site-8-lonar-crater-india-mars--basaltic-craters)
 5. [Limitations & Terrestrial Mismatch Disclosures](#5-limitations--terrestrial-mismatch-disclosures)
 6. [Frontend UI/UX Specification & Design System](#6-frontend-uiux-specification--design-system)
 7. [Academic Bibliography & Planetary Datasets](#7-academic-bibliography--planetary-datasets)
@@ -37,7 +38,7 @@
 
 Developing space missions to Mars and the Moon requires rigorous pre-flight testing of rover robotics, autonomous navigation algorithms, in-situ resource utilization (ISRU) instruments, and geochemical analytical payloads. Because testing in actual planetary environments is physically impossible prior to flight, mission designers rely on **Terrestrial Earth Analogs**.
 
-However, most public catalogs rely almost exclusively on standard, heavily-used NASA desert locations (e.g., Death Valley, Mojave Desert, Atacama). **Analog Atlas** bridges this gap by cataloging **niche, scientifically authentic Earth candidates** across **South Asia, Iceland, and the Americas** that replicate the specific physical, geomechanical, and astrobiological characteristics of target Martian and Lunar sites.
+However, most public catalogs rely almost exclusively on standard, heavily-used NASA desert locations (e.g., Death Valley, Mojave Desert, Atacama). **Analog Atlas** bridges this gap by cataloging **niche, scientifically authentic Earth candidates** across **Antarctica, South Asia, East Asia and South America** that replicate the specific physical, geomechanical, and astrobiological characteristics of target Martian and Lunar sites. Every published reading, score, figure and citation in the catalog is taken directly from the supplied source dossiers rather than estimated.
 
 ### Key Objectives
 * **Purpose-Driven Partitioning:** Explicitly separate analogs into mechanical mobility vs geochemical surface science.
@@ -53,18 +54,18 @@ However, most public catalogs rely almost exclusively on standard, heavily-used 
 Analog Atlas organizes all terrestrial candidates into two primary purpose groups, with 4 verified candidates per group:
 
 ### Group 1: Robotic Rover Mobility & Terrain Operations
-Focuses on terramechanics, wheel-soil interaction, steep-slope stability, obstacle avoidance, chassis ground clearance, and slip detection algorithms.
-* **Askja Caldera & Dyngjusandur Ash Desert (Iceland):** Uncompacted basaltic pumice & volcanic ash replicating Martian low-density ripple sinkage.
-* **Kilbourne Hole Maar Crater (New Mexico, USA):** Steep talus ramps ($28^\circ-34^\circ$) and dense mantle xenolith boulder fields matching Lunar South Pole crater rims.
-* **Lonar Impact Crater Ejecta Slopes (Maharashtra, India):** Rare basaltic hypervelocity impact crater on Earth, providing shocked breccias matching Jezero Crater ejecta blocks.
-* **Alvord Desert Hardened Playa (Oregon, USA):** Hard desiccation mudcrack crust overlying unconsolidated silt, simulating the martian duricrust breakthrough hazards that trapped the Spirit rover.
+Focuses on terramechanics, wheel-soil interaction, steep-slope stability, obstacle avoidance, chassis ground clearance, and slip detection algorithms. Source: *Characteristic metric matrix*.
+* **Qaidam Basin, China:** Yardangs and ridge complexes for ridge navigation and obstacle mapping against Nili Fossae; the only site with supplied geometry (SI 62.5, EC 12.5).
+* **Puna, Argentina:** Gravel megaripples and yardangs standing in for transverse aeolian ridges of Utopia and Oxia Planum (SI 50.0, EC 0).
+* **Chandragup I, Pakistan:** Mud-volcano cones for cone mapping and terrain navigation against Utopia Planitia (SI 50.0, EC 0).
+* **Baratang Mud Volcano Field, India:** Irregular mud-volcano terrain for mapping pitted cones of Chryse and Acidalia Planitiae (SI 50.0, EC 0).
 
 ### Group 2: Surface Science & Resource Investigation
-Focuses on mineralogical fidelity, biosignature taphonomy, paleolake evaporite sequences, extreme environment survival, and subsurface exploration.
-* **Ladakh High-Altitude Permafrost & Puga Valley (Himalayas, India):** Extreme cold, hypobaric conditions, intense solar UV, and hydrothermal borate-sulfate springs.
-* **Krafla Center & Hverfjall Sinters (Mývatn, Iceland):** Acid-sulfate leaching and opalline silica sinter mounds identical to Spirit rover's Home Plate discovery.
-* **Great Rann of Kutch Evaporite Flats (Gujarat, India):** Massive hypersaline halite-gypsum-jarosite playa replicating desiccating Martian lake mudstones at Mount Sharp.
-* **Craters of the Moon Basalt Rift & Lava Tubes (Idaho, USA):** Holocene tholeiitic basalt flows and cavernous intact lava tubes analogous to Lunar Marius Hills volcanic skylights.
+Focuses on mineralogical fidelity, biosignature taphonomy, evaporite geochemistry, extreme environment survival, and subsurface exploration. Source: *Final Analog Data for Surface Science*.
+* **Beacon Valley, Antarctica:** Massive ground ice beneath a sublimation residue — the reference analog for Martian mid-latitude ice (SI 50.0, EC 0).
+* **Miyake-jima, Japan:** High-calcic plagioclase and ferroan anorthosite for lunar highland crust (SI 57.5, EC 15).
+* **Sittampundi Anorthosite Complex, India:** Highland anorthosite and regolith engineering — source of the LSS-ISAC-1 lunar simulant (SI 50.0, EC 15).
+* **Lonar Crater, India:** Basaltic impact crater with post-impact hydrothermal alteration for Martian basaltic craters (SI 50.0, EC 15).
 
 ---
 
@@ -73,29 +74,37 @@ Focuses on mineralogical fidelity, biosignature taphonomy, paleolake evaporite s
 The evaluation of Earth analogs is anchored by two objective mathematical formulations: the **Similarity Index ($SI$)** and the **Environmental Correspondence Index ($EC$)**.
 
 ### The Similarity Index ($SI$)
-The Similarity Index quantifies the multi-dimensional proximity of measured Earth characteristics to known planetary baselines, applying an exponential penalty for deviations beyond an empirical tolerance threshold:
+The Similarity Index quantifies the multi-dimensional proximity of measured Earth characteristics to known planetary baselines. A reading inside the baseline range scores the characteristic in full; a reading outside decays linearly over two tolerances; a characteristic with no site data stays neutral:
 
-$$\text{SI} = \sum_{i=1}^{n} w_i \cdot \exp\left( - \frac{|x_i - x_{\text{baseline}}|}{\sigma_i} \right) \times 100\%$$
+$$
+s_i = \begin{cases} 1 & x_i \in [x_{\min}, x_{\max}] \\[2pt] \max\!\left(0,\; 1 - \frac{d_i}{2\sigma_i}\right) & \text{outside the baseline range} \\[2pt] 0.5 & \text{no site data} \end{cases}
+$$
+
+$$
+SI = 100 \sum_{i=1}^{4} w_i\, s_i
+$$
 
 Where:
-* $w_i \in [0, 1]$ is the normalized weight of characteristic $i$, with $\sum_{i=1}^{n} w_i = 1.0$.
+* $w_i \in [0, 1]$ is the normalized weight of characteristic $i$, with $\sum_{i=1}^{n} w_i = 1.0$ (0.25 each in the mobility matrix).
 * $x_i$ is the empirical value measured in-situ or via laboratory assay at the Earth analog.
-* $x_{\text{baseline}}$ is the target planetary reference value derived from orbital remote sensing (HiRISE, CRISM, LROC) or surface rover telemetry (Curiosity APXS, Perseverance PIXL, Apollo soil mechanics).
-* $\sigma_i$ is the planetary variance tolerance window representing permissible deviation before engineering or scientific fidelity significantly degrades.
+* $d_i$ is the distance from the site value to the nearest baseline bound.
+* $\sigma_i$ is the planetary variance tolerance window representing permissible deviation before engineering or scientific fidelity significantly degrades. The 2σ decay gives $s = 0.50$ at one tolerance outside the range and 0 at two.
 
 ### The Environmental Correspondence Index ($EC$)
-The Environmental Correspondence Index aggregates the physical and mechanical boundary conditions:
+The Environmental Correspondence Index weights the evidence behind each characteristic rather than the physical boundary conditions:
 
-$$\text{EC}_{\text{mobility}} = \left[ \frac{1}{4} \left( \frac{\tan\phi_{\text{analog}}}{\tan\phi_{\text{target}}} + \frac{\rho_{\text{bulk, analog}}}{\rho_{\text{bulk, target}}} + \frac{\text{CFA}_{\text{analog}}}{\text{CFA}_{\text{target}}} + \frac{\mu_{\text{traction, analog}}}{\mu_{\text{traction, target}}} \right) \right] \times 100\%$$
+$$
+EC = 100 \sum_{i=1}^{4} w_i\, q_i
+$$
 
-$$\text{EC}_{\text{science}} = \left[ 0.35 \cdot S_{\text{spectral}} + 0.30 \cdot G_{\text{chem}} + 0.20 \cdot B_{\text{preserv}} + 0.15 \cdot \left( 1 - \frac{\text{CIA}_{\text{analog}}}{100} \right) \right] \times 100\%$$
+Where $q_i$ is the evidence weight: 1 for a measured value, 0.5 for a value derived from other supplied data, and 0 where no data exists. Site scores therefore distinguish a well-characterised analog from an unmeasured candidate.
 
 ### Characteristic Metric Matrices & Weight Allocation
 
 #### Group 1: Mobility & Terramechanics Metrics
 | Metric Characteristic | Symbol | Weight ($w$) | Unit | Measurement Method | Planetary Target Baseline | Tolerance ($\sigma$) |
 | :--- | :---: | :---: | :---: | :--- | :--- | :---: |
-| **Slope Traverse Angle** | $\theta_{\max}$ | $0.25$ | Degrees ($^\circ$) | Terrestrial LiDAR DEM & UAV photogrammetry | $12^\circ - 31^\circ$ (Crater Wall & Scarp) | $\sigma = 4.5^\circ$ |
+| **Slope Traverse Angle** | $\theta_{\max}$ | $0.25$ | Degrees ($^\circ$) | Terrestrial LiDAR DEM & UAV photogrammetry | $12^\circ - 31^\circ$ (Jezero Delta Scarp / Lunar South Pole Crater Slopes) | $\sigma = 4.5^\circ$ |
 | **Rock Distribution (CFA)** | $k_{\text{cfa}}$ | $0.25$ | $\%$ CFA | 2D/3D Orthomosaic Segmentation (Golombek Model) | $7\% - 15\%$ Cumulative Fraction Area | $\sigma = 2.8\%$ |
 | **Bekker Soil Sinkage** | $k_c, k_\phi$ | $0.25$ | $\text{kN/m}^{n+1}$ | In-situ Bevameter & Cone Penetrometry | $0.8 - 3.2\text{ kN/m}^{n+1}$ (Bagnold Dunes) | $\sigma = 0.5$ |
 | **Cohesion & Friction** | $c, \phi$ | $0.25$ | $\text{kPa}, ^\circ$ | Direct Shear Box & Vane Testing (dry uncompacted) | $c = 0.15-0.75\text{ kPa}, \phi = 32^\circ-42^\circ$ | $\sigma_c = 0.18, \sigma_\phi = 3.5^\circ$ |
@@ -108,73 +117,90 @@ $$\text{EC}_{\text{science}} = \left[ 0.35 \cdot S_{\text{spectral}} + 0.30 \cdo
 | **Biosignature Preservation** | $B_{\text{preserv}}$ | $0.25$ | Score ($0-100$) | Pyrolysis GC-MS, TOC Assay & Raman | Opal-A Silica & Sulfate matrix hosts | $\sigma = 8.5$ |
 | **Diurnal Thermal & UV** | $\Delta T, \text{UV}$ | $0.20$ | $\text{K} \& \text{W/m}^2$ | Autonomous Met-Station & UV Radiometers | $\Delta T = 80-110\text{ K}$, High UV-B/C flux | $\sigma = 12\text{ K}$ |
 
+Slope angles for the mobility sites are mean flank angles derived from the supplied heights and widths, not DEM-measured slopes:
+
+$$
+\theta_{ridge} = \arctan\!\left(\frac{h}{w}\right) \qquad \theta_{cone} = \arctan\!\left(\frac{2h}{w}\right)
+$$
+
+### Calculation Summary (Mobility Group)
+
+Only Qaidam moves off the neutral score, because the supplied file gives geometry for one of the four characteristics at one site. Rock CFA, Bekker and cohesion/friction need new measurements at all four sites.
+
+| Site | Slope $s$ | CFA $s$ | Bekker $s$ | $c, \phi$ $s$ | SI (4-metric) | EC (4-metric) | SI in source file (6-metric) | EC in source file (6-metric) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| Qaidam Basin | 1.00 | 0.50 | 0.50 | 0.50 | 62.5 | 12.5% | 67.6 | 77.5% |
+| Puna | 0.50 | 0.50 | 0.50 | 0.50 | 50.0 | 0% | 61.3 | 60% |
+| Chandragup I | 0.50 | 0.50 | 0.50 | 0.50 | 50.0 | 0% | 57.5 | 30% |
+| Baratang | 0.50 | 0.50 | 0.50 | 0.50 | 50.0 | 0% | 43.8 | 47.5% |
+
 ---
 
 ## 4. Detailed Catalog of Curated Earth Analogs
 
-### Site 1: Askja Caldera & Dyngjusandur Ash Desert (Iceland)
-* **Coordinates:** $65^\circ 01'48''\text{ N}, 16^\circ 45'00''\text{ W}$ | **Elevation:** $800\text{ m}$
-* **Target Planetary Equivalent:** Mars Elysium Planitia & Gale Crater Bagnold Megaripples
-* **Scores:** $\text{EC} = 89.2\% \mid \text{SI} = 86.4\% \mid \text{Confidence} = 91.5\%$
-* **Terramechanical Profile:** Low bulk density ($1.28\text{ g/cm}^3$) basaltic pumice sand induces $25-40\%$ wheel slip, mirroring the high-sinkage terrain that trapped the Spirit rover.
-* **Evidence:** In-situ shear angle $\phi = 35.8^\circ$, cohesion $c = 0.22\text{ kPa}$, matching Martian uncompacted aeolian bedforms within $1.8^\circ$.
-* **Limitations:** Earth $1.0g$ gravity accelerates sinkage; sea-level atmospheric pressure allows aeolian movement at lower threshold wind velocities. Testing restricted to July–September.
+### Site 1: Qaidam Basin, China (Mars — Nili Fossae ridges)
+* **Coordinates:** $36^\circ 00'\text{ N}, 94^\circ 00'\text{ E}$ | **Province:** Qinghai
+* **Target Planetary Equivalent:** Nili Fossae ridge systems, Mars
+* **Scores:** $\text{SI} = 62.5\% \mid \text{EC} = 12.5\%$
+* **Mobility Profile:** Large ridge $4.70\text{ m}$ high $\times 11.80\text{ m}$ wide gives a derived flank angle of $21.7^\circ$ (small ridge $0.80\text{ m} \times 4.00\text{ m} \rightarrow 11.3^\circ$). The Nili Fossae large ridge is $4.00\text{ m} \times 13.40\text{ m} \rightarrow 16.6^\circ$. The Earth large ridge sits inside the $12^\circ - 31^\circ$ baseline: $s = 1.00$, $q = 0.5$.
+* **Evidence:** Gypsum content up to $96\%$ is reported; the Mars terrain model has $0.25\text{ m/pixel}$ resolution; named operations are rover navigation, 3D terrain mapping, Raman/LIBS analysis, XRD mineral identification and shallow drilling.
+* **Limitations:** Slopes are derived from height and width, so a uniform ridge profile is assumed; Earth ridge intersection angles are not yet measured; terrain-model resolution still needs extraction; Martian gypsum is not definitively confirmed.
 
-### Site 2: Kilbourne Hole Maar Volcanic Crater (New Mexico, USA)
-* **Coordinates:** $31^\circ 58'12''\text{ N}, 106^\circ 57'36''\text{ W}$ | **Elevation:** $1,280\text{ m}$
-* **Target Planetary Equivalent:** Lunar South Pole (Shackleton & Faustini Crater Rims)
-* **Scores:** $\text{EC} = 91.5\% \mid \text{SI} = 87.8\% \mid \text{Confidence} = 93.0\%$
-* **Terramechanical Profile:** Steep $28.4^\circ$ talus slopes with angular mantle xenolith (peridotite) ejecta, testing rover roll/pitch thresholds and obstacle avoidance.
-* **Evidence:** Shear parameters ($c = 0.58\text{ kPa}, \phi = 39.2^\circ$) closely align with Apollo core tube measurements of Lunar Mare soil ($c = 0.52\text{ kPa}, \phi = 38.0^\circ$).
-* **Limitations:** Earth $1.0g$ produces $6\times$ higher wheel ground pressure than Lunar gravity ($0.166g$). Desert scrub vegetation requires visual filtering.
+### Site 2: Puna, Argentina (Mars — transverse aeolian ridges)
+* **Coordinates:** $25^\circ 00'\text{ S}, 67^\circ 00'\text{ W}$ | **Province:** Puna de Atacama, Catamarca
+* **Target Planetary Equivalent:** Utopia Planitia / Oxia Planum, Mars
+* **Scores:** $\text{SI} = 50.0\% \mid \text{EC} = 0\%$
+* **Mobility Profile:** Bedform height was not retrieved and heights and widths are not paired, so no flank angle can be derived ($s = 0.50$, $q = 0$). Gravel-armoured deposits give a qualitative rock-frequency reading only; wheel–gravel interaction and slip are the named mission tests, but no Bekker $k$ values exist.
+* **Evidence:** Named operations are rover mobility testing, wheel–gravel interaction, bedform crossing, autonomous terrain mapping and slip investigation; rover crossing thresholds of $15\text{ cm}$ or $25\text{ cm}$ crests are considered cases.
+* **Limitations:** Megaripple height and wavelength must still be measured; the crossing thresholds are not a confirmed universal rover limit; rainfall (under $300\text{ mm/yr}$) and elevation (about $4,000\text{ m}$) are not directly comparable with Mars.
 
-### Site 3: Lonar Basaltic Impact Crater (Maharashtra, India)
-* **Coordinates:** $19^\circ 58'36''\text{ N}, 76^\circ 30'30''\text{ E}$ | **Elevation:** $563\text{ m}$
-* **Target Planetary Equivalent:** Martian Basaltic Impact Craters (Jezero Crater Rim & Ejecta Blankets)
-* **Scores:** $\text{EC} = 90.1\% \mid \text{SI} = 88.5\% \mid \text{Confidence} = 92.4\%$
-* **Terramechanical Profile:** Pristine impact structure in flood basalt (Deccan Traps). Outer ramparts contain shocked basalt, maskelynite, and shatter breccia blocks.
-* **Evidence:** Target lithology is $100\%$ continental tholeiite basalt with angular block sphericity $\Psi = 0.45-0.62$, matching Perseverance Navcam observations at Jezero.
-* **Limitations:** Monsoonal humidity generates secondary smectite clay alteration; tropical vegetation on outer rim requires conducting tests during the dry winter window (December–March).
+### Site 3: Chandragup I, Pakistan (Mars — Utopia Planitia cones)
+* **Coordinates:** $25^\circ 24'\text{ N}, 66^\circ 36'\text{ E}$ | **Province:** Chandragup Hills, Sindh
+* **Target Planetary Equivalent:** Utopia Planitia cones, Mars
+* **Scores:** $\text{SI} = 50.0\% \mid \text{EC} = 0\%$
+* **Mobility Profile:** The cone is about $90\text{ m}$ high but no base width is established, so no Earth flank angle can be derived. Martian cones are $10 - 100\text{ m}$ high on $200 - 1,100\text{ m}$ bases, giving $5.7^\circ - 10.3^\circ$, at or below the low edge of the baseline. Mud and fluid deposits are present but no Bekker $k$ values were measured.
+* **Evidence:** Named operations are rover cone mapping, cone-height measurement, remote gas sensing, sediment sampling, subsurface radar and autonomous terrain classification; methane-rich fluids are reported regionally.
+* **Limitations:** The $90\text{ m}$ cone height needs primary-source verification; base width, surface temperature and pH are not established; the gas report is regional, not site-specific; the Martian height and width ranges are unpaired, so $5.7^\circ$ and $10.3^\circ$ are illustrative cases.
 
-### Site 4: Alvord Desert Hardened Playa & Silt Flats (Oregon, USA)
-* **Coordinates:** $42^\circ 31'48''\text{ N}, 118^\circ 27'00''\text{ W}$ | **Elevation:** $1,220\text{ m}$
-* **Target Planetary Equivalent:** Martian Meridiani Planum & Gusev Plains Duricrust
-* **Scores:** $\text{EC} = 86.8\% \mid \text{SI} = 83.5\% \mid \text{Confidence} = 88.0\%$
-* **Terramechanical Profile:** Fragile desiccation polygon crust ($1-3\text{ cm}$) overlying dry, unconsolidated silt ($32\mu\text{m}$), replicating crust-breakthrough hazards.
-* **Evidence:** Crust penetration resistance ($140-280\text{ kPa}$) directly reproduces Spirit's "Troy" entrapment conditions.
-* **Limitations:** Winter standing water transforms playa into impassable mud from November to May. Testing requires dry summer conditions.
+### Site 4: Baratang Mud Volcano Field, India (Mars — pitted cones)
+* **Coordinates:** $12^\circ 03'\text{ N}, 92^\circ 39'\text{ E}$ | **Province:** Baratang Island, Andaman & Nicobar
+* **Target Planetary Equivalent:** Chryse and Acidalia Planitiae, Mars
+* **Scores:** $\text{SI} = 50.0\% \mid \text{EC} = 0\%$
+* **Mobility Profile:** The central mound is about $2\text{ m}$ high but its width is not supplied, so no angle can be derived. Mud, water, sandstone and shale make the surface soft and wet — sinkage is likely high — but nothing is measured, so the characteristic stays neutral ($s = 0.50$, $q = 0$).
+* **Evidence:** Named operations are robotic cone mapping, remote gas detection, sediment sampling, terrain classification and autonomous navigation around irregular landforms; surface temperature is $29.39 - 30.07\,^\circ\text{C}$ at pH $8.0 - 8.3$.
+* **Limitations:** Site-specific Martian central-mound measurements were not extracted; Mars has no equivalent active-vent temperature or surface-fluid pH measurement; ancient Martian fluid and gas activity is an interpretation, not a direct measurement.
 
-### Site 5: Ladakh High-Altitude Permafrost & Puga Valley (India)
-* **Coordinates:** $33^\circ 13'12''\text{ N}, 78^\circ 19'48''\text{ E}$ | **Elevation:** $>4,300\text{ m}$
-* **Target Planetary Equivalent:** Mars Noachian Hydrothermal Springs & High-Latitude Permafrost
-* **Scores:** $\text{EC} = 88.5\% \mid \text{SI} = 92.8\% \mid \text{Confidence} = 94.2\%$
-* **Science Profile:** Hypobaric cold desert with intense solar UV flux, cryoturbated polygonal permafrost ground, and boiling hydrothermal borate/sulfate springs.
-* **Evidence:** Spectral Angle Mapper match $\text{SAM} = 0.08\text{ rad}$ against CRISM hydrated sulfates; Chemical Index of Alteration ($\text{CIA} = 42.5$) confirms minimal chemical weathering.
-* **Limitations:** Atmospheric density ($\sim 60\text{ kPa}$) is lower than sea level but still $100\times$ denser than Mars ($0.6\text{ kPa}$). High altitude requires hypoxia protocols.
+### Site 5: Beacon Valley, Antarctica (Mars — mid-latitude ice)
+* **Coordinates:** $77^\circ 49'\text{ S}, 160^\circ 39'\text{ E}$ | **Province:** McMurdo Dry Valleys, Victoria Land
+* **Target Planetary Equivalent:** Mars mid-latitude ice deposits
+* **Scores:** $\text{SI} = 50.0\% \mid \text{EC} = 0\%$
+* **Science Profile:** Massive ground ice lies beneath approximately $30 - 50\text{ cm}$ of sublimation till, with roughly $10\text{ wt}\%$ mineral debris and perchlorate at approximately $0.4 - 0.6\text{ wt}\%$ in soil. The planetary references are Dodo-Goldilocks ice ($>99\text{ wt}\%$ ice) and Snow White material ($30 \pm 20\text{ wt}\%$ ice).
+* **Evidence:** Ground-penetrating radar and seismic surveys found $80 - 110\text{ m}$ of ice in upper Mullins Valley and $150\text{ m}$ in upper Beacon Valley; mean annual temperature is about $-22.9\,^\circ\text{C}$ with a decade of records down to $19.6\text{ m}$; soil organic carbon is $13.1 \pm 2.9\,\mu\text{mol C/g}$ (surface soil, 0–10 cm).
+* **Limitations:** A denser Earth atmosphere changes sublimation and exposed-ice behaviour; Earth gravity is not representative of Mars; Beacon Valley ice and debris cannot be assumed to match every Martian excess-ice deposit; cold is not equivalent to the Martian surface cycle; central-site and upper-valley measurements are not interchangeable.
 
-### Site 6: Krafla Volcanic Center & Hverfjall Sinters (Iceland)
-* **Coordinates:** $65^\circ 42'00''\text{ N}, 16^\circ 46'48''\text{ W}$ | **Elevation:** $520\text{ m}$
-* **Target Planetary Equivalent:** Columbia Hills (Home Plate, Gusev Crater) & Nili Fossae
-* **Scores:** $\text{EC} = 85.4\% \mid \text{SI} = 91.2\% \mid \text{Confidence} = 93.6\%$
-* **Science Profile:** Low-pH solfatara hydrothermal vents leaching basalt into opalline silica (Opal-A, $>91\text{ wt}\%\text{ SiO}_2$) and jarosite.
-* **Evidence:** Absorption features at $1.4\mu\text{m}$, $1.9\mu\text{m}$, and $2.2\mu\text{m}$ identically match Spirit Mini-TES spectra of Home Plate silica fingers.
-* **Limitations:** Modern Earth oxygenated atmosphere ($21\%\text{ O}_2$) vs ancient anoxic Martian atmosphere; active thermophilic biology requires contamination blank controls.
+### Site 6: Miyake-jima, Japan (Moon — highlands crust)
+* **Coordinates:** $34^\circ 05'\text{ N}, 139^\circ 32'\text{ E}$ | **Province:** Izu Islands, Tokyo Metropolis
+* **Target Planetary Equivalent:** Lunar highlands crust
+* **Scores:** $\text{SI} = 57.5\% \mid \text{EC} = 15\%$
+* **Science Profile:** Near-uniform high-calcic anorthite megacrysts ($\text{An}_{95.51} \pm 0.31$) with an NIR feature near $1.25\,\mu\text{m}$ and TIR crystal-field features at $1233.9$ and $1275.6\text{ cm}^{-1}$, against a highly calcic lunar benchmark ($\text{An}_{94-98}$). Seven analysed grains give mean Li $0.31\text{ ppm}$, K $44.01\text{ ppm}$, Na $3{,}510\text{ ppm}$ and Ti $37.29\text{ ppm}$.
+* **Evidence:** The crystals are xenocrysts entrained by island-arc magma; pulverised crystals are used as an experimental starting material for lunar crustal suites.
+* **Limitations:** The crystals sit in basaltic flows, not an anorthositic crustal outcrop; no lunar regolith, impact glass, agglutinates or solar-wind implantation is present; humid terrestrial alteration does not operate on the airless Moon; Earth lacks lunar vacuum, radiation and thermal swing; seven grains cannot represent the island.
 
-### Site 7: Great Rann of Kutch Evaporite Flats (India)
-* **Coordinates:** $23^\circ 49'48''\text{ N}, 70^\circ 03'00''\text{ E}$ | **Elevation:** $15\text{ m}$
-* **Target Planetary Equivalent:** Martian Lacustrine Evaporites (Mount Sharp Basal Mudstones, Gale)
-* **Scores:** $\text{EC} = 87.2\% \mid \text{SI} = 89.6\% \mid \text{Confidence} = 91.8\%$
-* **Science Profile:** Massive seasonal evaporite basin precipitating halite, gypsum, and jarosite, entombing organic lipid biomarkers within fluid inclusions.
-* **Evidence:** Elemental ratio $\text{Cl}/\text{SO}_4 = 1.15$ tracks Curiosity APXS drill samples.
-* **Limitations:** Annual monsoon flooding from July to October completely submerges the playa; tests must be conducted during peak winter desiccation.
+### Site 7: Sittampundi Anorthosite Complex, India (Moon — highlands regolith)
+* **Coordinates:** $11^\circ 01'\text{ N}, 78^\circ 01'\text{ E}$ | **Province:** Namakkal district, Tamil Nadu
+* **Target Planetary Equivalent:** Lunar highlands regolith
+* **Scores:** $\text{SI} = 50.0\% \mid \text{EC} = 15\%$
+* **Science Profile:** Plagioclase $\text{An}_{80-100}$ ($\text{An}_{99-100}$ in chromite-hosting anorthosite) against a lunar highland benchmark of about $\text{An}_{95}$. The LSS-ISAC-1 simulant analyses SiO$_2$ $43.61 - 46.60\%$, Al$_2$O$_3$ $29.85 - 31.77\%$ and CaO $16.28 - 16.96\%$, against lunar $45.16\%$, $27.66\%$ and $15.63\%$.
+* **Evidence:** The complex is the source of the LSS-ISAC-1 simulant used at ISRO's Lunar Terrain Testing Facility in Bengaluru for Chandrayaan-2 soft landing and rover mobility; it is Neoarchean with a minimum emplacement age of $2522 \pm 12\text{ Ma}$.
+* **Limitations:** Natural anorthosite lacks impact glass, agglutinates and space-weathered grains; anorthosite, gabbro, chromitite and pyroxenite must not be treated as one material; retrogression and terrestrial alteration can lower An content; simulant properties do not transfer to every outcrop; the Chandrayaan-2 tests ran at Bengaluru, not at the complex.
 
-### Site 8: Craters of the Moon Basalt Rift & Lava Tubes (USA)
-* **Coordinates:** $43^\circ 25'48''\text{ N}, 113^\circ 33'36''\text{ W}$ | **Elevation:** $1,800\text{ m}$
-* **Target Planetary Equivalent:** Lunar Marius Hills Skylights & Subsurface Basaltic Pits
-* **Scores:** $\text{EC} = 92.8\% \mid \text{SI} = 88.9\% \mid \text{Confidence} = 93.8\%$
-* **Science Profile:** Pristine Holocene tholeiitic pahoehoe and a'a basalt flows with intact cavernous lava tubes offering thermal insulation and cosmic radiation shielding.
-* **Evidence:** Cation ratio $\text{Fe}/\text{Mn} = 51.2$ tracks Apollo 15/17 mare basalts; internal cave temperature remains stable at $+4^\circ\text{C}\pm 2^\circ\text{C}$ year-round.
-* **Limitations:** Under Lunar gravity ($0.166g$), lunar lava tubes can achieve stable widths $>500\text{ m}$, whereas Earth tube spans rarely exceed $25\text{ m}$. Subsurface GPS denial requires mesh-node radio relays.
+### Site 8: Lonar Crater, India (Mars — basaltic craters)
+* **Coordinates:** $19^\circ 58'\text{ N}, 76^\circ 31'\text{ E}$ | **Province:** Buldhana district, Maharashtra
+* **Target Planetary Equivalent:** Martian basaltic craters
+* **Scores:** $\text{SI} = 50.0\% \mid \text{EC} = 15\%$
+* **Science Profile:** Saponite with minor celadonite and carbonate matches saponite identified on Mars. Shocked impact melt analyses SiO$_2$ $49.33 - 50.69\%$, FeO $8.64 - 8.77\%$ and MgO $5.03 - 5.10\%$, giving Mg# $0.399 - 0.402$, against Martian $45 - 50\%$, $15 - 20\%$ and $5 - 10\%$.
+* **Evidence:** A $1.8\text{ km}$ crater in Deccan basalt with drilled floor cores of basaltic impact breccia altered by post-impact hydrothermal processes; alteration temperatures are modelled at $130 - 200\,^\circ\text{C}$; the crater age is reported as $50{,}000$ yr, $37.5 \pm 5.0\text{ ka}$ and $570 \pm 47\text{ ka}$ in different studies.
+* **Limitations:** Mars comparisons must be restricted to similar crater size classes or to mineralogical and process analogies; terrestrial fluid chemistry, duration and temperature may differ from Mars; the modern lake chemistry is not the ancient hydrothermal system; published ages disagree by more than an order of magnitude; no quantitative mineral-abundance comparison exists yet.
 
 ---
 
@@ -214,7 +240,7 @@ The application is built in React 19 with TypeScript and Tailwind CSS, following
 * **Surface Paneling:** `#161B22` & `#21262D` (Hairline tactical sub-borders)
 * **Focal Accent:** `#C86D51` (Martian Regolith Oxide)
 * **Typography:** `Plus Jakarta Sans` (Body & Titles) + `JetBrains Mono` (Data, Coordinates & Mathematics)
-* **Map Engine:** Leaflet + CartoDB Dark Matter tiles with highlighted tactical polygons for Iceland (Emerald), South Asia (Amber), and North America (Sky).
+* **Map Engine:** Leaflet + Esri World Topo tiles with highlighted tactical polygons for East Asia (Azure), South Asia (Amber), South America (Emerald) and Antarctica (Grey).
 
 ### Navigation & Screen Structure
 * **Global Navigation:** Fixed Sidebar with Quick Overview, Purpose Group 1, Purpose Group 2, and References.
@@ -227,14 +253,22 @@ The application is built in React 19 with TypeScript and Tailwind CSS, following
 
 ## 7. Academic Bibliography & Planetary Datasets
 
-1. **Farr, T. G., et al. (2020).** *Planetary Analogs: Principles, Classification, and Methodologies for Rover Verification.* Space Science Reviews, 216(4), 65. DOI: `10.1007/s11214-020-00712-4`
-2. **Thorsteinsson, H., & Helgason, S. (2021).** *Terramechanical analysis of basaltic tephra in Icelandic volcanic deserts as a Martian wheel-soil analog.* Journal of Field Robotics, 38(7), 1019–1035. DOI: `10.1002/rob.22019`
-3. **Pathak, S., et al. (2020).** *The Lonar impact crater as a structural and rover traversal analog for Martian basaltic crater rims.* Planetary and Space Science, 184, 104928. DOI: `10.1016/j.pss.2020.104928`
-4. **Pandey, A. K., et al. (2021).** *The Puga geothermal system, Ladakh, as a geochemical analog for early Martian hydrothermal environments.* Astrobiology, 21(11), 1345–1362. DOI: `10.1089/ast.2020.2312`
-5. **Ruff, S. W., & Farmer, J. D. (2020).** *Opalline silica sinters at Krafla, Iceland, as analogues for hydrothermal biosignature preservation on Mars.* Nature Geoscience, 13, 680–687. DOI: `10.1038/s41561-020-00680-0`
-6. **Graff, T. G., & Dehouck, E. (2022).** *Geotechnical and morphological evaluation of Kilbourne Hole as a Lunar South Pole mobility analog.* Icarus, 378, 115042. DOI: `10.1016/j.icarus.2022.115042`
-7. **Bhandari, N., & Shukla, A. D. (2020).** *The Great Rann of Kutch as a terrestrial planetary analog for Martian evaporitic and playa environments.* EPSL, 532, 116342. DOI: `10.1016/j.epsl.2020.116342`
-8. **Heldmann, J. L., et al. (2021).** *Subsurface volcanic conduits at Craters of the Moon as structural and operational analogs for Lunar lava tubes.* Icarus, 362, 114510. DOI: `10.1016/j.icarus.2021.114510`
+1. **Liu, Sletten, Hallet & Waddington (2018).** *JGR Earth Surface* 123(8), 1797–1810. — Beacon Valley ground ice and ice thickness.
+2. **Shean & Marchant (2010).** *J. Glaciology* 56(195), 48–64. — Mullins-sector till lithology.
+3. **Barrett et al. (2007).** *Biogeochemical Stoichiometry of Antarctic Dry Valley Ecosystems.* — Beacon Valley soil organic carbon.
+4. **Bramson et al. (2015).** *Widespread Excess Ice in Arcadia Planitia, Mars.*
+5. **Stuurman et al. (2016).** *SHARAD Detection and Characterization of Subsurface Water Ice Deposits in Utopia Planitia.*
+6. **Roy, Mallik, Donaldson Hanna, Goepfert & Hervig (2025).** *American Mineralogist* 110, 154–170. — Miyake-jima anorthite megacrysts.
+7. **Anbazhagan et al. (2021).** *Icarus* 366, 114511. — Sittampundi as the source of LSS-ISAC-1.
+8. **Venugopal et al. (2020).** *Planet. Space Sci.* 194, 105116, and *Adv. Space Res.* 66(11), 2711–2721. — Major-oxide characterisation of the simulant.
+9. **Subramaniam (1956).** *GSA Bulletin* 67(3), 317–390. — Geological description of the Sittampundi complex.
+10. **Dutta et al. (2011).** *Ore Geology Reviews.* — Chromitite and pyroxenite phases.
+11. **Hagerty & Newsom (2003).** *Meteoritics & Planetary Science* 38(3), 365–381. — Hydrothermal alteration at Lonar.
+12. **Jourdan, Moynier, Koeberl & Eroglu (2011).** *Geology* 39(7), 671–674. — 40Ar/39Ar crater age for Lonar.
+13. **Nakamura et al. (2014).** *Geochemistry, Geophysics, Geosystems.* DOI: `10.1002/2014GC005376` — Shock-metamorphosed impact melt chemistry.
+14. **Paul et al. (2016).** *Exploration of Microbial Diversity and Community Structure of Lonar Lake.*
+
+**Planetary datasets referenced by the dossiers:** NASA PDS SHARAD archive · NASA PDS Moon Mineralogy Mapper archive · NASA PDS LRO data · NASA PDS CRISM archive · NASA PDS HiRISE archive · Supplementary data, University of Arizona figshare.
 
 ---
 

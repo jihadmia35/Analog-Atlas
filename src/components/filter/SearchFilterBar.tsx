@@ -46,7 +46,7 @@ export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
     filterState.targetBody === 'All' &&
     filterState.purposeGroup === 'All' &&
     filterState.continent === 'All' &&
-    filterState.minSiScore === 75;
+    filterState.minSiScore === 50;
 
   return (
     <div className="flex flex-wrap items-center gap-2.5">
@@ -80,9 +80,10 @@ export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
         onChange={(v) => onFilterChange({ ...filterState, continent: v as FilterState['continent'] })}
         options={[
           { value: 'All', label: 'All provinces' },
-          { value: 'Iceland', label: 'Iceland' },
+          { value: 'Antarctica', label: 'Antarctica' },
           { value: 'South Asia', label: 'South Asia' },
-          { value: 'North America', label: 'North America' },
+          { value: 'East Asia', label: 'East Asia' },
+          { value: 'South America', label: 'South America' },
         ]}
       />
 
@@ -103,9 +104,9 @@ export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
         <span className="text-[12.5px] text-ink-3 whitespace-nowrap">SI ≥</span>
         <input
           type="range"
-          min={75}
-          max={93}
-          step={1}
+          min={50}
+          max={63}
+          step={0.5}
           value={filterState.minSiScore}
           onChange={(e) => onFilterChange({ ...filterState, minSiScore: Number(e.target.value) })}
           className="slider w-24"
@@ -122,7 +123,7 @@ export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
               targetBody: 'All',
               purposeGroup: 'All',
               continent: 'All',
-              minSiScore: 75,
+              minSiScore: 50,
             })
           }
           className="flex items-center gap-1.5 text-[12px] text-ink-2 hover:text-ink px-2 py-1.5 rounded-md transition-colors"

@@ -30,13 +30,14 @@ const DEFAULT_FILTER: FilterState = {
   targetBody: 'All',
   purposeGroup: 'All',
   continent: 'All',
-  minSiScore: 75,
+  minSiScore: 50,
 };
 
 const PROVINCE_TICK: Record<string, string> = {
-  Iceland: 'var(--emerald)',
+  'East Asia': 'var(--azure)',
   'South Asia': 'var(--amber)',
-  'North America': 'var(--azure)',
+  'South America': 'var(--emerald)',
+  Antarctica: 'var(--moon)',
 };
 
 export const App: React.FC = () => {
@@ -220,9 +221,9 @@ const HomeView: React.FC<HomeViewProps> = ({
           get rehearsed on Earth.
         </h1>
         <p className="mt-4 text-[15px] text-ink-2 leading-relaxed max-w-[62ch]">
-          Analog Atlas catalogs eight field-proven terrestrial analogs across Iceland, South Asia
-          and North America — each scored against its planetary target with a published
-          mathematical methodology, and each honest about what Earth can't fake.
+          Analog Atlas catalogs eight field-proven terrestrial analogs across Antarctica, South
+          Asia, East Asia and South America — each scored against its planetary target with a
+          published mathematical methodology, and each honest about what Earth can&apos;t fake.
         </p>
       </header>
 

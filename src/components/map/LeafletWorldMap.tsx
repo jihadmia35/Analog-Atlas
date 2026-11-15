@@ -17,7 +17,7 @@ const BODY_COLOR: Record<string, { core: string; label: string }> = {
   Moon: { core: 'rgb(var(--moon))', label: 'rgb(var(--moon))' },
 };
 
-/** Region outlines for the three analog provinces, per theme */
+/** Region outlines for the four analog provinces, per theme */
 const PROVINCES: Array<{
   name: string;
   sites: string;
@@ -25,22 +25,21 @@ const PROVINCES: Array<{
   colors: Record<Theme, { stroke: string; fill: string }>;
 }> = [
   {
-    name: 'Iceland',
-    sites: 'Askja · Krafla',
+    name: 'East Asia',
+    sites: 'Qaidam Basin · Miyake-jima',
     points: [
-      [66.6, -24.6], [66.6, -13.4], [63.3, -13.4], [63.3, -24.6],
+      [52.0, 72.0], [52.0, 146.0], [18.0, 146.0], [18.0, 72.0],
     ],
     colors: {
-      day: { stroke: '#187236', fill: '#187236' },
-      dark: { stroke: '#3FB950', fill: '#238636' },
+      day: { stroke: '#195CBA', fill: '#195CBA' },
+      dark: { stroke: '#388BFD', fill: '#1F6FEB' },
     },
   },
   {
     name: 'South Asia',
-    sites: 'Lonar · Ladakh · Rann of Kutch',
+    sites: 'Chandragup I · Sittampundi · Baratang',
     points: [
-      [35.6, 74.0], [33.5, 79.5], [27.5, 88.5], [22.0, 89.0], [15.0, 80.0],
-      [8.0, 77.5], [15.0, 73.5], [24.0, 68.0], [32.0, 72.0],
+      [38.0, 60.0], [38.0, 97.0], [5.0, 97.0], [5.0, 66.0],
     ],
     colors: {
       day: { stroke: '#8A6100', fill: '#8A6100' },
@@ -48,15 +47,25 @@ const PROVINCES: Array<{
     },
   },
   {
-    name: 'North America',
-    sites: 'Kilbourne Hole · Alvord · Craters of the Moon',
+    name: 'South America',
+    sites: 'Puna',
     points: [
-      [49.0, -124.7], [49.0, -95.0], [47.5, -67.5], [25.0, -80.0], [29.5, -95.0],
-      [26.0, -97.5], [31.5, -106.5], [32.5, -117.1], [42.0, -124.2],
+      [-16.0, -72.0], [-16.0, -61.0], [-40.0, -61.0], [-40.0, -72.0],
     ],
     colors: {
-      day: { stroke: '#195CBA', fill: '#195CBA' },
-      dark: { stroke: '#388BFD', fill: '#1F6FEB' },
+      day: { stroke: '#187236', fill: '#187236' },
+      dark: { stroke: '#3FB950', fill: '#238636' },
+    },
+  },
+  {
+    name: 'Antarctica',
+    sites: 'Beacon Valley',
+    points: [
+      [-63.0, 130.0], [-63.0, 180.0], [-84.0, 180.0], [-84.0, 130.0],
+    ],
+    colors: {
+      day: { stroke: '#545E6C', fill: '#545E6C' },
+      dark: { stroke: '#C9D1D9', fill: '#6E7A88' },
     },
   },
 ];

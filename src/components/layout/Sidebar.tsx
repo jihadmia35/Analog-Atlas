@@ -171,7 +171,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
         <div className="flex justify-between">
           <span>Provinces</span>
-          <span className="text-ink-2">IS · IN · US</span>
+          <span className="text-ink-2">4 regions</span>
         </div>
         <div className="flex justify-between">
           <span>Targets</span>

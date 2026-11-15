@@ -9,15 +9,16 @@ interface MetricsScoringTabProps {
 /* ------------------------------------------------------------------ */
 /* Interactive SI simulator                                            */
 /*                                                                     */
-/* The user drags a per-metric deviation slider (measured Earth value  */
-/* expressed in multiples of the planetary tolerance σ away from the   */
-/* baseline) and allocates weights. Every value is scored with the     */
-/* same exponential kernel used in the Similarity Index.               */
+/* Each metric carries a deviation slider expressed in multiples of the */
+/* planetary tolerance sigma. The published rule is applied live: a    */
+/* reading inside the baseline scores 1.00, a reading outside decays    */
+/* linearly to 0 over two tolerances, and a characteristic with no site */
+/* data stays neutral at 0.50.                                         */
 /* ------------------------------------------------------------------ */
 
 const DEFAULT_DEVIATIONS: Record<string, number> = {
-  'slope-grade': 0.2,
-  'rock-cfa': 0.15,
+  'slope-grade': 0,
+  'rock-cfa': 0.5,
   'soil-sinkage': 0.25,
   'shear-strength': 0.1,
   'mineral-spectroscopy': 0.1,
@@ -25,6 +26,10 @@ const DEFAULT_DEVIATIONS: Record<string, number> = {
   'biosig-preservation': 0.15,
   'radiation-thermal-range': 0.25,
 };
+
+/** Published characteristic score for a deviation of d tolerances outside the baseline. */
+const characteristicScore = (deviation: number) =>
+  deviation === 0 ? 1 : Math.max(0, 1 - deviation / 2);
 
 const SimSlider: React.FC<{
   label: string;
@@ -67,8 +72,8 @@ const SI_SIMULATOR: React.FC<{ group: PurposeGroupData }> = ({ group }) => {
   const contributions = group.metrics.map((m) => {
     const d = deviations[m.id] ?? 0;
     const w = (rawWeights[m.id] ?? 0) / weightSum;
-    const score = w * Math.exp(-Math.abs(d)) * 100;
-    return { metric: m, deviation: d, weight: w, score };
+    const s = characteristicScore(d);
+    return { metric: m, deviation: d, weight: w, s, score: w * s * 100 };
   });
 
   const totalSi = contributions.reduce((sum, c) => sum + c.score, 0);
@@ -77,24 +82,27 @@ const SI_SIMULATOR: React.FC<{ group: PurposeGroupData }> = ({ group }) => {
     <section className="mt-12">
       <h2 className="text-[17px] font-bold text-ink mb-1">Similarity Index simulator</h2>
       <p className="text-[13px] text-ink-2 max-w-[70ch] mb-5">
-        Drag a metric's deviation to see how quickly fidelity decays: the Earth reading sits
+        Drag a metric's deviation to see how fidelity decays: the Earth reading sits
         <span className="text-ink"> d·σ </span>
-        away from the planetary baseline, and the exponential kernel does the rest. Weights are
-        renormalized live.
+        away from the planetary baseline. A reading inside the baseline scores 1.00, a reading
+        outside decays linearly to 0 over two tolerances, and a characteristic with no site data
+        stays neutral at 0.50. Weights are renormalized live.
       </p>
 
       <div className="border border-line rounded-xl bg-surface overflow-hidden">
         <div className="grid lg:grid-cols-[1fr_260px]">
           <div className="p-5 space-y-1 divide-y divide-line">
-            {contributions.map(({ metric, deviation, weight, score }) => (
+            {contributions.map(({ metric, deviation, weight, s, score }) => (
               <div key={metric.id} className="pt-2 first:pt-0 pb-2">
                 <div className="flex items-baseline justify-between mb-1">
                   <span className="text-[13px] text-ink font-medium">
                     {metric.name}
-                    <span className="font-mono text-[11px] text-ink-3 ml-2">{metric.symbol}</span>
+                    <span className="ml-2">
+                      <Equation tex={metric.symbol} block={false} className="text-[11px] text-ink-3" />
+                    </span>
                   </span>
                   <span className="font-mono text-[11.5px] text-ink-2">
-                    w {weight.toFixed(2)} · {score.toFixed(1)} pts
+                    w {weight.toFixed(2)} · s {s.toFixed(2)} · {score.toFixed(1)} pts
                   </span>
                 </div>
                 <SimSlider
@@ -110,7 +118,7 @@ const SI_SIMULATOR: React.FC<{ group: PurposeGroupData }> = ({ group }) => {
                 <div className="h-[3px] rounded-full bg-raised mt-1 overflow-hidden">
                   <div
                     className="h-full rounded-full bg-accent/80 transition-all duration-150"
-                    style={{ width: `${score}%` }}
+                    style={{ width: `${s * 100}%` }}
                   />
                 </div>
               </div>
@@ -159,7 +167,7 @@ const SI_SIMULATOR: React.FC<{ group: PurposeGroupData }> = ({ group }) => {
 /* ------------------------------------------------------------------ */
 
 export const MetricsScoringTab: React.FC<MetricsScoringTabProps> = ({ group }) => {
-  const { scoringModel, metrics } = group;
+  const { scoringModel, metrics, calculationSummary } = group;
   const weightSum = metrics.reduce((s, m) => s + m.weight, 0);
 
   return (
@@ -181,6 +189,11 @@ export const MetricsScoringTab: React.FC<MetricsScoringTabProps> = ({ group }) =
           <div className="border border-line rounded-xl bg-surface px-6 py-6 overflow-x-auto">
             <Equation tex={scoringModel.environmentalCorrespondenceEquation} />
           </div>
+          {scoringModel.scoringRule && (
+            <div className="border border-line rounded-xl bg-surface px-6 py-6 overflow-x-auto">
+              <Equation tex={scoringModel.scoringRule} />
+            </div>
+          )}
         </div>
       </section>
 
@@ -229,6 +242,43 @@ export const MetricsScoringTab: React.FC<MetricsScoringTabProps> = ({ group }) =
           </table>
         </div>
       </section>
+
+      {/* Calculation summary */}
+      {calculationSummary && (
+        <section>
+          <h2 className="text-[17px] font-bold text-ink mb-1">Calculation summary</h2>
+          <p className="text-[13px] text-ink-2 mb-5 max-w-[74ch]">{calculationSummary.note}</p>
+          <div className="border border-line rounded-xl overflow-x-auto">
+            <table className="w-full text-left border-collapse min-w-[860px]">
+              <thead>
+                <tr className="bg-surface font-mono text-[10.5px] tracking-wide text-ink-3">
+                  {calculationSummary.columns.map((c) => (
+                    <th key={c} className="px-3 py-3 font-medium">
+                      {c}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-line">
+                {calculationSummary.rows.map((row) => (
+                  <tr key={row.site} className="hover:bg-hover transition-colors">
+                    <td className="px-3 py-3 text-[12.5px] text-ink font-medium">{row.site}</td>
+                    {row.characteristicScores.map((s, i) => (
+                      <td key={i} className="px-3 py-3 font-mono text-[12px] text-ink-2">
+                        {s}
+                      </td>
+                    ))}
+                    <td className="px-3 py-3 font-mono text-[12px] text-ink">{row.si}</td>
+                    <td className="px-3 py-3 font-mono text-[12px] text-ink">{row.ec}</td>
+                    <td className="px-3 py-3 font-mono text-[12px] text-ink-2">{row.sourceSi}</td>
+                    <td className="px-3 py-3 font-mono text-[12px] text-ink-2">{row.sourceEc}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
 
       {/* Variables */}
       <section>

@@ -21,10 +21,7 @@ const ScoreBar: React.FC<{ label: string; value: number; note: string }> = ({ la
       <span className="font-mono text-[15px] text-ink font-semibold">{value.toFixed(1)}%</span>
     </div>
     <div className="h-[3px] rounded-full bg-line mt-2 overflow-hidden">
-      <div
-        className="h-full rounded-full bg-accent"
-        style={{ width: `${value}%` }}
-      />
+      <div className="h-full rounded-full bg-accent" style={{ width: `${value}%` }} />
     </div>
     <p className="text-[10.5px] text-ink-3 mt-1.5">{note}</p>
   </div>
@@ -32,14 +29,6 @@ const ScoreBar: React.FC<{ label: string; value: number; note: string }> = ({ la
 
 export const AnalogDossier: React.FC<AnalogDossierProps> = ({ site, group }) => {
   const metricNameById = Object.fromEntries(group.metrics.map((m) => [m.id, m]));
-
-  const limitationRows: Array<[string, string]> = [
-    ['Gravity', site.limitations.gravityMismatch],
-    ['Atmosphere', site.limitations.atmosphericMismatch],
-    ['Weathering & moisture', site.limitations.weatheringMismatch],
-    ['Biology', site.limitations.biologicalInterference],
-    ['Operations', site.limitations.operationalNotice],
-  ];
 
   return (
     <article className="max-w-[1100px]">
@@ -67,24 +56,26 @@ export const AnalogDossier: React.FC<AnalogDossierProps> = ({ site, group }) => 
         <p className="mt-2 text-[14.5px] text-ink-2 max-w-[72ch] leading-relaxed">
           {site.shortSummary}
         </p>
-        <p className="mt-3 text-[13px] text-ink-2">
-          Mapped target · <span className="text-ink">{site.targetPlanetarySite}</span>
-        </p>
+        <p className="mt-3 text-[12.5px] font-mono text-ink-3">{site.profileLine}</p>
       </header>
 
       {/* Scores */}
-      <section className="grid sm:grid-cols-3 gap-6 py-6 border-b border-line">
+      <section className="grid sm:grid-cols-2 gap-6 py-6 border-b border-line">
+        <ScoreBar
+          label="SIMILARITY INDEX"
+          value={site.siScore}
+          note={`Weighted characteristic fit · ${group.scoringModel.name}`}
+        />
         <ScoreBar
           label="ENVIRONMENTAL CORRESPONDENCE"
           value={site.ecScore}
-          note="Aggregate boundary-condition fit"
+          note="Evidence-weighted correspondence"
         />
-        <ScoreBar label="SIMILARITY INDEX" value={site.siScore} note="Weighted metric proximity" />
-        <ScoreBar
-          label="CONFIDENCE"
-          value={site.confidencePercentage}
-          note="Measurement repeatability"
-        />
+        {site.scoreNote && (
+          <p className="sm:col-span-2 font-mono text-[11px] text-ink-3 leading-relaxed">
+            {site.scoreNote}
+          </p>
+        )}
       </section>
 
       {/* Morphological comparison */}
@@ -109,7 +100,7 @@ export const AnalogDossier: React.FC<AnalogDossierProps> = ({ site, group }) => 
                 <th className="px-4 py-3 font-medium">Metric</th>
                 <th className="px-3 py-3 font-medium">Earth</th>
                 <th className="px-3 py-3 font-medium">Planetary</th>
-                <th className="px-3 py-3 font-medium w-36">Fit</th>
+                <th className="px-3 py-3 font-medium w-28">Score (s)</th>
                 <th className="px-3 py-3 font-medium">Notes</th>
               </tr>
             </thead>
@@ -125,22 +116,29 @@ export const AnalogDossier: React.FC<AnalogDossierProps> = ({ site, group }) => 
                         <span className="font-mono">· w {def?.weight.toFixed(2)}</span>
                       </div>
                     </td>
-                    <td className="px-3 py-3.5 align-top font-mono text-[12.5px] text-ink whitespace-nowrap">
+                    <td className="px-3 py-3.5 align-top font-mono text-[12.5px] text-ink">
                       {mv.earthValue}
-                      <span className="text-ink-3 text-[10.5px]"> {mv.unit}</span>
+                      {mv.unit && <span className="text-ink-3 text-[10.5px]"> {mv.unit}</span>}
                     </td>
-                    <td className="px-3 py-3.5 align-top font-mono text-[12.5px] text-ink-2 whitespace-nowrap">
+                    <td className="px-3 py-3.5 align-top font-mono text-[12.5px] text-ink-2">
                       {mv.planetaryValue}
                     </td>
                     <td className="px-3 py-3.5 align-top">
-                      <div className="flex items-center gap-2">
-                        <div className="h-[3px] flex-1 rounded-full bg-line overflow-hidden">
-                          <div className="h-full bg-accent" style={{ width: `${mv.individualScore}%` }} />
+                      {mv.individualScore === undefined ? (
+                        <span className="font-mono text-[11.5px] text-ink-3">—</span>
+                      ) : (
+                        <div className="flex items-center gap-2">
+                          <div className="h-[3px] flex-1 rounded-full bg-line overflow-hidden">
+                            <div
+                              className="h-full bg-accent"
+                              style={{ width: `${mv.individualScore * 100}%` }}
+                            />
+                          </div>
+                          <span className="font-mono text-[11.5px] text-ink w-9 text-right">
+                            {mv.individualScore.toFixed(2)}
+                          </span>
                         </div>
-                        <span className="font-mono text-[11.5px] text-ink w-8 text-right">
-                          {mv.individualScore}
-                        </span>
-                      </div>
+                      )}
                     </td>
                     <td className="px-3 py-3.5 align-top text-[12px] text-ink-2 leading-relaxed">
                       {mv.notes}
@@ -174,21 +172,21 @@ export const AnalogDossier: React.FC<AnalogDossierProps> = ({ site, group }) => 
               {site.evidence.keyMeasurements.map((k) => (
                 <tr key={k.parameter}>
                   <td className="px-4 py-3 text-[12.5px] text-ink font-medium align-top">{k.parameter}</td>
-                  <td className="px-3 py-3 font-mono text-[12px] text-ink align-top whitespace-nowrap">{k.earthData}</td>
-                  <td className="px-3 py-3 font-mono text-[12px] text-ink-2 align-top whitespace-nowrap">{k.planetaryData}</td>
-                  <td className="px-3 py-3 text-[12px] text-ink-2 align-top leading-relaxed">{k.significance}</td>
+                  <td className="px-3 py-3 font-mono text-[12px] text-ink align-top">{k.earthData}</td>
+                  <td className="px-3 py-3 font-mono text-[12px] text-ink-2 align-top">
+                    {k.planetaryData}
+                  </td>
+                  <td className="px-3 py-3 text-[12px] text-ink-2 align-top leading-relaxed">
+                    {k.significance}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-
-        <p className="mt-6 text-[13.5px] text-ink-2 leading-[1.75] max-w-[74ch]">
-          {site.evidence.literatureReview}
-        </p>
       </section>
 
-      {/* Limitations */}
+      {/* Mismatches */}
       <section className="py-8 border-t border-line">
         <SectionTitle>Terrestrial mismatch disclosures</SectionTitle>
         <p className="text-[12.5px] text-ink-3 mb-5 max-w-[70ch]">
@@ -196,12 +194,12 @@ export const AnalogDossier: React.FC<AnalogDossierProps> = ({ site, group }) => 
           design around.
         </p>
         <dl className="grid md:grid-cols-2 gap-x-10 gap-y-5">
-          {limitationRows.map(([axis, text]) => (
-            <div key={axis} className="flex gap-4">
+          {site.mismatches.map((m) => (
+            <div key={m.label} className="flex gap-4">
               <dt className="font-mono text-[10.5px] tracking-wide text-accent shrink-0 w-36 pt-1 uppercase">
-                {axis}
+                {m.label}
               </dt>
-              <dd className="text-[12.5px] text-ink-2 leading-relaxed">{text}</dd>
+              <dd className="text-[12.5px] text-ink-2 leading-relaxed">{m.text}</dd>
             </div>
           ))}
         </dl>
@@ -212,28 +210,29 @@ export const AnalogDossier: React.FC<AnalogDossierProps> = ({ site, group }) => 
         <SectionTitle>Publications &amp; datasets</SectionTitle>
         <ul className="space-y-3">
           {site.evidence.publications.map((p) => (
-            <li key={p.doi} className="flex gap-4">
-              <span className="font-mono text-[11px] text-ink-3 shrink-0 w-10 pt-1">{p.year}</span>
+            <li key={p.citation} className="flex gap-4">
+              <span className="font-mono text-[11px] text-ink-3 shrink-0 w-10 pt-1">
+                {p.citation.match(/\((\d{4})\)/)?.[1] ?? ''}
+              </span>
               <div>
-                <span className="text-[13.5px] text-ink font-medium leading-snug">{p.title}</span>
-                <span className="block text-[12px] text-ink-3 mt-0.5">
-                  {p.authors} · {p.journal}
-                </span>
-                <a
-                  href={`https://doi.org/${p.doi}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-mono text-[11.5px] text-accent hover:text-mars transition-colors mt-1 inline-block"
-                >
-                  doi:{p.doi}
-                </a>
+                <span className="text-[13.5px] text-ink font-medium leading-snug">{p.citation}</span>
+                {p.doi && (
+                  <a
+                    href={`https://doi.org/${p.doi}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-mono text-[11.5px] text-accent hover:text-mars transition-colors mt-1 inline-block"
+                  >
+                    doi:{p.doi}
+                  </a>
+                )}
               </div>
             </li>
           ))}
         </ul>
 
-        <div className="mt-8 grid md:grid-cols-2 gap-8">
-          <div>
+        {site.resources.datasets.length > 0 && (
+          <div className="mt-8">
             <h3 className="font-mono text-[10.5px] tracking-wide text-ink-3 mb-3">OPEN DATASETS</h3>
             <ul className="space-y-2.5">
               {site.resources.datasets.map((d) => (
@@ -246,18 +245,7 @@ export const AnalogDossier: React.FC<AnalogDossierProps> = ({ site, group }) => 
               ))}
             </ul>
           </div>
-          <div>
-            <h3 className="font-mono text-[10.5px] tracking-wide text-ink-3 mb-3">FIELD GUIDES</h3>
-            <ul className="space-y-2.5">
-              {site.resources.fieldGuides.map((f) => (
-                <li key={f.title} className="text-[12.5px]">
-                  <span className="text-ink">{f.title}</span>
-                  <span className="block text-[11.5px] text-ink-3">{f.institution}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        )}
       </section>
     </article>
   );
