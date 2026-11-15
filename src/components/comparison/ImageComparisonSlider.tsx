@@ -27,10 +27,21 @@ export const ImageComparisonSlider: React.FC<ImageComparisonSliderProps> = ({
 
   const [earthSrc, setEarthSrc] = useState(earthImage);
   const [targetSrc, setTargetSrc] = useState(targetImage);
+  const [earthLoaded, setEarthLoaded] = useState(false);
+  const [targetLoaded, setTargetLoaded] = useState(false);
 
-  // The slider instance is reused when moving between dossiers, so the
-  // compared pair has to be re-synced whenever the site changes.
+  // Sources already decoded in this session — revisiting a dossier must not
+  // flash the skeleton for imagery the browser still has in memory.
+  const loadedCache = useRef<Set<string>>(new Set());
+
+  // The slider instance is reused when moving between dossiers, so both
+  // layers have to be torn down here: clear the loaded flag first so the
+  // previous site's imagery drops out at once (over the network the old
+  // <img> would otherwise keep rendering until the next file finishes
+  // downloading), then swap the sources.
   useEffect(() => {
+    setEarthLoaded(loadedCache.current.has(earthImage));
+    setTargetLoaded(loadedCache.current.has(targetImage));
     setEarthSrc(earthImage);
     setTargetSrc(targetImage);
   }, [earthImage, targetImage]);
@@ -54,6 +65,7 @@ export const ImageComparisonSlider: React.FC<ImageComparisonSliderProps> = ({
   };
 
   const targetLabel = targetBody === 'Mars' ? 'Mars target' : 'Lunar target';
+  const streamingIn = !earthLoaded || !targetLoaded;
   return (
     <figure className={className}>
       <div
@@ -69,9 +81,14 @@ export const ImageComparisonSlider: React.FC<ImageComparisonSliderProps> = ({
           src={targetSrc}
           alt={targetCaption}
           loading="eager"
-          onLoad={(e) => e.currentTarget.classList.add('is-loaded')}
+          onLoad={() => {
+            loadedCache.current.add(targetSrc);
+            setTargetLoaded(true);
+          }}
           onError={() => setTargetSrc(FALLBACK_TARGET_SVG)}
-          className="img-fade absolute inset-0 w-full h-full object-cover"
+          className={`img-fade absolute inset-0 w-full h-full object-cover ${
+            targetLoaded ? 'is-loaded' : ''
+          }`}
           draggable={false}
         />
 
@@ -84,12 +101,29 @@ export const ImageComparisonSlider: React.FC<ImageComparisonSliderProps> = ({
             src={earthSrc}
             alt={earthCaption}
             loading="eager"
-            onLoad={(e) => e.currentTarget.classList.add('is-loaded')}
+            onLoad={() => {
+              loadedCache.current.add(earthSrc);
+              setEarthLoaded(true);
+            }}
             onError={() => setEarthSrc(FALLBACK_EARTH_SVG)}
-            className="img-fade absolute inset-0 w-full h-full object-cover"
+            className={`img-fade absolute inset-0 w-full h-full object-cover ${
+              earthLoaded ? 'is-loaded' : ''
+            }`}
             draggable={false}
           />
         </div>
+
+        {/* Loading skeleton — covers the frame while either side streams in */}
+        {streamingIn && (
+          <div
+            className="absolute inset-0 z-20 pointer-events-none skeleton-shimmer"
+            aria-hidden="true"
+          >
+            <span className="absolute inset-0 flex items-center justify-center font-mono text-[10px] tracking-[0.14em] uppercase text-ink-3 animate-pulse">
+              Loading imagery…
+            </span>
+          </div>
+        )}
 
         {/* Divider */}
         <div
