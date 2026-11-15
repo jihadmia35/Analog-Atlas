@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 
 interface ImageComparisonSliderProps {
   earthImage: string;
@@ -27,6 +27,13 @@ export const ImageComparisonSlider: React.FC<ImageComparisonSliderProps> = ({
 
   const [earthSrc, setEarthSrc] = useState(earthImage);
   const [targetSrc, setTargetSrc] = useState(targetImage);
+
+  // The slider instance is reused when moving between dossiers, so the
+  // compared pair has to be re-synced whenever the site changes.
+  useEffect(() => {
+    setEarthSrc(earthImage);
+    setTargetSrc(targetImage);
+  }, [earthImage, targetImage]);
 
   const moveTo = useCallback((clientX: number) => {
     const rect = containerRef.current?.getBoundingClientRect();

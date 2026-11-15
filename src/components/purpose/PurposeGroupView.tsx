@@ -8,6 +8,8 @@ import { ChevronLeft } from 'lucide-react';
 interface PurposeGroupViewProps {
   groupData: PurposeGroupData;
   analogs: AnalogSite[];
+  /** Site resolved from the full catalog, so a filtered-out site still opens */
+  selectedSite?: AnalogSite;
   selectedAnalogId?: string;
   onSelectAnalog: (id: string | undefined) => void;
 }
@@ -17,12 +19,14 @@ type TabId = 'metrics' | 'analogs';
 export const PurposeGroupView: React.FC<PurposeGroupViewProps> = ({
   groupData,
   analogs,
+  selectedSite: selectedSiteProp,
   selectedAnalogId,
   onSelectAnalog,
 }) => {
   const [tab, setTab] = useState<TabId>('metrics');
 
-  const selectedSite = analogs.find((a) => a.id === selectedAnalogId);
+  const selectedSite =
+    selectedSiteProp ?? analogs.find((a) => a.id === selectedAnalogId);
 
   // Dossier replaces the tabbed view entirely
   if (selectedSite) {

@@ -163,6 +163,7 @@ export const App: React.FC = () => {
             <PurposeGroupView
               groupData={activeGroup}
               analogs={groupAnalogs}
+              selectedSite={routeSite}
               selectedAnalogId={selectedAnalogId}
               onSelectAnalog={(id) =>
                 id
