@@ -106,7 +106,7 @@ export const PURPOSE_GROUPS: PurposeGroupData[] = [
         'Each site is scored on the four characteristics at w = 0.25 each; a characteristic with no site data stays neutral (s = 0.50) with zero evidence (q = 0). Slope angles are mean flank angles derived from supplied heights and widths, not DEM-measured slopes. The 2σ decay is an explicit assumption: it gives s = 0.50 at one tolerance outside the range and 0 at two.'
     },
     calculationSummary: {
-      note: 'Only Qaidam moves off the neutral score, because the supplied file gives geometry for one of the four characteristics at one site. Rock CFA, Bekker and cohesion/friction need new measurements at all four sites.',
+      note: 'Only Qaidam and Etna move off the neutral score, because the supplied file gives geometry for one of the four characteristics at each of those sites. Rock CFA, Bekker and cohesion/friction need new measurements at all four sites.',
       columns: [
         'Site',
         'Slope s',
@@ -144,12 +144,12 @@ export const PURPOSE_GROUPS: PurposeGroupData[] = [
           sourceEc: '30%'
         },
         {
-          site: 'Baratang',
-          characteristicScores: ['0.50', '0.50', '0.50', '0.50'],
-          si: '50.0',
-          ec: '0%',
-          sourceSi: '43.8',
-          sourceEc: '47.5%'
+          site: 'Mount Etna',
+          characteristicScores: ['0.56', '0.50', '0.50', '0.50'],
+          si: '51.5',
+          ec: '12.5%',
+          sourceSi: '65.6',
+          sourceEc: '40%'
         }
       ]
     }
@@ -346,7 +346,24 @@ export const ANALOG_SITES: AnalogSite[] = [
           significance: 'Affects surface strength and sinkage'
         }
       ],
-      publications: [{ citation: 'None listed in the supplied Mobility Analog Profiles file.' }]
+      publications: [
+        {
+          citation:
+            'Wang, Xiao, Reiss, Hiesinger, Huang, Xu, Zhao, Xiao & Komatsu (2018), JGR Planets 123(9), 2336–2364.'
+        },
+        {
+          citation:
+            'Wang, Xiao, Zhao & Huang (2015), Geologic Features of Yardangs in Qaidam Basin and Analog Study with Mars, AGU Fall Meeting P31A-2053.'
+        },
+        {
+          citation:
+            'Sun, Li, Zhang, Qin, Shen, He & Pan (2022), Weathering of Chlorite Illite Deposits in the Hyperarid Qaidam Basin, Frontiers in Astronomy and Space Sciences.'
+        },
+        {
+          citation:
+            'Ono et al. (2016), Data-driven surface traversability analysis for Mars 2020 landing site selection, IEEE Aerospace Conference.'
+        }
+      ]
     },
     mismatches: [
       {
@@ -372,7 +389,15 @@ export const ANALOG_SITES: AnalogSite[] = [
           name: 'Nili Fossae terrain model (0.25 m/pixel)',
           type: 'Topography',
           source: 'Mars source file'
-        }
+        },
+        {
+          name: 'NASA PDS HiRISE and CTX archive',
+          type: 'Archive',
+          source: 'NASA Planetary Data System'
+        },
+        { name: 'Copernicus Sentinel-2', type: 'Satellite imagery', source: 'ESA Copernicus' },
+        { name: 'RADARSAT Constellation', type: 'Radar imagery', source: 'Canadian Space Agency' },
+        { name: 'G-Portal', type: 'Satellite data archive', source: 'JAXA' }
       ]
     }
   },
@@ -464,7 +489,31 @@ export const ANALOG_SITES: AnalogSite[] = [
           significance: 'Context only'
         }
       ],
-      publications: [{ citation: 'None listed in the supplied Mobility Analog Profiles file.' }]
+      publications: [
+        {
+          citation: 'de Silva, Spagnuolo, Bridges & Zimbelman (2013), GSA Bulletin 125(11–12), 1912–1929.'
+        },
+        {
+          citation: 'Bridges, Spagnuolo, de Silva, Zimbelman & Neely (2015), Aeolian Research 17, 49–60.'
+        },
+        {
+          citation:
+            'Ito, Flahaut, González Maurel, Godoy, Payet & Barthez (2022), Remote Sensing 14(9), 2081.'
+        },
+        {
+          citation:
+            'Wang, Zhao, Gao, Huang & Xiao (2025), The formation of transverse eolian ridges in the Zhurong landing region, EGU General Assembly EGU25-19653.'
+        },
+        {
+          citation:
+            'Bhardwaj, Sam, Martín-Torres & Zorzano (2019), Remote Sensing 11(8), 912.'
+        },
+        { citation: 'Geissler & Wilgus (2017), Aeolian Research 26, 63–71.' },
+        {
+          citation:
+            'Ono et al. (2016), Data-driven surface traversability analysis for Mars 2020 landing site selection, IEEE Aerospace Conference.'
+        }
+      ]
     },
     mismatches: [
       {
@@ -480,7 +529,12 @@ export const ANALOG_SITES: AnalogSite[] = [
         text: 'Rainfall and elevation are not directly comparable with the Mars values.'
       }
     ],
-    resources: { datasets: [] }
+    resources: {
+      datasets: [
+        { name: 'NASA PDS HiRISE archive', type: 'Archive', source: 'NASA Planetary Data System' },
+        { name: 'Copernicus Sentinel-2', type: 'Satellite imagery', source: 'ESA Copernicus' }
+      ]
+    }
   },
   {
     id: 'chandragup-i',
@@ -573,7 +627,20 @@ export const ANALOG_SITES: AnalogSite[] = [
           significance: 'Context, not one of the four metrics'
         }
       ],
-      publications: [{ citation: 'None listed in the supplied Mobility Analog Profiles file.' }]
+      publications: [
+        {
+          citation:
+            'Wu, Dong, Wang, Rao, Sun, Li et al. (2022), JGR Planets 127(4), e2021JE007137.'
+        },
+        {
+          citation:
+            'Pan, Lin, Wei, Liu, Li, Zhang et al. (2025), Research advances in China’s Tianwen-1 Mars mission, EGU General Assembly EGU25-20456.'
+        },
+        {
+          citation:
+            'Ono et al. (2016), Data-driven surface traversability analysis for Mars 2020 landing site selection, IEEE Aerospace Conference.'
+        }
+      ]
     },
     mismatches: [
       {
@@ -593,113 +660,155 @@ export const ANALOG_SITES: AnalogSite[] = [
         text: 'The Mars height and width ranges are not paired, so 5.7° and 10.3° are illustrative cases (the unpaired extremes would be 1.0° and 45°).'
       }
     ],
-    resources: { datasets: [] }
+    resources: {
+      datasets: [
+        { name: 'NASA PDS HiRISE archive', type: 'Archive', source: 'NASA Planetary Data System' },
+        {
+          name: 'Copernicus Sentinel-1 and Sentinel-2',
+          type: 'Radar and satellite imagery',
+          source: 'ESA Copernicus'
+        }
+      ]
+    }
   },
   {
-    id: 'baratang-mud-volcanoes',
-    name: 'Baratang Mud Volcano Field, India',
-    shortName: 'Baratang',
-    regionName: 'Baratang Island, Andaman & Nicobar',
-    country: 'India',
-    continent: 'South Asia',
+    id: 'mount-etna',
+    name: 'Mount Etna, Sicily, Italy',
+    shortName: 'Mount Etna',
+    regionName: 'Mount Etna, Sicily',
+    country: 'Italy',
+    continent: 'Europe',
     coordinates: {
-      lat: 12.05,
-      lng: 92.65,
-      display: '12°03′ N, 92°39′ E'
+      lat: 37.751,
+      lng: 14.993,
+      display: '37°45′ N, 14°59′ E'
     },
     purposeGroup: 'rover-mobility',
-    targetBody: 'Mars',
-    targetPlanetarySite: 'Chryse and Acidalia Planitiae',
+    targetBody: 'Moon',
+    targetPlanetarySite: 'Lunar Rocky, Loose Terrain',
     profileLine:
-      'Mars target · irregular terrain mapping · Earth: Baratang · Mars: Chryse and Acidalia Planitiae · SI 50.0 · EC 0',
+      'Moon target · slip, navigation and slope detection on loose volcanic ground · Earth: Mount Etna · Moon: lunar rocky, loose terrain · SI 51.5 · EC 12.5',
     shortSummary:
-      'Irregular terrain-mapping analog: the mud-volcano field of Baratang stands in for the pitted cones of Chryse and Acidalia Planitiae.',
-    heroImage: '/images/baratang-mud-volcano.jpg',
-    targetImage: '/images/chryse-pitted-cones.jpg',
-    heroCaption: 'Baratang mud volcano, India (Earth) — Figure, Characteristic metric matrix',
-    targetCaption:
-      'Pitted cones, Chryse and Acidalia Planitiae (Mars) — Figure, Characteristic metric matrix',
-    ecScore: 0,
-    siScore: 50.0,
-    scoreNote: 'SI = 100 × (0.25×0.50 × 4) = 50.0.  EC = 100 × (0.25×0 × 4) = 0%.',
-    terrainType: 'Mud-Volcano Cones & Cratered Plain',
+      'Slip, navigation and slope-detection analog: the loose volcanic ground of Mount Etna stands in for the rocky, loose terrain of the lunar surface.',
+    heroImage: '/images/mount-etna-earth.jpg',
+    targetImage: '/images/moon-loose-terrain.jpg',
+    heroCaption: 'Mount Etna, Sicily, Italy (Earth) — Figure, Characteristic metric matrix',
+    targetCaption: 'Lunar rocky, loose terrain (Moon) — Figure, Characteristic metric matrix',
+    ecScore: 12.5,
+    siScore: 51.5,
+    scoreNote:
+      'SI = 100 × (0.25×0.56 + 0.25×0.50 + 0.25×0.50 + 0.25×0.50) = 51.5.  EC = 100 × (0.25×0.5 + 0 + 0 + 0) = 12.5%.',
+    terrainType: 'Loose Volcanic Slopes & Rocky Basaltic Terrain',
     metricValues: [
       {
         metricId: 'slope-grade',
-        earthValue: 'Central mound about 2 m high; width not supplied',
-        planetaryValue: 'Site-specific values not extracted. Baseline 12°–31°, σ = 4.5°',
-        individualScore: 0.5,
-        notes: 'No width, so no angle. s = 0.50, q = 0.'
+        earthValue: '46.6 m of relief over 329.8 m gives 8.0° mean grade; relief per traverse 1.7–46.6 m',
+        planetaryValue: 'Artemis III lander slope limit 0°–5°. Baseline 12°–31°, σ = 4.5°',
+        individualScore: 0.56,
+        notes:
+          'Derived mean grade, not a DEM measurement. 8.04° sits 3.96° below the baseline low edge, so s = 1 − 3.96/9.0 = 0.56, q = 0.5. The 5° value is a landing limit, so it is not used for the score.'
       },
       {
         metricId: 'rock-cfa',
-        earthValue: 'Not supplied',
+        earthValue: 'Grey, rocky, barren surface (no CFA value)',
         planetaryValue: 'Baseline 7%–15% CFA, σ = 2.8',
         individualScore: 0.5,
-        notes: 'No rock-frequency data. s = 0.50, q = 0.'
+        notes: 'Qualitative description only. s = 0.50, q = 0.'
       },
       {
         metricId: 'soil-sinkage',
-        earthValue: 'Mud, water, sandstone and shale (no k values)',
-        planetaryValue:
-          'Possible mud-volcanic deposits; baseline 0.8–3.2 kN/m^(n+1), σ = 0.5',
+        earthValue: 'Loose ground with considerable slip (no k values)',
+        planetaryValue: 'Baseline 0.8–3.2 kN/m^(n+1), σ = 0.5',
         individualScore: 0.5,
-        notes: 'Material is soft and wet, so sinkage is likely high, but nothing is measured. s = 0.50, q = 0.'
+        notes: 'Slip is reported but not converted to sinkage moduli. s = 0.50, q = 0.'
       },
       {
         metricId: 'shear-strength',
-        earthValue: 'Not supplied',
+        earthValue: 'No soil data',
         planetaryValue: 'c = 0.15–0.75 kPa, φ = 32°–42°; σ_c = 0.18 kPa, σ_φ = 3.5°',
         individualScore: 0.5,
-        notes: 'Wet mud is not comparable to dry, uncompacted regolith. s = 0.50, q = 0.'
+        notes: 'No shear data. s = 0.50, q = 0.'
       }
     ],
     evidence: {
       dataSummary:
-        'Mission operations named for this site are robotic cone mapping, remote gas detection, sediment sampling, terrain classification and autonomous navigation around irregular landforms.',
+        'Mission operations named for this site are rover navigation, slip measurement and slope detection on loose volcanic ground, using ESA’s open ARCHES dataset.',
       keyMeasurements: [
         {
-          parameter: 'Landform',
-          earthData: 'Mud-volcano cones',
-          planetaryData: 'Pitted cones',
-          significance: 'Same obstacle class for navigation tests'
+          parameter: 'Rover traverses',
+          earthData: '9 traverses, 2,054.8 m in total; 134.1–329.8 m each',
+          planetaryData: 'Only the first 7 traverses are considered lunar-realistic',
+          significance: 'Sets test length and repeat count'
         },
         {
-          parameter: 'Central mound height',
-          earthData: 'About 2 m',
-          planetaryData: 'Not extracted',
-          significance: 'Small-scale obstacle for a rover'
+          parameter: 'Mean speed',
+          earthData: '0.22–0.81 m/s',
+          planetaryData: 'Not supplied',
+          significance: 'Baseline for navigation and slip timing'
         },
         {
-          parameter: 'Material',
-          earthData: 'Mud, water, sandstone and shale',
-          planetaryData: 'Possible mud-volcanic deposits',
-          significance: 'Governs sinkage and cohesion'
+          parameter: 'Relief per traverse',
+          earthData: '1.7–46.6 m',
+          planetaryData: 'Artemis III lander slope limit 0°–5°',
+          significance: 'Steepest traverse averages 8.0°'
         },
         {
-          parameter: 'Surface temperature / pH',
-          earthData: '29.39–30.07 °C; 8.0–8.3',
-          planetaryData: 'No equivalent measurement',
-          significance: 'Context, not one of the four metrics'
+          parameter: 'Surface',
+          earthData: 'Grey, rocky, barren; loose ground with considerable slip',
+          planetaryData: 'Lunar rocky, loose terrain',
+          significance: 'Drives slip and navigation difficulty'
         }
       ],
-      publications: [{ citation: 'None listed in the supplied Mobility Analog Profiles file.' }]
+      publications: [
+        {
+          citation:
+            'Suter, Fornarelli, Den Exter, Pereira, Putzeys, Ferreira, Gerdes & Krueger (2023), The ARCHES Mount Etna DataSet (AMEDS): A planetary rover data collection in a lunar analogue environment, ASTRA 2023.'
+        },
+        {
+          citation:
+            'ESA Human Robot Interaction Lab (2023), ARCHES Mount Etna Dataset (AMEDS), ESA robotics datasets.'
+        },
+        {
+          citation: 'Evaluating Artemis III landing sites, arXiv 2406.19863.'
+        }
+      ]
     },
     mismatches: [
       {
-        label: 'Missing Mars data',
-        text: 'Site-specific central-mound measurements were not extracted.'
+        label: 'Soil data',
+        text: 'None given, so Bekker and cohesion/friction stay neutral.'
       },
       {
-        label: 'Active vents',
-        text: 'Mars has no equivalent active-vent temperature or surface-fluid pH measurement.'
+        label: 'Lunar slope value',
+        text: 'The 5° figure is a lander slope limit, not a rover traverse limit.'
       },
       {
-        label: 'Interpretation',
-        text: 'Ancient fluid and gas activity on Mars is an interpretation, not a direct measurement.'
+        label: 'Composition',
+        text: 'Volcanic ash has no agglutinates or glass.'
+      },
+      {
+        label: 'Environment',
+        text: 'No vacuum or 1/6 gravity.'
+      },
+      {
+        label: 'Traverse realism',
+        text: 'Only the first seven of nine traverses are considered lunar-realistic.'
+      },
+      {
+        label: 'Derived slope',
+        text: 'The mean grade uses relief over traverse length, so it assumes a uniform slope.'
+      },
+      {
+        label: 'Site use',
+        text: 'ESA already uses the site, so it is niche only in the sense of not being on NASA’s list.'
       }
     ],
-    resources: { datasets: [] }
+    resources: {
+      datasets: [
+        { name: 'NASA PDS LOLA 5 m terrain models', type: 'Topography', source: 'NASA Planetary Data System' },
+        { name: 'Copernicus Sentinel-2', type: 'Satellite imagery', source: 'ESA Copernicus' }
+      ]
+    }
   },
 
   /* ------------- GROUP 2: SURFACE SCIENCE & RESOURCE INVESTIGATION ---- */
@@ -1330,5 +1439,133 @@ export const REFERENCE_LIBRARY: ReferenceEntry[] = [
     category: 'Surface Science',
     planetaryTarget: 'Mars (biosignature potential)',
     relevance: 'Microbial community structure of the modern crater lake, a terrestrial control on any biosignature claim.'
+  },
+  {
+    id: 'ref-15',
+    citation:
+      'Wang, Xiao, Reiss, Hiesinger, Huang, Xu, Zhao, Xiao & Komatsu (2018), JGR Planets 123(9), 2336–2364.',
+    year: 2018,
+    category: 'Rover Mobility',
+    planetaryTarget: 'Mars (Nili Fossae ridges)',
+    relevance: 'Yardang and ridge morphometry of the Qaidam Basin behind the Qaidam slope characteristic.'
+  },
+  {
+    id: 'ref-16',
+    citation:
+      'Wang, Xiao, Zhao & Huang (2015), Geologic Features of Yardangs in Qaidam Basin and Analog Study with Mars, AGU Fall Meeting P31A-2053.',
+    year: 2015,
+    category: 'Rover Mobility',
+    planetaryTarget: 'Mars (Nili Fossae ridges)',
+    relevance: 'Mars yardang analog study supporting the Qaidam Basin profile.'
+  },
+  {
+    id: 'ref-17',
+    citation:
+      'Sun, Li, Zhang, Qin, Shen, He & Pan (2022), Weathering of Chlorite Illite Deposits in the Hyperarid Qaidam Basin, Frontiers in Astronomy and Space Sciences.',
+    year: 2022,
+    category: 'Rover Mobility',
+    planetaryTarget: 'Mars (Nili Fossae ridges)',
+    relevance: 'Hyperarid weathering context for the Qaidam Basin surface materials.'
+  },
+  {
+    id: 'ref-18',
+    citation:
+      'Ono et al. (2016), Data-driven surface traversability analysis for Mars 2020 landing site selection, IEEE Aerospace Conference.',
+    year: 2016,
+    category: 'Rover Mobility',
+    planetaryTarget: 'Mars (Jezero / Nili Fossae)',
+    relevance: 'Traversability scoring method shared by the Qaidam, Puna and Chandragup profiles.'
+  },
+  {
+    id: 'ref-19',
+    citation: 'de Silva, Spagnuolo, Bridges & Zimbelman (2013), GSA Bulletin 125(11–12), 1912–1929.',
+    year: 2013,
+    category: 'Rover Mobility',
+    planetaryTarget: 'Mars (transverse aeolian ridges)',
+    relevance: 'Puna gravel megaripples and yardangs as a Mars aeolian analog.'
+  },
+  {
+    id: 'ref-20',
+    citation: 'Bridges, Spagnuolo, de Silva, Zimbelman & Neely (2015), Aeolian Research 17, 49–60.',
+    year: 2015,
+    category: 'Rover Mobility',
+    planetaryTarget: 'Mars (transverse aeolian ridges)',
+    relevance: 'Bedform dynamics of the Puna de Atacama gravel bedforms.'
+  },
+  {
+    id: 'ref-21',
+    citation: 'Ito, Flahaut, González Maurel, Godoy, Payet & Barthez (2022), Remote Sensing 14(9), 2081.',
+    year: 2022,
+    category: 'Rover Mobility',
+    planetaryTarget: 'Mars (Oxia Planum)',
+    relevance: 'Oxia Planum terrain context for the Puna Mars target.'
+  },
+  {
+    id: 'ref-22',
+    citation:
+      'Wang, Zhao, Gao, Huang & Xiao (2025), The formation of transverse eolian ridges in the Zhurong landing region, EGU General Assembly EGU25-19653.',
+    year: 2025,
+    category: 'Rover Mobility',
+    planetaryTarget: 'Mars (Utopia Planitia)',
+    relevance: 'Transverse aeolian ridge formation in the Zhurong landing region.'
+  },
+  {
+    id: 'ref-23',
+    citation: 'Bhardwaj, Sam, Martín-Torres & Zorzano (2019), Remote Sensing 11(8), 912.',
+    year: 2019,
+    category: 'Rover Mobility',
+    planetaryTarget: 'Mars (aeolian terrain)',
+    relevance: 'Remote-sensing characterization of Mars analog terrain.'
+  },
+  {
+    id: 'ref-24',
+    citation: 'Geissler & Wilgus (2017), Aeolian Research 26, 63–71.',
+    year: 2017,
+    category: 'Rover Mobility',
+    planetaryTarget: 'Mars (aeolian terrain)',
+    relevance: 'Review of aeolian landform classes used to pair the Puna bedforms with Mars.'
+  },
+  {
+    id: 'ref-25',
+    citation: 'Wu, Dong, Wang, Rao, Sun, Li et al. (2022), JGR Planets 127(4), e2021JE007137.',
+    year: 2022,
+    category: 'Rover Mobility',
+    planetaryTarget: 'Mars (Utopia Planitia cones)',
+    relevance: 'Mud-volcano interpretation of the Utopia Planitia cones mirrored at Chandragup I.'
+  },
+  {
+    id: 'ref-26',
+    citation:
+      'Pan, Lin, Wei, Liu, Li, Zhang et al. (2025), Research advances in China’s Tianwen-1 Mars mission, EGU General Assembly EGU25-20456.',
+    year: 2025,
+    category: 'Rover Mobility',
+    planetaryTarget: 'Mars (Utopia Planitia)',
+    relevance: 'Tianwen-1 mission context for the Utopia Planitia cone terrain.'
+  },
+  {
+    id: 'ref-27',
+    citation:
+      'Suter, Fornarelli, Den Exter, Pereira, Putzeys, Ferreira, Gerdes & Krueger (2023), The ARCHES Mount Etna DataSet (AMEDS): A planetary rover data collection in a lunar analogue environment, ASTRA 2023.',
+    year: 2023,
+    category: 'Rover Mobility',
+    planetaryTarget: 'Moon (rocky, loose terrain)',
+    relevance: 'The ARCHES rover traverses, slip and slope data behind the Mount Etna profile.'
+  },
+  {
+    id: 'ref-28',
+    citation:
+      'ESA Human Robot Interaction Lab (2023), ARCHES Mount Etna Dataset (AMEDS), ESA robotics datasets.',
+    year: 2023,
+    category: 'Rover Mobility',
+    planetaryTarget: 'Moon (rocky, loose terrain)',
+    relevance: 'Open dataset source for the Mount Etna traverse and slip measurements.'
+  },
+  {
+    id: 'ref-29',
+    citation: 'Evaluating Artemis III landing sites, arXiv 2406.19863.',
+    year: 2024,
+    category: 'Rover Mobility',
+    planetaryTarget: 'Moon (south pole)',
+    relevance: 'Artemis III lander slope limit (0°–5°) quoted in the Mount Etna slope characteristic.'
   }
 ];

@@ -37,13 +37,24 @@ const PROVINCES: Array<{
   },
   {
     name: 'South Asia',
-    sites: 'Chandragup I · Sittampundi · Baratang',
+    sites: 'Chandragup I · Sittampundi',
     points: [
       [38.0, 60.0], [38.0, 97.0], [5.0, 97.0], [5.0, 66.0],
     ],
     colors: {
       day: { stroke: '#8A6100', fill: '#8A6100' },
       dark: { stroke: '#D29922', fill: '#9E6A03' },
+    },
+  },
+  {
+    name: 'Europe',
+    sites: 'Mount Etna',
+    points: [
+      [48.0, 6.0], [48.0, 19.0], [36.0, 19.0], [36.0, 6.0],
+    ],
+    colors: {
+      day: { stroke: '#B0543A', fill: '#B0543A' },
+      dark: { stroke: '#E97B58', fill: '#C96A4C' },
     },
   },
   {

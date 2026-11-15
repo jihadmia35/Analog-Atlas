@@ -4,7 +4,7 @@ export type AnalogsViewId = 'home' | 'purpose-group' | 'resources';
 
 export type PurposeGroupId = 'rover-mobility' | 'surface-science';
 
-export type Continent = 'South Asia' | 'East Asia' | 'South America' | 'Antarctica';
+export type Continent = 'South Asia' | 'East Asia' | 'South America' | 'Europe' | 'Antarctica';
 
 export interface MetricDefinition {
   id: string;

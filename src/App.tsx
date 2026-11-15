@@ -38,6 +38,7 @@ const PROVINCE_TICK: Record<string, string> = {
   'East Asia': 'rgb(var(--azure))',
   'South Asia': 'rgb(var(--amber))',
   'South America': 'rgb(var(--emerald))',
+  Europe: 'rgb(var(--accent))',
   Antarctica: 'rgb(var(--moon))',
 };
 
@@ -242,10 +243,10 @@ const HomeView: React.FC<HomeViewProps> = ({
             Where Mars and the Moon get rehearsed on Earth.
           </h1>
           <p className="mt-5 text-[15px] text-ink-2 leading-relaxed max-w-[64ch]">
-            Eight field-proven terrestrial analogs across Antarctica, South Asia, East Asia and
-            South America. Every reading is taken from the published site dossiers, scored against
-            its planetary target with the characteristic metric matrix, and published with the
-            disclosures of what Earth cannot fake.
+            Eight field-proven terrestrial analogs across Antarctica, South Asia, East Asia,
+            Europe and South America. Every reading is taken from the published site dossiers,
+            scored against its planetary target with the characteristic metric matrix, and
+            published with the disclosures of what Earth cannot fake.
           </p>
         </div>
 

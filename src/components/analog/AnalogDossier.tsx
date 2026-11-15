@@ -2,7 +2,7 @@ import React from 'react';
 import { AnalogSite, PurposeGroupData } from '../../types';
 import { ImageComparisonSlider } from '../comparison/ImageComparisonSlider';
 import { Equation } from '../Equation';
-import { Readout, Scale } from '../Readout';
+import { Readout } from '../Readout';
 
 interface AnalogDossierProps {
   site: AnalogSite;
@@ -99,7 +99,6 @@ export const AnalogDossier: React.FC<AnalogDossierProps> = ({ site, group }) => 
                 <th className="px-5 py-3 font-medium">Metric</th>
                 <th className="px-3 py-3 font-medium">Earth</th>
                 <th className="px-3 py-3 font-medium">Planetary</th>
-                <th className="px-3 py-3 font-medium w-28">Score (s)</th>
                 <th className="px-3 py-3 font-medium">Notes</th>
               </tr>
             </thead>
@@ -121,20 +120,6 @@ export const AnalogDossier: React.FC<AnalogDossierProps> = ({ site, group }) => 
                     </td>
                     <td className="px-3 py-4 align-top font-mono text-[12.5px] text-ink-2 leading-relaxed">
                       {mv.planetaryValue}
-                    </td>
-                    <td className="px-3 py-4 align-top">
-                      {mv.individualScore === undefined ? (
-                        <span className="font-mono text-[11.5px] text-ink-3">not scored</span>
-                      ) : (
-                        <div className="flex items-center gap-2">
-                          <span className="inline-block w-10">
-                            <Scale value={mv.individualScore * 100} size="sm" />
-                          </span>
-                          <span className="font-mono text-[11.5px] text-ink tnum">
-                            {mv.individualScore.toFixed(2)}
-                          </span>
-                        </div>
-                      )}
                     </td>
                     <td className="px-3 py-4 align-top text-[12px] text-ink-2 leading-relaxed">
                       {mv.notes}

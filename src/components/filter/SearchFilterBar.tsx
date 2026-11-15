@@ -83,6 +83,7 @@ export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
           { value: 'Antarctica', label: 'Antarctica' },
           { value: 'South Asia', label: 'South Asia' },
           { value: 'East Asia', label: 'East Asia' },
+          { value: 'Europe', label: 'Europe' },
           { value: 'South America', label: 'South America' },
         ]}
       />
