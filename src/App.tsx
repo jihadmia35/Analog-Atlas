@@ -5,6 +5,7 @@ import { Sidebar } from './components/layout/Sidebar';
 import { EarthAtlasMap } from './components/map/EarthAtlasMap';
 import { Theme } from './components/map/LeafletWorldMap';
 import { useHashRoute } from './lib/useHashRoute';
+import { prefetchAllSiteImages, prefetchSiteImages } from './lib/prefetchAnalogs';
 import { PurposeGroupView } from './components/purpose/PurposeGroupView';
 import { ResourcesPage } from './components/resources/ResourcesPage';
 import { SearchFilterBar } from './components/filter/SearchFilterBar';
@@ -47,6 +48,12 @@ export const App: React.FC = () => {
   const [filterState, setFilterState] = useState<FilterState>(DEFAULT_FILTER);
   const [theme, setTheme] = useState<Theme>(readInitialTheme);
   const { route, navigate: navigateRoute } = useHashRoute(ANALOG_SITES);
+
+  // Warm the browser cache with the dossier imagery while the UI is idle so
+  // switching catalogs never waits on a fresh download.
+  useEffect(() => {
+    prefetchAllSiteImages();
+  }, []);
 
   // Apply the theme to the document root so CSS variables resolve
   useEffect(() => {
@@ -394,6 +401,8 @@ const HomeView: React.FC<HomeViewProps> = ({
               <li key={site.id}>
                 <button
                   onClick={() => onSelectAnalog(site.id)}
+                  onMouseEnter={() => prefetchSiteImages(site)}
+                  onFocus={() => prefetchSiteImages(site)}
                   className="w-full grid grid-cols-1 sm:grid-cols-[minmax(0,2.2fr)_minmax(0,2fr)_auto] gap-x-6 gap-y-2 items-center py-4 px-5 text-left hover:bg-hover transition-colors duration-150 press"
                 >
                   <div className="min-w-0">

@@ -2,6 +2,7 @@ import React from 'react';
 import { AnalogSite, PurposeGroupData } from '../../types';
 import { Scale } from '../Readout';
 import { ChevronRight } from 'lucide-react';
+import { prefetchSiteImages } from '../../lib/prefetchAnalogs';
 
 interface AnalogsTabProps {
   analogs: AnalogSite[];
@@ -18,6 +19,8 @@ export const AnalogsTab: React.FC<AnalogsTabProps> = ({ analogs, group, onSelect
           <button
             key={site.id}
             onClick={() => onSelectAnalog(site.id)}
+            onMouseEnter={() => prefetchSiteImages(site)}
+            onFocus={() => prefetchSiteImages(site)}
             className="w-full flex flex-col sm:flex-row gap-5 text-left panel panel-lift overflow-hidden group"
           >
             {/* Image */}
